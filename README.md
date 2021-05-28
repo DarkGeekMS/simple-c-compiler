@@ -23,7 +23,9 @@ gcc -o cpp.out lex.yy.c y.tab.c # compile c files and get final object file
 - `INTEGER`: int
 - `CHAR`: char
 - `FLOAT`: float
+
 2- `VARIABLE`: identifier
+
 3- Operators
 - `PLUS`: +
 - `MINUS`: -

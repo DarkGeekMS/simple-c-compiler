@@ -27,9 +27,7 @@ void yyerror(char *);
 "case"          return CASE;
 "default"       return DEFAULT;
 
-"repeat"        return REPEAT;
-"until"         return UNTIL;
-"print"         return PRINT;
+"do"            return DO;
 "exit"          return EXIT;
 
 
@@ -40,8 +38,6 @@ void yyerror(char *);
 "string"        return STRING;
 "char"          return CHAR;
 "bool"          return BOOL;
-"double"        return DOUBLE;
-"long"          return LONG;
 
 
  /* logical operators and comparators */

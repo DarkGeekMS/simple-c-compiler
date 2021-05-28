@@ -1,7 +1,9 @@
 /*definitions*/
 
 %{
-
+#include <string.h>
+#include <stdlib.h>
+#include <stdbool.h>
 void yyerror(char *);
 
 %}
@@ -51,36 +53,51 @@ void yyerror(char *);
 "!"             return NOT;
 
 
-[-()=+*/%;{}:]      {  
-                        return *yytext;
-                }
+[a-zA-Z]([a-zA-Z]|[0-9]|_)*     { 
 
-0                   {
-                        yylval.iValue = atoi(yytext);
-                        return INTEGER;
-                }
+                                    return IDENTIFIER;
+                            }
 
-[1-9][0-9]*         {
-                        yylval.iValue = atoi(yytext);
-                        return INTEGER;
-                } 
+\"[a-zA-Z]*|[0-9]*\"            {
+                                    yylval.fValue = *(yytext+1);
+                                    return STRING;
+                            } 
 
-[0-9]+"."[0-9]*     {
-                        yylval.iValue = atof(yytext);
-                        return FLOAT;
-                } 
 
-[ \t]           ;       /* skip whitespace */
+\'[a-zA-Z]|[0-9]\'          {
+                                yylval.fValue = *(yytext+1);
+                                return CHAR;
+                        } 
 
-.               yyerror("Unknown character");
+[-()=+*/%;{}:]              {  
+                                return *yytext;
+                        }
+
+0                           {
+                                yylval.iValue = atoi(yytext);
+                                return INTEGER;
+                        }
+
+[1-9][0-9]*                 {
+                                yylval.iValue = atoi(yytext);
+                                return INTEGER;
+                        } 
+
+[0-9]+"."[0-9]*             {
+                                yylval.iValue = atof(yytext);
+                                return FLOAT;
+                        } 
+[\n]+                      { 
+                                yylineno++;
+                        }
+
+[ \t]+                      ;       /* skip whitespace */
+
+.                           yyerror("Unknown character");
 
 %%
 
 /* functions */
-
-int yywrap(void) {
-    return 1;
-}
 
 int main(void) {
     yylex();

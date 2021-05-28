@@ -1,1 +1,1 @@
-# simple-c-compiler
+# Simple C/C++ Compiler

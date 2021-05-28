@@ -26,7 +26,7 @@ gcc -o cpp.out lex.yy.c y.tab.c # compile c files and get final object file
 
 3)  `CONSTANT` : const
 
-3)  Operators :
+4)  Operators :
 
 -   `PLUS` : +
 -   `MINUS` : -
@@ -45,8 +45,8 @@ gcc -o cpp.out lex.yy.c y.tab.c # compile c files and get final object file
 -   `PLUSPLUS` : ++
 -   `MINUSMINUS` : --
 
-4)  `ASSIGNMENT` : =
+5)  `ASSIGNMENT` : =
 
-5)  Keywords : `IF`/ `ELSE`/ `WHILE`/ `DO`/ `FOR`/ `SWITCH`/ `CASE`/ `DEFAULT` /  `BREAK`
+6)  Keywords : `IF`/ `ELSE`/ `WHILE`/ `DO`/ `FOR`/ `SWITCH`/ `CASE`/ `DEFAULT` /  `BREAK`
 
-6)  `RETURN` : return
+7)  `RETURN` : return

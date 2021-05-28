@@ -31,6 +31,8 @@ void yyerror(char *);
 "print"         return PRINT;
 "exit"          return EXIT;
 
+"return"        return RETURN;
+
  /* Data types */
 
 "int"           return INT;

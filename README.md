@@ -24,6 +24,8 @@ gcc -o cpp.out lex.yy.c y.tab.c # compile c files and get final object file
 
 2)  `VARIABLE` : identifier
 
+3)  `CONSTANT` : const
+
 3)  Operators :
 
 -   `PLUS` : +

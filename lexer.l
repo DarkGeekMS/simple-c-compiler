@@ -1,11 +1,12 @@
-/*definitions*/
+/* definitions */
 
 %{
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
-void yyerror(char *);
+#include "y.tab.h"
 
+void yyerror(char *);
 %}
 
 /* rules */
@@ -31,7 +32,8 @@ void yyerror(char *);
 "print"         return PRINT;
 "exit"          return EXIT;
 
- /* Data types */
+
+ /* data types */
 
 "int"           return INT;
 "float"         return FLOAT;
@@ -41,6 +43,8 @@ void yyerror(char *);
 "double"        return DOUBLE;
 "long"          return LONG;
 
+
+ /* logical operators and comparators */
 
 "=="	        return EQ;
 "!="            return NE;
@@ -53,10 +57,15 @@ void yyerror(char *);
 "!"             return NOT;
 
 
+ /* identifiers */
+
 [a-zA-Z]([a-zA-Z]|[0-9]|_)*     { 
 
                                     return IDENTIFIER;
                             }
+
+
+ /* strings */
 
 \"[a-zA-Z]*|[0-9]*\"            {
                                     yylval.fValue = *(yytext+1);
@@ -64,34 +73,58 @@ void yyerror(char *);
                             } 
 
 
+ /* characters */
+
 \'[a-zA-Z]|[0-9]\'          {
                                 yylval.fValue = *(yytext+1);
                                 return CHAR;
                         } 
 
+
+ /* special characters */
+
 [-()=+*/%;{}:]              {  
                                 return *yytext;
                         }
+
+
+ /* zero numeral */
 
 0                           {
                                 yylval.iValue = atoi(yytext);
                                 return INTEGER;
                         }
 
+
+ /* integers */
+
 [1-9][0-9]*                 {
                                 yylval.iValue = atoi(yytext);
                                 return INTEGER;
                         } 
 
+
+ /* floats */
+
 [0-9]+"."[0-9]*             {
                                 yylval.iValue = atof(yytext);
                                 return FLOAT;
                         } 
+
+
+ /* line breaks */
+
 [\n]+                      { 
                                 yylineno++;
                         }
 
+
+ /* whitespaces */
+
 [ \t]+                      ;       /* skip whitespace */
+
+
+ /* others */
 
 .                           yyerror("Unknown character");
 

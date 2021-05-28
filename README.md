@@ -18,37 +18,38 @@ gcc -o cpp.out lex.yy.c y.tab.c # compile c files and get final object file
 ./cpp.out # run object file and provide your source code
 ```
 
-## Lexical Analyzer Tokens:
-1- Type: 
-- `INTEGER`: int
-- `CHAR`: char
-- `FLOAT`: float
-- `BOOLEAN`: bool
-- `STRING`: string
+## Tokens
 
-2- `VARIABLE`: identifier
+1)  Type : 
+-   `INTEGER` : int
+-   `CHAR` : char
+-   `FLOAT` : float
+-   `BOOLEAN` : boolean
+-   `STRING` : string
 
-3- Operators
-- `PLUS`: +
-- `MINUS`: -
-- `MUL`: *
-- `DIV`: /
-- `MOD`: %
-- `G`: >
-- `L`: <
-- `GE`: >=
-- `LE`: <=
-- `EQEQ`: ==
-- `NOTEQ`: !=
-- `AND`: &&
-- `OR`: ||
-- `NOT`: !
-- `PLUSPLUS`: ++
-- `MINUSMINUS`: --
+2)  `VARIABLE` : identifier
 
-4- `ASSIGNMENT`: =
+3)  Operators :
 
-5- Keywords: `IF`/ `ELSE`/ `WHILE`/ `DO`/ `FOR`/ `SWITCH`/ `CASE`
+-   `PLUS` : +
+-   `MINUS` : -
+-   `MUL` : *
+-   `DIV` : /
+-   `MOD` : %
+-   `G` : >
+-   `L` : <
+-   `GE` : >=
+-   `LE` : <=
+-   `EQEQ` : ==
+-   `NOTEQ` : !=
+-   `AND` : &&
+-   `OR` : ||
+-   `NOT` : !
+-   `PLUSPLUS` : ++
+-   `MINUSMINUS` : --
 
-6- `RETURN`: return
+4)  `ASSIGNMENT` : =
 
+5)  Keywords : `IF`/ `ELSE`/ `WHILE`/ `DO`/ `FOR`/ `SWITCH`/ `CASE`
+
+6)  `RETURN` : return

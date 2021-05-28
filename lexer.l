@@ -1,11 +1,12 @@
-/*definitions*/
+/* definitions */
 
 %{
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
-void yyerror(char *);
+#include "y.tab.h"
 
+void yyerror(char *);
 %}
 
 /* rules */
@@ -26,21 +27,20 @@ void yyerror(char *);
 "case"          return CASE;
 "default"       return DEFAULT;
 
-"repeat"        return REPEAT;
-"until"         return UNTIL;
-"print"         return PRINT;
+"do"            return DO;
 "exit"          return EXIT;
 
- /* Data types */
+
+ /* data types */
 
 "int"           return INT;
 "float"         return FLOAT;
 "string"        return STRING;
 "char"          return CHAR;
 "bool"          return BOOL;
-"double"        return DOUBLE;
-"long"          return LONG;
 
+
+ /* logical operators and comparators */
 
 "=="	        return EQ;
 "!="            return NE;
@@ -53,45 +53,87 @@ void yyerror(char *);
 "!"             return NOT;
 
 
+ /* identifiers */
+
 [a-zA-Z]([a-zA-Z]|[0-9]|_)*     { 
 
                                     return IDENTIFIER;
                             }
 
+
+ /* strings */
+
 \"[a-zA-Z]*|[0-9]*\"            {
-                                    yylval.fValue = *(yytext+1);
+                                    yylval.sValue = *(yytext+1);
                                     return STRING;
                             } 
 
 
-\'[a-zA-Z]|[0-9]\'          {
-                                yylval.fValue = *(yytext+1);
-                                return CHAR;
-                        } 
+ /* characters */
 
-[-()=+*/%;{}:]              {  
-                                return *yytext;
-                        }
+\'[a-zA-Z]|[0-9]\'              {
+                                    yylval.cValue = *(yytext+1);
+                                    return CHAR;
+                            } 
 
-0                           {
-                                yylval.iValue = atoi(yytext);
-                                return INTEGER;
-                        }
 
-[1-9][0-9]*                 {
-                                yylval.iValue = atoi(yytext);
-                                return INTEGER;
-                        } 
+ /* special characters */
 
-[0-9]+"."[0-9]*             {
-                                yylval.iValue = atof(yytext);
-                                return FLOAT;
-                        } 
-[\n]+                      { 
-                                yylineno++;
-                        }
+[-()=+*/%;{}:]                  {  
+                                    return *yytext;
+                            }
 
-[ \t]+                      ;       /* skip whitespace */
+
+ /* zero numeral */
+
+0                               {
+                                    yylval.iValue = atoi(yytext);
+                                    return INTEGER;
+                            }
+
+
+ /* integers */
+
+[1-9][0-9]*                     {
+                                    yylval.iValue = atoi(yytext);
+                                    return INTEGER;
+                            } 
+
+
+ /* floats */
+
+[0-9]+"."[0-9]*                 {
+                                    yylval.fValue = atof(yytext);
+                                    return FLOAT;
+                            } 
+
+
+ /* booleans */
+
+"true"                          {
+                                    yylval.bValue = 1;
+                                    return BOOLEAN;
+                            }
+
+"false"                         {
+                                    yylval.bValue = 0;
+                                    return BOOLEAN;
+                            }
+
+ 
+ /* line breaks */
+
+[\n]+                           { 
+                                    yylineno++;
+                            }
+
+
+ /* whitespaces */
+
+[ \t]+                      ;   /* skip whitespace */
+
+
+ /* others */
 
 .                           yyerror("Unknown character");
 

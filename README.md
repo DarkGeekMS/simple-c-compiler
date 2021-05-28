@@ -42,6 +42,8 @@ gcc -o cpp.out lex.yy.c y.tab.c # compile c files and get final object file
 - `MINUSMINUS`: --
 
 4- `ASSIGNMENT`: =
+
 5- Keywords: `IF`/ `ELSE`/ `WHILE`/ `DO`/ `FOR`/ `SWITCH`/ `CASE`
+
 6- `RETURN`: return
 

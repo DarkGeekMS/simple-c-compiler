@@ -20,12 +20,7 @@ gcc -o cpp.out lex.yy.c y.tab.c # compile c files and get final object file
 
 ## Tokens
 
-1)  Type : 
--   `INTEGER` : int
--   `CHAR` : char
--   `FLOAT` : float
--   `BOOLEAN` : boolean
--   `STRING` : string
+1)  Type : `INTEGER` / `CHAR` / `FLOAT` / `BOOLEAN` / `STRING` / `VOID`
 
 2)  `VARIABLE` : identifier
 
@@ -50,6 +45,6 @@ gcc -o cpp.out lex.yy.c y.tab.c # compile c files and get final object file
 
 4)  `ASSIGNMENT` : =
 
-5)  Keywords : `IF`/ `ELSE`/ `WHILE`/ `DO`/ `FOR`/ `SWITCH`/ `CASE`
+5)  Keywords : `IF`/ `ELSE`/ `WHILE`/ `DO`/ `FOR`/ `SWITCH`/ `CASE`/ `DEFAULT` /  `BREAK`
 
 6)  `RETURN` : return

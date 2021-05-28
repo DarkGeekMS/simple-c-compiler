@@ -23,6 +23,8 @@ gcc -o cpp.out lex.yy.c y.tab.c # compile c files and get final object file
 - `INTEGER`: int
 - `CHAR`: char
 - `FLOAT`: float
+- `BOOLEAN`: bool
+- `STRING`: string
 
 2- `VARIABLE`: identifier
 
@@ -31,6 +33,7 @@ gcc -o cpp.out lex.yy.c y.tab.c # compile c files and get final object file
 - `MINUS`: -
 - `MUL`: *
 - `DIV`: /
+- `MOD`: %
 - `G`: >
 - `L`: <
 - `GE`: >=

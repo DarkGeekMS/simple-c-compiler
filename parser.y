@@ -73,6 +73,8 @@ stmt:
           ';'                                       { $$ = opr(';', 2, NULL, NULL); }
         | expr ';'                                  { $$ = $1; }
         | PRINT expr ';'                            { $$ = opr(PRINT, 1, id($2)); }
+
+
         | INTEGER VARIABLE ';'                      { $$ = opr(DECLARATION, 2, $1, id($2)); }    
         | INTEGER VARIABLE ASSIGNMENT expr ';'      { $$ = opr(DEFINITION, 3, $1, id($2), $4); }
         | FLOAT VARIABLE ';'                        { $$ = opr(DECLARATION, 2, $1, id($2)); }   
@@ -83,6 +85,10 @@ stmt:
         | STRING VARIABLE ASSIGNMENT expr ';'       { $$ = opr(DEFINITION, 3, $1, id($2), $4); }
         | BOOLEAN VARIABLE ';'                      { $$ = opr(DECLARATION, 2, $1, id($2)); }   
         | BOOLEAN VARIABLE ASSIGNMENT expr ';'      { $$ = opr(DEFINITION, 3, $1, id($2), $4); }
+
+
+        
+
         | VARIABLE ASSIGNMENT expr ';'              { $$ = opr(ASSIGNMENT, 2, id($1), $3); }
         | WHILE '(' expr ')' stmt                   { $$ = opr(WHILE, 2, $3, $5); }
         | IF '(' expr ')' stmt %prec IFX            { $$ = opr(IF, 2, $3, $5); }

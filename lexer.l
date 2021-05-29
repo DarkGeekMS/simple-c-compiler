@@ -38,7 +38,7 @@ void yyerror(char *);
 "string"        return STRING;
 "char"          return CHAR;
 "bool"          return BOOL;
-
+"const"         return CONST;
 
  /* logical operators and comparators */
 

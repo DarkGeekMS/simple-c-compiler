@@ -18,18 +18,15 @@ gcc -o cpp.out lex.yy.c y.tab.c # compile c files and get final object file
 ./cpp.out # run object file and provide your source code
 ```
 
-##  Tokens
+## Tokens
 
-1)  Type : 
--   `INTEGER` : int
--   `CHAR` : char
--   `FLOAT` : float
--   `BOOLEAN` : boolean
--   `STRING` : string
+1)  Type : `INTEGER` / `CHAR` / `FLOAT` / `BOOLEAN` / `STRING` / `VOID`
 
 2)  `VARIABLE` : identifier
 
-3)  Operators :
+3)  `CONSTANT` : const
+
+4)  Operators :
 
 -   `PLUS` : +
 -   `MINUS` : -
@@ -48,8 +45,8 @@ gcc -o cpp.out lex.yy.c y.tab.c # compile c files and get final object file
 -   `PLUSPLUS` : ++
 -   `MINUSMINUS` : --
 
-4)  `ASSIGNMENT` : =
+5)  `ASSIGNMENT` : =
 
-5)  Keywords : `IF`/ `ELSE`/ `WHILE`/ `DO`/ `FOR`/ `SWITCH`/ `CASE`
+6)  Keywords : `IF`/ `ELSE`/ `WHILE`/ `DO`/ `FOR`/ `SWITCH`/ `CASE`/ `DEFAULT` /  `BREAK`
 
-6)  `RETURN` : return
+7)  `RETURN` : return

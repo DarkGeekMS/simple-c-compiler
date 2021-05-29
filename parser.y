@@ -68,7 +68,8 @@ int sym[26];                    /* symbol table */
 
 
 program:
-        program stmt        { exit(0); }
+        stmt                
+        | program stmt        
         | /* NULL */
         ;
 

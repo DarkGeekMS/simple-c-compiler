@@ -140,8 +140,8 @@ func_list:
 ;
 
 call_var_list:
-          VARIABLE                                                          { $$ = id($1); }
-        | call_var_list ',' VARIABLE                                        { $$ = opr(CALLVARLIST, 2, $1, id($3)); }
+          expr                                                          { $$ = id($1); }
+        | call_var_list ',' expr                                        { $$ = opr(CALLVARLIST, 2, $1, id($3)); }
         ;
 
 call_list:
@@ -185,7 +185,7 @@ expr:
         | expr EQEQ expr                                    { $$ = opr(EQEQ, 2, $1, $3); }
         | expr AND expr                                     { $$ = opr(AND, 2, $1, $3); }
         | expr OR expr                                      { $$ = opr(OR, 2, $1, $3); }
-        | VARIABLE call_var_list ';'                        { $$ = opr(CALL, 2, id($1), $2);}
+        | VARIABLE call_list                                { $$ = opr(CALL, 2, id($1), $2);}
         | '(' expr ')'                                      { $$ = $2; }
         ;
 

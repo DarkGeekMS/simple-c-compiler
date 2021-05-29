@@ -989,7 +989,7 @@ YY_RULE_SETUP
 /* identifiers */
 case 35:
 YY_RULE_SETUP
-#line 82 "lexer.l"
+#line 83 "lexer.l"
 { 
 
                                     return VARIABLE;
@@ -998,7 +998,7 @@ YY_RULE_SETUP
 /* strings */
 case 36:
 YY_RULE_SETUP
-#line 89 "lexer.l"
+#line 90 "lexer.l"
 {
                                     yylval.sValue = *(yytext+1);
                                     return STRING;
@@ -1007,7 +1007,7 @@ YY_RULE_SETUP
 /* characters */
 case 37:
 YY_RULE_SETUP
-#line 97 "lexer.l"
+#line 98 "lexer.l"
 {
                                     yylval.cValue = *(yytext+1);
                                     return CHAR;
@@ -1016,7 +1016,7 @@ YY_RULE_SETUP
 /* special characters */
 case 38:
 YY_RULE_SETUP
-#line 105 "lexer.l"
+#line 106 "lexer.l"
 {  
                                     return *yytext;
                             }
@@ -1024,7 +1024,7 @@ YY_RULE_SETUP
 /* zero numeral */
 case 39:
 YY_RULE_SETUP
-#line 112 "lexer.l"
+#line 113 "lexer.l"
 {
                                     yylval.iValue = atoi(yytext);
                                     return INTEGER;
@@ -1033,7 +1033,7 @@ YY_RULE_SETUP
 /* integers */
 case 40:
 YY_RULE_SETUP
-#line 120 "lexer.l"
+#line 121 "lexer.l"
 {
                                     yylval.iValue = atoi(yytext);
                                     return INTEGER;
@@ -1042,7 +1042,7 @@ YY_RULE_SETUP
 /* floats */
 case 41:
 YY_RULE_SETUP
-#line 128 "lexer.l"
+#line 129 "lexer.l"
 {
                                     yylval.fValue = atof(yytext);
                                     return FLOAT;
@@ -1052,7 +1052,7 @@ YY_RULE_SETUP
 case 42:
 /* rule 42 can match eol */
 YY_RULE_SETUP
-#line 136 "lexer.l"
+#line 137 "lexer.l"
 { 
                                     yylineno++;
                             }
@@ -1060,18 +1060,18 @@ YY_RULE_SETUP
 /* whitespaces */
 case 43:
 YY_RULE_SETUP
-#line 143 "lexer.l"
+#line 144 "lexer.l"
 ;   /* skip whitespace */
 	YY_BREAK
 /* others */
 case 44:
 YY_RULE_SETUP
-#line 148 "lexer.l"
+#line 149 "lexer.l"
 yyerror("Unknown character");
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 150 "lexer.l"
+#line 151 "lexer.l"
 ECHO;
 	YY_BREAK
 #line 1078 "lex.yy.c"
@@ -2079,7 +2079,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 150 "lexer.l"
+#line 151 "lexer.l"
 
 
 /* functions */

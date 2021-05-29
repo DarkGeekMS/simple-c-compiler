@@ -9,7 +9,6 @@ nodeType *opr(int oper, int nops, ...);
 nodeType *id(int i);
 nodeType *con(int value);
 void freeNode(nodeType *p);
-int ex(nodeType *p);
 int yylex(void);
 
 void yyerror(char *s);
@@ -43,10 +42,10 @@ int sym[26];                    /* symbol table */
 
 %token <sIndex> VARIABLE
 %token CONST
-%token WHILE IF PRINT
+%token WHILE IF
 %token DECLARATION
 %token DEFINITION
-%token DO FOR SWITCH CASE BREAK DEFAULT RETURN VOID FUNCTION VOIDFUNCTION FUNCVARLIST CALLVARLIST CALL
+%token DO FOR SWITCH CASE BREAK DEFAULT RETURN VOID FUNCTION VOIDFUNCTION FUNCVARLIST CALLVARLIST CALL 
 %nonassoc IFX
 %nonassoc ELSE
 
@@ -61,22 +60,21 @@ int sym[26];                    /* symbol table */
 %right NOT
 %nonassoc UMINUS
 
-%type <nPtr> stmt expr stmt_list
+%type <nPtr> stmt expr stmt_list assign data data_type func_var_list func_list call_var_list call_list case_stmt default_stmt case_list return_stmt func_stmt_list
 
 %%
 
 
-program:
-        function                { exit(0); }
-        ;
 
-function:
-          function stmt         { ex($2); freeNode($2); }
+program:
+        program stmt        { exit(0); }
         | /* NULL */
         ;
 
+
+
 assign: 
-    VARIABLE ASSIGNMENT expr ';'              { $$ = opr(ASSIGNMENT, 2, id($1), $3); }   
+    VARIABLE ASSIGNMENT expr              { $$ = opr(ASSIGNMENT, 2, id($1), $3); }   
 ;
 data:
     INTEGER             {$$ = con($1);}
@@ -87,25 +85,23 @@ data:
 ;
 
 data_type:
-    INT_TYPE                 {$$ = $1;}
-    | FLOAT_TYPE             {$$ = $1;}
-    | CHAR_TYPE              {$$ = $1;}
-    | STRING_TYPE            {$$ = $1;}
-    | BOOLEAN_TYPE           {$$ = $1;} 
+    INT_TYPE                 {$$ = INT_TYPE;}
+    | FLOAT_TYPE             {$$ = FLOAT_TYPE;}
+    | CHAR_TYPE              {$$ = CHAR_TYPE;}
+    | STRING_TYPE            {$$ = STRING_TYPE;}
+    | BOOLEAN_TYPE           {$$ = BOOLEAN_TYPE;} 
 ;
 
 stmt:
           ';'                                                               { $$ = opr(';', 2, NULL, NULL); }
         | expr ';'                                                          { $$ = $1; }
-        | PRINT expr ';'                                                    { $$ = opr(PRINT, 1, id($2)); }
-
 
         | data_type VARIABLE ';'                                            { $$ = opr(DECLARATION, 2, $1, id($2)); }    
         | data_type VARIABLE ASSIGNMENT expr ';'                            { $$ = opr(DEFINITION, 3, $1, id($2), $4); }
         
         | CONST data_type VARIABLE ASSIGNMENT expr ';'                      { $$ = opr(CONST, 3, $2, id($3), $5); }
         
-        | assign                                                            { $$ = $1; }
+        | assign ';'                                                            { $$ = $1; }
 
         | WHILE '(' expr ')' stmt                                           { $$ = opr(WHILE, 2, $3, $5); }
         | DO stmt WHILE '(' expr ')' ';'                                    { $$ = opr(DO, 2, $5, $2); }
@@ -113,16 +109,27 @@ stmt:
         | IF '(' expr ')' stmt %prec IFX                                    { $$ = opr(IF, 2, $3, $5); }
         | IF '(' expr ')' stmt ELSE stmt                                    { $$ = opr(IF, 3, $3, $5, $7); }
         | FOR '(' assign ';' expr ';' assign ')' stmt                       { $$ = opr(FOR, 4, $3, $5, $7, $9); }
-        | SWITCH '(' expr ')' case_list                                     { $$ = opr(SWITCH, 2, $3, $5); }
-        | BREAK ';'                                                         { $$ = $1;}
-        | data_type VARIABLE func_list '{' stmt RETURN expr ';' '}'         {$$ = opr(FUNCTION, 5, $1, id($2), $3, $5, $7);}
-        | VOID VARIABLE func_list stmt                                      {$$ = opr(VOIDFUNCTION, 3, id($2), $3, $4);}
+        | SWITCH '(' expr ')' '{' case_list '}'                             { $$ = opr(SWITCH, 2, $3, $6); }
+        | BREAK ';'                                                         { $$ = BREAK;}
+        | data_type VARIABLE func_list '{' func_stmt_list '}'               { $$ = opr(FUNCTION, 5, $1, id($2), $3, $5);}
+        | VOID VARIABLE func_list '{' stmt_list '}'                         { $$ = opr(VOIDFUNCTION, 3, id($2), $3, $5);}
+        | VOID VARIABLE func_list '{' '}'                                   { $$ = opr(VOIDFUNCTION, 3, id($2), $3, NULL);}
         | '{' stmt_list '}'                                                 { $$ = $2; }
+        | '{' '}'                                                           { $$ = NULL; }
+        ;
+
+return_stmt: 
+        RETURN expr ';'                                                     { $$ = opr(RETURN, 1, $2); }
+;
+
+func_stmt_list:
+          return_stmt                      { $$ = $1; }
+        | stmt func_stmt_list              { $$ = opr(';', 2, $1, $2); }
         ;
 
 func_var_list:
           data_type VARIABLE                                                { $$ = opr(DECLARATION, 2, $1, id($2)); }
-        | func_var_list ',' data_type VARIABLE                              { $$ = opr(FUNCVARLIST, 3, $1, $3, id($4)); }
+        | data_type VARIABLE ',' func_var_list                              { $$ = opr(FUNCVARLIST, 3, $1, id($2), $4); }
         ;
 
 func_list:
@@ -145,12 +152,15 @@ stmt_list:
         | stmt_list stmt           { $$ = opr(';', 2, $1, $2); }
         ;
 
-case_stmt: CASE data ':' stmt;     { $$ = opr(CASE, 2, $2, $4); };
 
-default_stmt: DEFAULT ':' stmt;    { $$ = opr(DEFAULT, 1, $3); };
+
+case_stmt: CASE data ':' stmt_list      { $$ = opr(CASE, 2, $2, $4); };
+
+default_stmt: DEFAULT ':' stmt_list     { $$ = opr(DEFAULT, 1, $3); };
 
 case_list:
         default_stmt               { $$ = $1; }
+    | case_stmt                    { $$ = $1; }
     | case_stmt case_list          { $$ = opr('CASE_LIST', 2, $1, $2); }
         ;
 
@@ -241,6 +251,8 @@ void freeNode(nodeType *p) {
 void yyerror(char *s) {
     fprintf(stdout, "%s\n", s);
 }
+
+
 
 int main(void) {
     yyparse();

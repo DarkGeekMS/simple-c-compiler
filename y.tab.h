@@ -50,41 +50,48 @@ extern int yydebug;
     CHAR = 260,
     STRING = 261,
     BOOLEAN = 262,
-    VARIABLE = 263,
-    CONST = 264,
-    WHILE = 265,
-    IF = 266,
-    PRINT = 267,
-    DECLARATION = 268,
-    DEFINITION = 269,
-    DO = 270,
-    FOR = 271,
-    SWITCH = 272,
-    CASE = 273,
-    BREAK = 274,
-    DEFAULT = 275,
-    RETURN = 276,
-    VOID = 277,
-    IFX = 278,
-    ELSE = 279,
-    ASSIGNMENT = 280,
-    OR = 281,
-    AND = 282,
-    EQEQ = 283,
-    NOTEQ = 284,
-    G = 285,
-    L = 286,
-    GE = 287,
-    LE = 288,
-    PLUS = 289,
-    MINUS = 290,
-    MUL = 291,
-    DIV = 292,
-    MOD = 293,
-    NOT = 294,
-    UMINUS = 295,
-    PLUSPLUS = 296,
-    MINUSMINUS = 297
+    INT_TYPE = 263,
+    FLOAT_TYPE = 264,
+    CHAR_TYPE = 265,
+    STRING_TYPE = 266,
+    BOOLEAN_TYPE = 267,
+    VARIABLE = 268,
+    CONST = 269,
+    WHILE = 270,
+    IF = 271,
+    DECLARATION = 272,
+    DEFINITION = 273,
+    DO = 274,
+    FOR = 275,
+    SWITCH = 276,
+    CASE = 277,
+    BREAK = 278,
+    DEFAULT = 279,
+    RETURN = 280,
+    VOID = 281,
+    FUNCTION = 282,
+    VOIDFUNCTION = 283,
+    FUNCVARLIST = 284,
+    CALLVARLIST = 285,
+    CALL = 286,
+    IFX = 287,
+    ELSE = 288,
+    ASSIGNMENT = 289,
+    OR = 290,
+    AND = 291,
+    EQEQ = 292,
+    NOTEQ = 293,
+    G = 294,
+    L = 295,
+    GE = 296,
+    LE = 297,
+    PLUS = 298,
+    MINUS = 299,
+    MUL = 300,
+    DIV = 301,
+    MOD = 302,
+    NOT = 303,
+    UMINUS = 304
   };
 #endif
 /* Tokens.  */
@@ -93,48 +100,55 @@ extern int yydebug;
 #define CHAR 260
 #define STRING 261
 #define BOOLEAN 262
-#define VARIABLE 263
-#define CONST 264
-#define WHILE 265
-#define IF 266
-#define PRINT 267
-#define DECLARATION 268
-#define DEFINITION 269
-#define DO 270
-#define FOR 271
-#define SWITCH 272
-#define CASE 273
-#define BREAK 274
-#define DEFAULT 275
-#define RETURN 276
-#define VOID 277
-#define IFX 278
-#define ELSE 279
-#define ASSIGNMENT 280
-#define OR 281
-#define AND 282
-#define EQEQ 283
-#define NOTEQ 284
-#define G 285
-#define L 286
-#define GE 287
-#define LE 288
-#define PLUS 289
-#define MINUS 290
-#define MUL 291
-#define DIV 292
-#define MOD 293
-#define NOT 294
-#define UMINUS 295
-#define PLUSPLUS 296
-#define MINUSMINUS 297
+#define INT_TYPE 263
+#define FLOAT_TYPE 264
+#define CHAR_TYPE 265
+#define STRING_TYPE 266
+#define BOOLEAN_TYPE 267
+#define VARIABLE 268
+#define CONST 269
+#define WHILE 270
+#define IF 271
+#define DECLARATION 272
+#define DEFINITION 273
+#define DO 274
+#define FOR 275
+#define SWITCH 276
+#define CASE 277
+#define BREAK 278
+#define DEFAULT 279
+#define RETURN 280
+#define VOID 281
+#define FUNCTION 282
+#define VOIDFUNCTION 283
+#define FUNCVARLIST 284
+#define CALLVARLIST 285
+#define CALL 286
+#define IFX 287
+#define ELSE 288
+#define ASSIGNMENT 289
+#define OR 290
+#define AND 291
+#define EQEQ 292
+#define NOTEQ 293
+#define G 294
+#define L 295
+#define GE 296
+#define LE 297
+#define PLUS 298
+#define MINUS 299
+#define MUL 300
+#define DIV 301
+#define MOD 302
+#define NOT 303
+#define UMINUS 304
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 
 union YYSTYPE
 {
-#line 20 "parser.y" /* yacc.c:1909  */
+#line 19 "parser.y" /* yacc.c:1909  */
 
     int iValue;                 /* integer value */
     float fValue;
@@ -145,7 +159,7 @@ union YYSTYPE
     char sIndex;                /* symbol table index */
     nodeType *nPtr;             /* node pointer */
 
-#line 149 "y.tab.h" /* yacc.c:1909  */
+#line 163 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

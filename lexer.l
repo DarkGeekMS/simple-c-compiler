@@ -73,15 +73,15 @@ void yyerror(char *);
 
 
  /* strings */
-\"[a-zA-Z]*|[0-9]*\"            {
-                                    yylval.sValue = (yytext+1);
+\"[a-zA-Z0-9]*\"                 {
+                                    yylval.sValue = *(yytext+1);
                                     return STRING;
                             } 
 
 
  /* characters */
 
-\'[a-zA-Z]|[0-9]\'              {
+\'[a-zA-Z0-9]\'                 {
                                     yylval.cValue = *(yytext+1);
                                     return CHAR;
                             } 

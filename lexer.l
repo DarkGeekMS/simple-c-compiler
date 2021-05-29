@@ -64,6 +64,18 @@ void yyerror(char *);
 "%"             return MOD;
 
 
+ /* booleans */
+
+"true"                          {
+                                    yylval.bValue = 1;
+                                    return BOOLEAN;
+                            }
+
+"false"                         {
+                                    yylval.bValue = 0;
+                                    return BOOLEAN;
+                            }
+
  /* identifiers */
 
 [a-zA-Z]([a-zA-Z]|[0-9]|_)*     { 
@@ -73,7 +85,7 @@ void yyerror(char *);
 
 
  /* strings */
-\"[a-zA-Z0-9]*\"                 {
+\"[a-zA-Z0-9 ]*\"               {
                                     yylval.sValue = *(yytext+1);
                                     return STRING;
                             } 
@@ -81,7 +93,7 @@ void yyerror(char *);
 
  /* characters */
 
-\'[a-zA-Z0-9]\'                 {
+\'[a-zA-Z0-9 ]\'                {
                                     yylval.cValue = *(yytext+1);
                                     return CHAR;
                             } 
@@ -118,19 +130,6 @@ void yyerror(char *);
                             } 
 
 
- /* booleans */
-
-"true"                          {
-                                    yylval.bValue = 1;
-                                    return BOOLEAN;
-                            }
-
-"false"                         {
-                                    yylval.bValue = 0;
-                                    return BOOLEAN;
-                            }
-
- 
  /* line breaks */
 
 [\n]+                           { 

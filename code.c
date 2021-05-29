@@ -1,5 +1,7 @@
 int x = 0;
 int y;
+string v = "bad boys";
+
 int r;
 vo(3,4);
 if (x == y){

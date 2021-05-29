@@ -1,15 +1,14 @@
 int x = 0;
 int y;
-string v = "bad boys";
 int f;
 int r;
+
 if (x == y){
     f = f*1;
     {
         r = q;
     }
 }
-
 
 void vo (int y, int r){
     int x;
@@ -34,7 +33,6 @@ void vo (int y, int r){
     do {
         b = true;
     } while(5 == 4);
-
 
 }
 vo(3,4);
@@ -63,7 +61,6 @@ string name(int num){
 
 name();
 
-
 {
     int x = 0;
     {
@@ -74,6 +71,3 @@ name();
         }
     }
 }
-
-
-

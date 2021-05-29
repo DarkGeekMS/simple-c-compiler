@@ -76,6 +76,7 @@ void yyerror(char *);
                                     return BOOLEAN;
                             }
 
+
  /* identifiers */
 
 [a-zA-Z]([a-zA-Z]|[0-9]|_)*     { 

@@ -1,17 +1,19 @@
 %{
-    #include <stdio.h>
-    #include <stdio.h>
-    #include <stdlib.h>
-    #include <stdarg.h>
-    #include "parser.h"
-    /* prototypes */
-    nodeType *opr(int oper, int nops, ...);
-    nodeType *id(int i);
-    nodeType *con(int value);
-    void freeNode(nodeType *p);
-    int yylex(void);
-    void yyerror(char *);
-    
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdarg.h>
+#include "parser.h"
+
+/* prototypes */
+nodeType *opr(int oper, int nops, ...);
+nodeType *id(int i);
+nodeType *con(int value);
+void freeNode(nodeType *p);
+int ex(nodeType *p);
+int yylex(void);
+
+void yyerror(char *s);
+int sym[26];                    /* symbol table */
 %}
 
 
@@ -32,11 +34,14 @@
 %token <sValue> STRING
 %token <bValue> BOOLEAN
 %token <sIndex> VARIABLE
+%token CONST
 %token WHILE IF PRINT
-%nonassoc IFX
-%nonassoc ELSE
 %token DECLARATION
 %token DEFINITION
+%token DO FOR SWITCH CASE BREAK DEFAULT RETURN VOID 
+%nonassoc IFX
+%nonassoc ELSE
+
 
 %right ASSIGNMENT
 %left OR

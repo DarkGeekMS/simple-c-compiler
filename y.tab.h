@@ -51,31 +51,40 @@ extern int yydebug;
     STRING = 261,
     BOOLEAN = 262,
     VARIABLE = 263,
-    WHILE = 264,
-    IF = 265,
-    PRINT = 266,
-    IFX = 267,
-    ELSE = 268,
-    DECLARATION = 269,
-    DEFINITION = 270,
-    ASSIGNMENT = 271,
-    OR = 272,
-    AND = 273,
-    EQEQ = 274,
-    NOTEQ = 275,
-    G = 276,
-    L = 277,
-    GE = 278,
-    LE = 279,
-    PLUS = 280,
-    MINUS = 281,
-    MUL = 282,
-    DIV = 283,
-    MOD = 284,
-    NOT = 285,
-    UMINUS = 286,
-    PLUSPLUS = 287,
-    MINUSMINUS = 288
+    CONST = 264,
+    WHILE = 265,
+    IF = 266,
+    PRINT = 267,
+    DECLARATION = 268,
+    DEFINITION = 269,
+    DO = 270,
+    FOR = 271,
+    SWITCH = 272,
+    CASE = 273,
+    BREAK = 274,
+    DEFAULT = 275,
+    RETURN = 276,
+    VOID = 277,
+    IFX = 278,
+    ELSE = 279,
+    ASSIGNMENT = 280,
+    OR = 281,
+    AND = 282,
+    EQEQ = 283,
+    NOTEQ = 284,
+    G = 285,
+    L = 286,
+    GE = 287,
+    LE = 288,
+    PLUS = 289,
+    MINUS = 290,
+    MUL = 291,
+    DIV = 292,
+    MOD = 293,
+    NOT = 294,
+    UMINUS = 295,
+    PLUSPLUS = 296,
+    MINUSMINUS = 297
   };
 #endif
 /* Tokens.  */
@@ -85,38 +94,47 @@ extern int yydebug;
 #define STRING 261
 #define BOOLEAN 262
 #define VARIABLE 263
-#define WHILE 264
-#define IF 265
-#define PRINT 266
-#define IFX 267
-#define ELSE 268
-#define DECLARATION 269
-#define DEFINITION 270
-#define ASSIGNMENT 271
-#define OR 272
-#define AND 273
-#define EQEQ 274
-#define NOTEQ 275
-#define G 276
-#define L 277
-#define GE 278
-#define LE 279
-#define PLUS 280
-#define MINUS 281
-#define MUL 282
-#define DIV 283
-#define MOD 284
-#define NOT 285
-#define UMINUS 286
-#define PLUSPLUS 287
-#define MINUSMINUS 288
+#define CONST 264
+#define WHILE 265
+#define IF 266
+#define PRINT 267
+#define DECLARATION 268
+#define DEFINITION 269
+#define DO 270
+#define FOR 271
+#define SWITCH 272
+#define CASE 273
+#define BREAK 274
+#define DEFAULT 275
+#define RETURN 276
+#define VOID 277
+#define IFX 278
+#define ELSE 279
+#define ASSIGNMENT 280
+#define OR 281
+#define AND 282
+#define EQEQ 283
+#define NOTEQ 284
+#define G 285
+#define L 286
+#define GE 287
+#define LE 288
+#define PLUS 289
+#define MINUS 290
+#define MUL 291
+#define DIV 292
+#define MOD 293
+#define NOT 294
+#define UMINUS 295
+#define PLUSPLUS 296
+#define MINUSMINUS 297
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 
 union YYSTYPE
 {
-#line 18 "parser.y" /* yacc.c:1909  */
+#line 20 "parser.y" /* yacc.c:1909  */
 
     int iValue;                 /* integer value */
     float fValue;
@@ -127,7 +145,7 @@ union YYSTYPE
     char sIndex;                /* symbol table index */
     nodeType *nPtr;             /* node pointer */
 
-#line 131 "y.tab.h" /* yacc.c:1909  */
+#line 149 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

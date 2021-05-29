@@ -859,177 +859,120 @@ return RETURN;
 /* data types */
 case 11:
 YY_RULE_SETUP
-<<<<<<< HEAD
 #line 36 "lexer.l"
-=======
-#line 37 "lexer.l"
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
 return INT_TYPE;
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-<<<<<<< HEAD
 #line 37 "lexer.l"
-=======
-#line 38 "lexer.l"
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
 return FLOAT_TYPE;
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-<<<<<<< HEAD
 #line 38 "lexer.l"
-=======
-#line 39 "lexer.l"
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
 return STRING_TYPE;
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-<<<<<<< HEAD
 #line 39 "lexer.l"
-=======
-#line 40 "lexer.l"
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
 return CHAR_TYPE;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-<<<<<<< HEAD
 #line 40 "lexer.l"
-=======
-#line 41 "lexer.l"
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
 return BOOLEAN_TYPE;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-<<<<<<< HEAD
 #line 41 "lexer.l"
-=======
-#line 42 "lexer.l"
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
 return CONST;
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-<<<<<<< HEAD
 #line 42 "lexer.l"
-=======
-#line 43 "lexer.l"
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
 return VOID;
 	YY_BREAK
 /* logical operators and comparators */
 case 18:
 YY_RULE_SETUP
-#line 45 "lexer.l"
+#line 47 "lexer.l"
 return EQEQ;
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 46 "lexer.l"
+#line 48 "lexer.l"
 return NOTEQ;
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 47 "lexer.l"
+#line 49 "lexer.l"
 return G;
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 48 "lexer.l"
+#line 50 "lexer.l"
 return L;
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 49 "lexer.l"
+#line 51 "lexer.l"
 return GE;
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 50 "lexer.l"
+#line 52 "lexer.l"
 return LE;
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 51 "lexer.l"
+#line 53 "lexer.l"
 return AND;
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 52 "lexer.l"
+#line 54 "lexer.l"
 return OR;
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 53 "lexer.l"
+#line 55 "lexer.l"
 return NOT;
 	YY_BREAK
 /* operators */
 case 27:
 YY_RULE_SETUP
-<<<<<<< HEAD
-#line 58 "lexer.l"
-return ASSIGNMENT;
-	YY_BREAK
-case 28:
-YY_RULE_SETUP
-#line 59 "lexer.l"
-return PLUS;
-=======
-#line 61 "lexer.l"
-return ASSIGNMENT;
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
-	YY_BREAK
-case 28:
-YY_RULE_SETUP
-<<<<<<< HEAD
 #line 60 "lexer.l"
-return MINUS;
-=======
-#line 62 "lexer.l"
+return ASSIGNMENT;
+	YY_BREAK
+case 28:
+YY_RULE_SETUP
+#line 61 "lexer.l"
 return PLUS;
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-<<<<<<< HEAD
-#line 61 "lexer.l"
-return MUL;
-=======
-#line 63 "lexer.l"
+#line 62 "lexer.l"
 return MINUS;
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-<<<<<<< HEAD
-#line 62 "lexer.l"
-return DIV;
-=======
-#line 64 "lexer.l"
+#line 63 "lexer.l"
 return MUL;
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-<<<<<<< HEAD
-#line 63 "lexer.l"
-=======
-#line 65 "lexer.l"
+#line 64 "lexer.l"
 return DIV;
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 66 "lexer.l"
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
+#line 65 "lexer.l"
 return MOD;
 	YY_BREAK
 /* identifiers */
 case 33:
 YY_RULE_SETUP
-#line 68 "lexer.l"
+#line 70 "lexer.l"
 { 
 
                                     return VARIABLE;
@@ -1038,7 +981,7 @@ YY_RULE_SETUP
 /* strings */
 case 34:
 YY_RULE_SETUP
-#line 75 "lexer.l"
+#line 77 "lexer.l"
 {
                                     yylval.sValue = (yytext+1);
                                     return STRING;
@@ -1047,7 +990,7 @@ YY_RULE_SETUP
 /* characters */
 case 35:
 YY_RULE_SETUP
-#line 83 "lexer.l"
+#line 85 "lexer.l"
 {
                                     yylval.cValue = *(yytext+1);
                                     return CHAR;
@@ -1056,11 +999,7 @@ YY_RULE_SETUP
 /* special characters */
 case 36:
 YY_RULE_SETUP
-<<<<<<< HEAD
-#line 91 "lexer.l"
-=======
-#line 95 "lexer.l"
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
+#line 93 "lexer.l"
 {  
                                     return *yytext;
                             }
@@ -1068,11 +1007,7 @@ YY_RULE_SETUP
 /* zero numeral */
 case 37:
 YY_RULE_SETUP
-<<<<<<< HEAD
-#line 98 "lexer.l"
-=======
-#line 102 "lexer.l"
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
+#line 100 "lexer.l"
 {
                                     yylval.iValue = atoi(yytext);
                                     return INTEGER;
@@ -1081,11 +1016,7 @@ YY_RULE_SETUP
 /* integers */
 case 38:
 YY_RULE_SETUP
-<<<<<<< HEAD
-#line 106 "lexer.l"
-=======
-#line 110 "lexer.l"
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
+#line 108 "lexer.l"
 {
                                     yylval.iValue = atoi(yytext);
                                     return INTEGER;
@@ -1094,11 +1025,7 @@ YY_RULE_SETUP
 /* floats */
 case 39:
 YY_RULE_SETUP
-<<<<<<< HEAD
-#line 114 "lexer.l"
-=======
-#line 118 "lexer.l"
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
+#line 116 "lexer.l"
 {
                                     yylval.fValue = atof(yytext);
                                     return FLOAT;
@@ -1107,11 +1034,7 @@ YY_RULE_SETUP
 /* booleans */
 case 40:
 YY_RULE_SETUP
-<<<<<<< HEAD
-#line 122 "lexer.l"
-=======
-#line 126 "lexer.l"
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
+#line 124 "lexer.l"
 {
                                     yylval.bValue = 1;
                                     return BOOLEAN;
@@ -1119,11 +1042,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-<<<<<<< HEAD
-#line 127 "lexer.l"
-=======
-#line 131 "lexer.l"
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
+#line 129 "lexer.l"
 {
                                     yylval.bValue = 0;
                                     return BOOLEAN;
@@ -1133,11 +1052,7 @@ YY_RULE_SETUP
 case 42:
 /* rule 42 can match eol */
 YY_RULE_SETUP
-<<<<<<< HEAD
-#line 135 "lexer.l"
-=======
-#line 139 "lexer.l"
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
+#line 137 "lexer.l"
 { 
                                     yylineno++;
                             }
@@ -1145,30 +1060,18 @@ YY_RULE_SETUP
 /* whitespaces */
 case 43:
 YY_RULE_SETUP
-<<<<<<< HEAD
-#line 142 "lexer.l"
-=======
-#line 146 "lexer.l"
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
+#line 144 "lexer.l"
 ;   /* skip whitespace */
 	YY_BREAK
 /* others */
 case 44:
 YY_RULE_SETUP
-<<<<<<< HEAD
-#line 147 "lexer.l"
-=======
-#line 151 "lexer.l"
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
+#line 149 "lexer.l"
 yyerror("Unknown character");
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-<<<<<<< HEAD
-#line 149 "lexer.l"
-=======
-#line 153 "lexer.l"
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
+#line 151 "lexer.l"
 ECHO;
 	YY_BREAK
 #line 1078 "lex.yy.c"
@@ -2176,11 +2079,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-<<<<<<< HEAD
-#line 149 "lexer.l"
-=======
-#line 153 "lexer.l"
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
+#line 151 "lexer.l"
 
 
 /* functions */

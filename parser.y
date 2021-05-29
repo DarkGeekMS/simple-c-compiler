@@ -60,11 +60,7 @@ int sym[26];                    /* symbol table */
 %right NOT
 %nonassoc UMINUS
 
-<<<<<<< HEAD
 %type <nPtr> stmt expr stmt_list assign data data_type func_var_list func_list call_var_list call_list case_stmt default_stmt case_list return_stmt func_stmt_list
-=======
-%type <nPtr> stmt expr stmt_list assign data data_type func_var_list func_list call_var_list call_list case_stmt default_stmt case_list
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
 
 %%
 
@@ -113,18 +109,11 @@ stmt:
         | IF '(' expr ')' stmt %prec IFX                                    { $$ = opr(IF, 2, $3, $5); }
         | IF '(' expr ')' stmt ELSE stmt                                    { $$ = opr(IF, 3, $3, $5, $7); }
         | FOR '(' assign ';' expr ';' assign ')' stmt                       { $$ = opr(FOR, 4, $3, $5, $7, $9); }
-<<<<<<< HEAD
         | SWITCH '(' expr ')' '{' case_list '}'                             { $$ = opr(SWITCH, 2, $3, $6); }
         | BREAK ';'                                                         { $$ = BREAK;}
         | data_type VARIABLE func_list '{' func_stmt_list '}'               { $$ = opr(FUNCTION, 5, $1, id($2), $3, $5);}
         | VOID VARIABLE func_list '{' stmt_list '}'                         { $$ = opr(VOIDFUNCTION, 3, id($2), $3, $5);}
         | VOID VARIABLE func_list '{' '}'                                   { $$ = opr(VOIDFUNCTION, 3, id($2), $3, NULL);}
-=======
-        | SWITCH '(' expr ')' case_list                                     { $$ = opr(SWITCH, 2, $3, $5); }
-        | BREAK ';'                                                         { $$ = BREAK;}
-        | data_type VARIABLE func_list '{' stmt RETURN expr ';' '}'         {$$ = opr(FUNCTION, 5, $1, id($2), $3, $5, $7);}
-        | VOID VARIABLE func_list stmt                                      {$$ = opr(VOIDFUNCTION, 3, id($2), $3, $4);}
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
         | '{' stmt_list '}'                                                 { $$ = $2; }
         | '{' '}'                                                           { $$ = NULL; }
         ;
@@ -163,17 +152,11 @@ stmt_list:
         | stmt_list stmt           { $$ = opr(';', 2, $1, $2); }
         ;
 
-<<<<<<< HEAD
 
 
 case_stmt: CASE data ':' stmt_list      { $$ = opr(CASE, 2, $2, $4); };
 
 default_stmt: DEFAULT ':' stmt_list     { $$ = opr(DEFAULT, 1, $3); };
-=======
-case_stmt: CASE data ':' stmt ';'     { $$ = opr(CASE, 2, $2, $4); };
-
-default_stmt: DEFAULT ':' stmt ';'    { $$ = opr(DEFAULT, 1, $3); };
->>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
 
 case_list:
         default_stmt               { $$ = $1; }

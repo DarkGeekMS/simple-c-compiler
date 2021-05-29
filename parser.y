@@ -8,6 +8,7 @@
 nodeType *opr(int oper, int nops, ...);
 nodeType *id(int i);
 nodeType *con(int value);
+typedef void* yyscan_t;
 void freeNode(nodeType *p);
 int yylex(void);
 
@@ -253,8 +254,9 @@ void yyerror(char *s) {
 }
 
 
-
 int main(void) {
-    yyparse();
+    FILE* yyin = fopen("code.c","r");
+    yyrestart(yyin);
+    yyparse ();
     return 0;
 }

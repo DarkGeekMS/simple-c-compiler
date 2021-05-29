@@ -1,7 +1,7 @@
 int x = 0;
 int y;
 int r;
-vo(3,);
+vo(3,4);
 if (x == y){
     f = f+1;
     {

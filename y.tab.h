@@ -1,8 +1,9 @@
-/* A Bison parser, made by GNU Bison 3.0.4.  */
+/* A Bison parser, made by GNU Bison 3.5.1.  */
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2020 Free Software Foundation,
+   Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -30,6 +31,9 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
+/* Undocumented macros, especially those whose name start with YY_,
+   are private implementation details.  Do not rely on them.  */
+
 #ifndef YY_YY_Y_TAB_H_INCLUDED
 # define YY_YY_Y_TAB_H_INCLUDED
 /* Debug traces.  */
@@ -50,41 +54,49 @@ extern int yydebug;
     CHAR = 260,
     STRING = 261,
     BOOLEAN = 262,
-    VARIABLE = 263,
-    CONST = 264,
-    WHILE = 265,
-    IF = 266,
-    PRINT = 267,
-    DECLARATION = 268,
-    DEFINITION = 269,
-    DO = 270,
-    FOR = 271,
-    SWITCH = 272,
-    CASE = 273,
-    BREAK = 274,
-    DEFAULT = 275,
-    RETURN = 276,
-    VOID = 277,
-    IFX = 278,
-    ELSE = 279,
-    ASSIGNMENT = 280,
-    OR = 281,
-    AND = 282,
-    EQEQ = 283,
-    NOTEQ = 284,
-    G = 285,
-    L = 286,
-    GE = 287,
-    LE = 288,
-    PLUS = 289,
-    MINUS = 290,
-    MUL = 291,
-    DIV = 292,
-    MOD = 293,
-    NOT = 294,
-    UMINUS = 295,
-    PLUSPLUS = 296,
-    MINUSMINUS = 297
+    INT_TYPE = 263,
+    FLOAT_TYPE = 264,
+    CHAR_TYPE = 265,
+    STRING_TYPE = 266,
+    BOOLEAN_TYPE = 267,
+    VARIABLE = 268,
+    CONST = 269,
+    WHILE = 270,
+    IF = 271,
+    PRINT = 272,
+    DECLARATION = 273,
+    DEFINITION = 274,
+    DO = 275,
+    FOR = 276,
+    SWITCH = 277,
+    CASE = 278,
+    BREAK = 279,
+    DEFAULT = 280,
+    RETURN = 281,
+    VOID = 282,
+    FUNCTION = 283,
+    VOIDFUNCTION = 284,
+    FUNCVARLIST = 285,
+    CALLVARLIST = 286,
+    CALL = 287,
+    IFX = 288,
+    ELSE = 289,
+    ASSIGNMENT = 290,
+    OR = 291,
+    AND = 292,
+    EQEQ = 293,
+    NOTEQ = 294,
+    G = 295,
+    L = 296,
+    GE = 297,
+    LE = 298,
+    PLUS = 299,
+    MINUS = 300,
+    MUL = 301,
+    DIV = 302,
+    MOD = 303,
+    NOT = 304,
+    UMINUS = 305
   };
 #endif
 /* Tokens.  */
@@ -93,48 +105,55 @@ extern int yydebug;
 #define CHAR 260
 #define STRING 261
 #define BOOLEAN 262
-#define VARIABLE 263
-#define CONST 264
-#define WHILE 265
-#define IF 266
-#define PRINT 267
-#define DECLARATION 268
-#define DEFINITION 269
-#define DO 270
-#define FOR 271
-#define SWITCH 272
-#define CASE 273
-#define BREAK 274
-#define DEFAULT 275
-#define RETURN 276
-#define VOID 277
-#define IFX 278
-#define ELSE 279
-#define ASSIGNMENT 280
-#define OR 281
-#define AND 282
-#define EQEQ 283
-#define NOTEQ 284
-#define G 285
-#define L 286
-#define GE 287
-#define LE 288
-#define PLUS 289
-#define MINUS 290
-#define MUL 291
-#define DIV 292
-#define MOD 293
-#define NOT 294
-#define UMINUS 295
-#define PLUSPLUS 296
-#define MINUSMINUS 297
+#define INT_TYPE 263
+#define FLOAT_TYPE 264
+#define CHAR_TYPE 265
+#define STRING_TYPE 266
+#define BOOLEAN_TYPE 267
+#define VARIABLE 268
+#define CONST 269
+#define WHILE 270
+#define IF 271
+#define PRINT 272
+#define DECLARATION 273
+#define DEFINITION 274
+#define DO 275
+#define FOR 276
+#define SWITCH 277
+#define CASE 278
+#define BREAK 279
+#define DEFAULT 280
+#define RETURN 281
+#define VOID 282
+#define FUNCTION 283
+#define VOIDFUNCTION 284
+#define FUNCVARLIST 285
+#define CALLVARLIST 286
+#define CALL 287
+#define IFX 288
+#define ELSE 289
+#define ASSIGNMENT 290
+#define OR 291
+#define AND 292
+#define EQEQ 293
+#define NOTEQ 294
+#define G 295
+#define L 296
+#define GE 297
+#define LE 298
+#define PLUS 299
+#define MINUS 300
+#define MUL 301
+#define DIV 302
+#define MOD 303
+#define NOT 304
+#define UMINUS 305
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-
 union YYSTYPE
 {
-#line 20 "parser.y" /* yacc.c:1909  */
+#line 20 "parser.y"
 
     int iValue;                 /* integer value */
     float fValue;
@@ -145,9 +164,9 @@ union YYSTYPE
     char sIndex;                /* symbol table index */
     nodeType *nPtr;             /* node pointer */
 
-#line 149 "y.tab.h" /* yacc.c:1909  */
-};
+#line 168 "y.tab.h"
 
+};
 typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

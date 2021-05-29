@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "parser.h"
 #include "y.tab.h"
 
 void yyerror(char *);
@@ -16,7 +17,6 @@ void yyerror(char *);
  /* keywords */
 
 "if"            return IF;
-"then"          return THEN;
 "else"          return ELSE; 
 
 "while"         return WHILE;
@@ -28,36 +28,48 @@ void yyerror(char *);
 "default"       return DEFAULT;
 
 "do"            return DO;
-"exit"          return EXIT;
+"return"        return RETURN;
 
 
  /* data types */
 
-"int"           return INT;
-"float"         return FLOAT;
-"string"        return STRING;
-"char"          return CHAR;
-"bool"          return BOOL;
+"int"           return INT_TYPE;
+"float"         return FLOAT_TYPE;
+"string"        return STRING_TYPE;
+"char"          return CHAR_TYPE;
+"bool"          return BOOLEAN_TYPE;
 "const"         return CONST;
+"void"          return VOID;
+
 
  /* logical operators and comparators */
 
-"=="	        return EQ;
-"!="            return NE;
-">"             return GT;
-"<"             return LT;
-">="            return GTE;
-"<="            return LTE;
+"=="	        return EQEQ;
+"!="            return NOTEQ;
+">"             return G;
+"<"             return L;
+">="            return GE;
+"<="            return LE;
 "&&"        	return AND;
 "||"            return OR;
 "!"             return NOT;
+
+
+ /* operators */
+
+"="             return ASSIGNMENT;
+"+"             return PLUS;
+"-"             return MINUS;
+"*"             return MUL;
+"/"             return DIV;
+"%"             return MOD;
 
 
  /* identifiers */
 
 [a-zA-Z]([a-zA-Z]|[0-9]|_)*     { 
 
-                                    return IDENTIFIER;
+                                    return VARIABLE;
                             }
 
 
@@ -79,7 +91,7 @@ void yyerror(char *);
 
  /* special characters */
 
-[-()=+*/%;{}:]                  {  
+[();{}:,]                        {  
                                     return *yytext;
                             }
 
@@ -141,7 +153,6 @@ void yyerror(char *);
 
 /* functions */
 
-int main(void) {
-    yylex();
-    return 0;
+int yywrap(void) {
+    return 1;
 }

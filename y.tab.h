@@ -1,8 +1,9 @@
-/* A Bison parser, made by GNU Bison 3.0.4.  */
+/* A Bison parser, made by GNU Bison 3.5.1.  */
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2020 Free Software Foundation,
+   Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,6 +30,9 @@
 
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
+
+/* Undocumented macros, especially those whose name start with YY_,
+   are private implementation details.  Do not rely on them.  */
 
 #ifndef YY_YY_Y_TAB_H_INCLUDED
 # define YY_YY_Y_TAB_H_INCLUDED
@@ -59,6 +63,7 @@ extern int yydebug;
     CONST = 269,
     WHILE = 270,
     IF = 271,
+<<<<<<< HEAD
     DECLARATION = 272,
     DEFINITION = 273,
     DO = 274,
@@ -92,6 +97,42 @@ extern int yydebug;
     MOD = 302,
     NOT = 303,
     UMINUS = 304
+=======
+    PRINT = 272,
+    DECLARATION = 273,
+    DEFINITION = 274,
+    DO = 275,
+    FOR = 276,
+    SWITCH = 277,
+    CASE = 278,
+    BREAK = 279,
+    DEFAULT = 280,
+    RETURN = 281,
+    VOID = 282,
+    FUNCTION = 283,
+    VOIDFUNCTION = 284,
+    FUNCVARLIST = 285,
+    CALLVARLIST = 286,
+    CALL = 287,
+    IFX = 288,
+    ELSE = 289,
+    ASSIGNMENT = 290,
+    OR = 291,
+    AND = 292,
+    EQEQ = 293,
+    NOTEQ = 294,
+    G = 295,
+    L = 296,
+    GE = 297,
+    LE = 298,
+    PLUS = 299,
+    MINUS = 300,
+    MUL = 301,
+    DIV = 302,
+    MOD = 303,
+    NOT = 304,
+    UMINUS = 305
+>>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
   };
 #endif
 /* Tokens.  */
@@ -109,6 +150,7 @@ extern int yydebug;
 #define CONST 269
 #define WHILE 270
 #define IF 271
+<<<<<<< HEAD
 #define DECLARATION 272
 #define DEFINITION 273
 #define DO 274
@@ -142,13 +184,52 @@ extern int yydebug;
 #define MOD 302
 #define NOT 303
 #define UMINUS 304
+=======
+#define PRINT 272
+#define DECLARATION 273
+#define DEFINITION 274
+#define DO 275
+#define FOR 276
+#define SWITCH 277
+#define CASE 278
+#define BREAK 279
+#define DEFAULT 280
+#define RETURN 281
+#define VOID 282
+#define FUNCTION 283
+#define VOIDFUNCTION 284
+#define FUNCVARLIST 285
+#define CALLVARLIST 286
+#define CALL 287
+#define IFX 288
+#define ELSE 289
+#define ASSIGNMENT 290
+#define OR 291
+#define AND 292
+#define EQEQ 293
+#define NOTEQ 294
+#define G 295
+#define L 296
+#define GE 297
+#define LE 298
+#define PLUS 299
+#define MINUS 300
+#define MUL 301
+#define DIV 302
+#define MOD 303
+#define NOT 304
+#define UMINUS 305
+>>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-
 union YYSTYPE
 {
+<<<<<<< HEAD
 #line 19 "parser.y" /* yacc.c:1909  */
+=======
+#line 20 "parser.y"
+>>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
 
     int iValue;                 /* integer value */
     float fValue;
@@ -159,9 +240,14 @@ union YYSTYPE
     char sIndex;                /* symbol table index */
     nodeType *nPtr;             /* node pointer */
 
+<<<<<<< HEAD
 #line 163 "y.tab.h" /* yacc.c:1909  */
 };
+=======
+#line 168 "y.tab.h"
+>>>>>>> 6a92f0340834dbcb3a059f25e309a6f9ce357925
 
+};
 typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

@@ -39,6 +39,8 @@ void yyerror(char *);
 "bool"          return BOOLEAN_TYPE;
 "const"         return CONST;
 "void"          return VOID;
+
+
  /* logical operators and comparators */
 
 "=="	        return EQEQ;

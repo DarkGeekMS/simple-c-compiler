@@ -19,16 +19,17 @@ void yyerror(char *);
 "then"          return THEN;
 "else"          return ELSE; 
 
+"do"            return DO;
 "while"         return WHILE;
-"break"         return BREAK;
 "for"           return FOR;
 
 "switch"        return SWITCH;
 "case"          return CASE;
+"break"         return BREAK;
 "default"       return DEFAULT;
 
-"do"            return DO;
-"exit"          return EXIT;
+"return"        return RETURN;
+"void"          return VOID;
 
 
  /* data types */
@@ -38,26 +39,36 @@ void yyerror(char *);
 "string"        return STRING;
 "char"          return CHAR;
 "bool"          return BOOL;
-
+"const"         return CONST;
 
  /* logical operators and comparators */
 
-"=="	        return EQ;
-"!="            return NE;
-">"             return GT;
-"<"             return LT;
-">="            return GTE;
-"<="            return LTE;
+"=="	        return EQEQ;
+"!="            return NOTEQ;
+">"             return G;
+"<"             return L;
+">="            return GE;
+"<="            return LE;
 "&&"        	return AND;
 "||"            return OR;
 "!"             return NOT;
 
+ /* operators */
+
+"="             return ASSIGNMENT
+"+"             return PLUS
+"-"             return MINUS
+"*"             return MUL
+"/"             return DIV
+"%"             return MOD
+"++"            return PLUSPLUS
+"--"            return MINUSMINUS
 
  /* identifiers */
 
 [a-zA-Z]([a-zA-Z]|[0-9]|_)*     { 
-
-                                    return IDENTIFIER;
+                                    yylval.sIndex = malloc(strlen(yytext));
+                                    return VARIABLE;
                             }
 
 
@@ -79,11 +90,9 @@ void yyerror(char *);
 
  /* special characters */
 
-[-()=+*/%;{}:]                  {  
+[();{}:]                        {
                                     return *yytext;
                             }
-
-
  /* zero numeral */
 
 0                               {
@@ -102,7 +111,7 @@ void yyerror(char *);
 
  /* floats */
 
-[0-9]+"."[0-9]*                 {
+[0-9]+"."[0-9]+                 {
                                     yylval.fValue = atof(yytext);
                                     return FLOAT;
                             } 

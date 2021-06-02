@@ -12,6 +12,7 @@ typedef void* yyscan_t;
 void freeNode(nodeType *p);
 int yylex(void);
 
+void yyrestart(FILE *new_file);
 void yyerror(char *s);
 int sym[26];                    /* symbol table */
 %}

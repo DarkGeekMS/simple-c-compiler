@@ -81,10 +81,11 @@ typedef void* yyscan_t;
 void freeNode(nodeType *p);
 int yylex(void);
 
+void yyrestart(FILE *new_file);
 void yyerror(char *s);
 int sym[26];                    /* symbol table */
 
-#line 88 "y.tab.c"
+#line 89 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -234,7 +235,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 20 "parser.y"
+#line 21 "parser.y"
 
     int iValue;                 /* integer value */
     float fValue;
@@ -245,7 +246,7 @@ union YYSTYPE
     char sIndex;                /* symbol table index */
     nodeType *nPtr;             /* node pointer */
 
-#line 249 "y.tab.c"
+#line 250 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -625,14 +626,14 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    71,    71,    72,    73,    79,    82,    83,    84,    85,
-      86,    90,    91,    92,    93,    94,    98,    99,   101,   102,
-     104,   106,   108,   109,   111,   112,   113,   114,   115,   116,
-     117,   118,   119,   120,   124,   128,   129,   133,   134,   138,
-     139,   143,   144,   148,   149,   153,   154,   159,   161,   164,
-     165,   166,   171,   172,   173,   174,   175,   176,   177,   178,
-     179,   180,   181,   182,   183,   184,   185,   186,   187,   188,
-     189
+       0,    72,    72,    73,    74,    80,    83,    84,    85,    86,
+      87,    91,    92,    93,    94,    95,    99,   100,   102,   103,
+     105,   107,   109,   110,   112,   113,   114,   115,   116,   117,
+     118,   119,   120,   121,   125,   129,   130,   134,   135,   139,
+     140,   144,   145,   149,   150,   154,   155,   160,   162,   165,
+     166,   167,   172,   173,   174,   175,   176,   177,   178,   179,
+     180,   181,   182,   183,   184,   185,   186,   187,   188,   189,
+     190
 };
 #endif
 
@@ -1601,403 +1602,403 @@ yyreduce:
   switch (yyn)
     {
   case 5:
-#line 79 "parser.y"
+#line 80 "parser.y"
                                           { (yyval.nPtr) = opr(ASSIGNMENT, 2, id((yyvsp[-2].sIndex)), (yyvsp[0].nPtr)); }
-#line 1607 "y.tab.c"
+#line 1608 "y.tab.c"
     break;
 
   case 6:
-#line 82 "parser.y"
+#line 83 "parser.y"
                         {(yyval.nPtr) = con((yyvsp[0].iValue));}
-#line 1613 "y.tab.c"
+#line 1614 "y.tab.c"
     break;
 
   case 7:
-#line 83 "parser.y"
+#line 84 "parser.y"
                         {(yyval.nPtr) = con((yyvsp[0].fValue));}
-#line 1619 "y.tab.c"
+#line 1620 "y.tab.c"
     break;
 
   case 8:
-#line 84 "parser.y"
+#line 85 "parser.y"
                         {(yyval.nPtr) = con((yyvsp[0].cValue));}
-#line 1625 "y.tab.c"
+#line 1626 "y.tab.c"
     break;
 
   case 9:
-#line 85 "parser.y"
+#line 86 "parser.y"
                         {(yyval.nPtr) = con((yyvsp[0].sValue));}
-#line 1631 "y.tab.c"
+#line 1632 "y.tab.c"
     break;
 
   case 10:
-#line 86 "parser.y"
+#line 87 "parser.y"
                         {(yyval.nPtr) = con((yyvsp[0].bValue));}
-#line 1637 "y.tab.c"
+#line 1638 "y.tab.c"
     break;
 
   case 11:
-#line 90 "parser.y"
+#line 91 "parser.y"
                              {(yyval.nPtr) = INT_TYPE;}
-#line 1643 "y.tab.c"
+#line 1644 "y.tab.c"
     break;
 
   case 12:
-#line 91 "parser.y"
+#line 92 "parser.y"
                              {(yyval.nPtr) = FLOAT_TYPE;}
-#line 1649 "y.tab.c"
+#line 1650 "y.tab.c"
     break;
 
   case 13:
-#line 92 "parser.y"
+#line 93 "parser.y"
                              {(yyval.nPtr) = CHAR_TYPE;}
-#line 1655 "y.tab.c"
+#line 1656 "y.tab.c"
     break;
 
   case 14:
-#line 93 "parser.y"
+#line 94 "parser.y"
                              {(yyval.nPtr) = STRING_TYPE;}
-#line 1661 "y.tab.c"
+#line 1662 "y.tab.c"
     break;
 
   case 15:
-#line 94 "parser.y"
+#line 95 "parser.y"
                              {(yyval.nPtr) = BOOLEAN_TYPE;}
-#line 1667 "y.tab.c"
+#line 1668 "y.tab.c"
     break;
 
   case 16:
-#line 98 "parser.y"
+#line 99 "parser.y"
                                                                             { (yyval.nPtr) = opr(';', 2, NULL, NULL); }
-#line 1673 "y.tab.c"
+#line 1674 "y.tab.c"
     break;
 
   case 17:
-#line 99 "parser.y"
+#line 100 "parser.y"
                                                                             { (yyval.nPtr) = (yyvsp[-1].nPtr); }
-#line 1679 "y.tab.c"
+#line 1680 "y.tab.c"
     break;
 
   case 18:
-#line 101 "parser.y"
+#line 102 "parser.y"
                                                                             { (yyval.nPtr) = opr(DECLARATION, 2, (yyvsp[-2].nPtr), id((yyvsp[-1].sIndex))); }
-#line 1685 "y.tab.c"
+#line 1686 "y.tab.c"
     break;
 
   case 19:
-#line 102 "parser.y"
+#line 103 "parser.y"
                                                                             { (yyval.nPtr) = opr(DEFINITION, 3, (yyvsp[-4].nPtr), id((yyvsp[-3].sIndex)), (yyvsp[-1].nPtr)); }
-#line 1691 "y.tab.c"
+#line 1692 "y.tab.c"
     break;
 
   case 20:
-#line 104 "parser.y"
+#line 105 "parser.y"
                                                                             { (yyval.nPtr) = opr(CONST, 3, (yyvsp[-4].nPtr), id((yyvsp[-3].sIndex)), (yyvsp[-1].nPtr)); }
-#line 1697 "y.tab.c"
+#line 1698 "y.tab.c"
     break;
 
   case 21:
-#line 106 "parser.y"
+#line 107 "parser.y"
                                                                                 { (yyval.nPtr) = (yyvsp[-1].nPtr); }
-#line 1703 "y.tab.c"
+#line 1704 "y.tab.c"
     break;
 
   case 22:
-#line 108 "parser.y"
+#line 109 "parser.y"
                                                                             { (yyval.nPtr) = opr(WHILE, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1709 "y.tab.c"
+#line 1710 "y.tab.c"
     break;
 
   case 23:
-#line 109 "parser.y"
+#line 110 "parser.y"
                                                                             { (yyval.nPtr) = opr(DO, 2, (yyvsp[-2].nPtr), (yyvsp[-5].nPtr)); }
-#line 1715 "y.tab.c"
+#line 1716 "y.tab.c"
     break;
 
   case 24:
-#line 111 "parser.y"
+#line 112 "parser.y"
                                                                             { (yyval.nPtr) = opr(IF, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1721 "y.tab.c"
+#line 1722 "y.tab.c"
     break;
 
   case 25:
-#line 112 "parser.y"
+#line 113 "parser.y"
                                                                             { (yyval.nPtr) = opr(IF, 3, (yyvsp[-4].nPtr), (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1727 "y.tab.c"
+#line 1728 "y.tab.c"
     break;
 
   case 26:
-#line 113 "parser.y"
+#line 114 "parser.y"
                                                                             { (yyval.nPtr) = opr(FOR, 4, (yyvsp[-6].nPtr), (yyvsp[-4].nPtr), (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1733 "y.tab.c"
+#line 1734 "y.tab.c"
     break;
 
   case 27:
-#line 114 "parser.y"
+#line 115 "parser.y"
                                                                             { (yyval.nPtr) = opr(SWITCH, 2, (yyvsp[-4].nPtr), (yyvsp[-1].nPtr)); }
-#line 1739 "y.tab.c"
+#line 1740 "y.tab.c"
     break;
 
   case 28:
-#line 115 "parser.y"
+#line 116 "parser.y"
                                                                             { (yyval.nPtr) = BREAK;}
-#line 1745 "y.tab.c"
+#line 1746 "y.tab.c"
     break;
 
   case 29:
-#line 116 "parser.y"
+#line 117 "parser.y"
                                                                             { (yyval.nPtr) = opr(FUNCTION, 5, (yyvsp[-5].nPtr), id((yyvsp[-4].sIndex)), (yyvsp[-3].nPtr), (yyvsp[-1].nPtr));}
-#line 1751 "y.tab.c"
+#line 1752 "y.tab.c"
     break;
 
   case 30:
-#line 117 "parser.y"
+#line 118 "parser.y"
                                                                             { (yyval.nPtr) = opr(VOIDFUNCTION, 3, id((yyvsp[-4].sIndex)), (yyvsp[-3].nPtr), (yyvsp[-1].nPtr));}
-#line 1757 "y.tab.c"
+#line 1758 "y.tab.c"
     break;
 
   case 31:
-#line 118 "parser.y"
+#line 119 "parser.y"
                                                                             { (yyval.nPtr) = opr(VOIDFUNCTION, 3, id((yyvsp[-3].sIndex)), (yyvsp[-2].nPtr), NULL);}
-#line 1763 "y.tab.c"
+#line 1764 "y.tab.c"
     break;
 
   case 32:
-#line 119 "parser.y"
+#line 120 "parser.y"
                                                                             { (yyval.nPtr) = (yyvsp[-1].nPtr); }
-#line 1769 "y.tab.c"
+#line 1770 "y.tab.c"
     break;
 
   case 33:
-#line 120 "parser.y"
+#line 121 "parser.y"
                                                                             { (yyval.nPtr) = NULL; }
-#line 1775 "y.tab.c"
+#line 1776 "y.tab.c"
     break;
 
   case 34:
-#line 124 "parser.y"
+#line 125 "parser.y"
                                                                             { (yyval.nPtr) = opr(RETURN, 1, (yyvsp[-1].nPtr)); }
-#line 1781 "y.tab.c"
+#line 1782 "y.tab.c"
     break;
 
   case 35:
-#line 128 "parser.y"
+#line 129 "parser.y"
                                            { (yyval.nPtr) = (yyvsp[0].nPtr); }
-#line 1787 "y.tab.c"
+#line 1788 "y.tab.c"
     break;
 
   case 36:
-#line 129 "parser.y"
+#line 130 "parser.y"
                                            { (yyval.nPtr) = opr(';', 2, (yyvsp[-1].nPtr), (yyvsp[0].nPtr)); }
-#line 1793 "y.tab.c"
+#line 1794 "y.tab.c"
     break;
 
   case 37:
-#line 133 "parser.y"
+#line 134 "parser.y"
                                                                             { (yyval.nPtr) = opr(DECLARATION, 2, (yyvsp[-1].nPtr), id((yyvsp[0].sIndex))); }
-#line 1799 "y.tab.c"
+#line 1800 "y.tab.c"
     break;
 
   case 38:
-#line 134 "parser.y"
+#line 135 "parser.y"
                                                                             { (yyval.nPtr) = opr(FUNCVARLIST, 3, (yyvsp[-3].nPtr), id((yyvsp[-2].sIndex)), (yyvsp[0].nPtr)); }
-#line 1805 "y.tab.c"
+#line 1806 "y.tab.c"
     break;
 
   case 39:
-#line 138 "parser.y"
+#line 139 "parser.y"
                                  {(yyval.nPtr) = (yyvsp[-1].nPtr);}
-#line 1811 "y.tab.c"
+#line 1812 "y.tab.c"
     break;
 
   case 40:
-#line 139 "parser.y"
+#line 140 "parser.y"
                                  {(yyval.nPtr) = NULL;}
-#line 1817 "y.tab.c"
+#line 1818 "y.tab.c"
     break;
 
   case 41:
-#line 143 "parser.y"
+#line 144 "parser.y"
                                                                         { (yyval.nPtr) = id((yyvsp[0].nPtr)); }
-#line 1823 "y.tab.c"
+#line 1824 "y.tab.c"
     break;
 
   case 42:
-#line 144 "parser.y"
+#line 145 "parser.y"
                                                                         { (yyval.nPtr) = opr(CALLVARLIST, 2, (yyvsp[-2].nPtr), id((yyvsp[0].nPtr))); }
-#line 1829 "y.tab.c"
+#line 1830 "y.tab.c"
     break;
 
   case 43:
-#line 148 "parser.y"
+#line 149 "parser.y"
                                    {(yyval.nPtr) = (yyvsp[-1].nPtr);}
-#line 1835 "y.tab.c"
+#line 1836 "y.tab.c"
     break;
 
   case 44:
-#line 149 "parser.y"
+#line 150 "parser.y"
                                    {(yyval.nPtr) = NULL;}
-#line 1841 "y.tab.c"
+#line 1842 "y.tab.c"
     break;
 
   case 45:
-#line 153 "parser.y"
+#line 154 "parser.y"
                                    { (yyval.nPtr) = (yyvsp[0].nPtr); }
-#line 1847 "y.tab.c"
+#line 1848 "y.tab.c"
     break;
 
   case 46:
-#line 154 "parser.y"
+#line 155 "parser.y"
                                    { (yyval.nPtr) = opr(';', 2, (yyvsp[-1].nPtr), (yyvsp[0].nPtr)); }
-#line 1853 "y.tab.c"
+#line 1854 "y.tab.c"
     break;
 
   case 47:
-#line 159 "parser.y"
+#line 160 "parser.y"
                                         { (yyval.nPtr) = opr(CASE, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1859 "y.tab.c"
+#line 1860 "y.tab.c"
     break;
 
   case 48:
-#line 161 "parser.y"
+#line 162 "parser.y"
                                         { (yyval.nPtr) = opr(DEFAULT, 1, (yyvsp[0].nPtr)); }
-#line 1865 "y.tab.c"
+#line 1866 "y.tab.c"
     break;
 
   case 49:
-#line 164 "parser.y"
+#line 165 "parser.y"
                                    { (yyval.nPtr) = (yyvsp[0].nPtr); }
-#line 1871 "y.tab.c"
+#line 1872 "y.tab.c"
     break;
 
   case 50:
-#line 165 "parser.y"
+#line 166 "parser.y"
                                    { (yyval.nPtr) = (yyvsp[0].nPtr); }
-#line 1877 "y.tab.c"
+#line 1878 "y.tab.c"
     break;
 
   case 51:
-#line 166 "parser.y"
+#line 167 "parser.y"
                                    { (yyval.nPtr) = opr('CASE_LIST', 2, (yyvsp[-1].nPtr), (yyvsp[0].nPtr)); }
-#line 1883 "y.tab.c"
+#line 1884 "y.tab.c"
     break;
 
   case 52:
-#line 171 "parser.y"
+#line 172 "parser.y"
                                                             { (yyval.nPtr) = (yyvsp[0].nPtr); }
-#line 1889 "y.tab.c"
+#line 1890 "y.tab.c"
     break;
 
   case 53:
-#line 172 "parser.y"
+#line 173 "parser.y"
                                                             { (yyval.nPtr) = id((yyvsp[0].sIndex)); }
-#line 1895 "y.tab.c"
+#line 1896 "y.tab.c"
     break;
 
   case 54:
-#line 173 "parser.y"
+#line 174 "parser.y"
                                                             { (yyval.nPtr) = opr(UMINUS, 1, (yyvsp[0].nPtr)); }
-#line 1901 "y.tab.c"
+#line 1902 "y.tab.c"
     break;
 
   case 55:
-#line 174 "parser.y"
+#line 175 "parser.y"
                                                             { (yyval.nPtr) = opr(NOT, 1, (yyvsp[0].nPtr)); }
-#line 1907 "y.tab.c"
+#line 1908 "y.tab.c"
     break;
 
   case 56:
-#line 175 "parser.y"
+#line 176 "parser.y"
                                                             { (yyval.nPtr) = opr(PLUS, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1913 "y.tab.c"
+#line 1914 "y.tab.c"
     break;
 
   case 57:
-#line 176 "parser.y"
+#line 177 "parser.y"
                                                             { (yyval.nPtr) = opr(MINUS, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1919 "y.tab.c"
+#line 1920 "y.tab.c"
     break;
 
   case 58:
-#line 177 "parser.y"
+#line 178 "parser.y"
                                                             { (yyval.nPtr) = opr(MUL, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1925 "y.tab.c"
+#line 1926 "y.tab.c"
     break;
 
   case 59:
-#line 178 "parser.y"
+#line 179 "parser.y"
                                                             { (yyval.nPtr) = opr(DIV, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1931 "y.tab.c"
+#line 1932 "y.tab.c"
     break;
 
   case 60:
-#line 179 "parser.y"
+#line 180 "parser.y"
                                                             { (yyval.nPtr) = opr(MOD, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1937 "y.tab.c"
+#line 1938 "y.tab.c"
     break;
 
   case 61:
-#line 180 "parser.y"
+#line 181 "parser.y"
                                                             { (yyval.nPtr) = opr(L, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1943 "y.tab.c"
+#line 1944 "y.tab.c"
     break;
 
   case 62:
-#line 181 "parser.y"
+#line 182 "parser.y"
                                                             { (yyval.nPtr) = opr(G, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1949 "y.tab.c"
+#line 1950 "y.tab.c"
     break;
 
   case 63:
-#line 182 "parser.y"
+#line 183 "parser.y"
                                                             { (yyval.nPtr) = opr(GE, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1955 "y.tab.c"
+#line 1956 "y.tab.c"
     break;
 
   case 64:
-#line 183 "parser.y"
+#line 184 "parser.y"
                                                             { (yyval.nPtr) = opr(LE, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1961 "y.tab.c"
+#line 1962 "y.tab.c"
     break;
 
   case 65:
-#line 184 "parser.y"
+#line 185 "parser.y"
                                                             { (yyval.nPtr) = opr(NOTEQ, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1967 "y.tab.c"
+#line 1968 "y.tab.c"
     break;
 
   case 66:
-#line 185 "parser.y"
+#line 186 "parser.y"
                                                             { (yyval.nPtr) = opr(EQEQ, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1973 "y.tab.c"
+#line 1974 "y.tab.c"
     break;
 
   case 67:
-#line 186 "parser.y"
+#line 187 "parser.y"
                                                             { (yyval.nPtr) = opr(AND, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1979 "y.tab.c"
+#line 1980 "y.tab.c"
     break;
 
   case 68:
-#line 187 "parser.y"
+#line 188 "parser.y"
                                                             { (yyval.nPtr) = opr(OR, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
-#line 1985 "y.tab.c"
+#line 1986 "y.tab.c"
     break;
 
   case 69:
-#line 188 "parser.y"
+#line 189 "parser.y"
                                                             { (yyval.nPtr) = opr(CALL, 2, id((yyvsp[-1].sIndex)), (yyvsp[0].nPtr));}
-#line 1991 "y.tab.c"
+#line 1992 "y.tab.c"
     break;
 
   case 70:
-#line 189 "parser.y"
+#line 190 "parser.y"
                                                             { (yyval.nPtr) = (yyvsp[-1].nPtr); }
-#line 1997 "y.tab.c"
+#line 1998 "y.tab.c"
     break;
 
 
-#line 2001 "y.tab.c"
+#line 2002 "y.tab.c"
 
       default: break;
     }
@@ -2229,7 +2230,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 192 "parser.y"
+#line 193 "parser.y"
 
 
 nodeType *con(int value) {

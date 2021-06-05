@@ -1,9 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.5.1.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2020 Free Software Foundation,
-   Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -31,9 +30,6 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-/* Undocumented macros, especially those whose name start with YY_,
-   are private implementation details.  Do not rely on them.  */
-
 #ifndef YY_YY_Y_TAB_H_INCLUDED
 # define YY_YY_Y_TAB_H_INCLUDED
 /* Debug traces.  */
@@ -53,33 +49,33 @@ extern int yydebug;
     FLOAT = 259,
     CHAR = 260,
     STRING = 261,
-    BOOLEAN = 262,
-    INT_TYPE = 263,
-    FLOAT_TYPE = 264,
-    CHAR_TYPE = 265,
-    STRING_TYPE = 266,
-    BOOLEAN_TYPE = 267,
-    VARIABLE = 268,
-    CONST = 269,
-    WHILE = 270,
-    IF = 271,
-    DECLARATION = 272,
-    DEFINITION = 273,
+    BOOLEAN_TRUE = 262,
+    BOOLEAN_FALSE = 263,
+    VARIABLE = 264,
+    INT_TYPE = 265,
+    FLOAT_TYPE = 266,
+    CHAR_TYPE = 267,
+    STRING_TYPE = 268,
+    BOOLEAN_TYPE = 269,
+    CONST = 270,
+    VOID = 271,
+    IF = 272,
+    ELSE = 273,
     DO = 274,
-    FOR = 275,
-    SWITCH = 276,
-    CASE = 277,
-    BREAK = 278,
+    WHILE = 275,
+    FOR = 276,
+    SWITCH = 277,
+    CASE = 278,
     DEFAULT = 279,
-    RETURN = 280,
-    VOID = 281,
+    BREAK = 280,
+    RETURN = 281,
     FUNCTION = 282,
     VOIDFUNCTION = 283,
     FUNCVARLIST = 284,
     CALLVARLIST = 285,
     CALL = 286,
-    IFX = 287,
-    ELSE = 288,
+    SYMBOLTABLE = 287,
+    IFX = 288,
     ASSIGNMENT = 289,
     OR = 290,
     AND = 291,
@@ -103,33 +99,33 @@ extern int yydebug;
 #define FLOAT 259
 #define CHAR 260
 #define STRING 261
-#define BOOLEAN 262
-#define INT_TYPE 263
-#define FLOAT_TYPE 264
-#define CHAR_TYPE 265
-#define STRING_TYPE 266
-#define BOOLEAN_TYPE 267
-#define VARIABLE 268
-#define CONST 269
-#define WHILE 270
-#define IF 271
-#define DECLARATION 272
-#define DEFINITION 273
+#define BOOLEAN_TRUE 262
+#define BOOLEAN_FALSE 263
+#define VARIABLE 264
+#define INT_TYPE 265
+#define FLOAT_TYPE 266
+#define CHAR_TYPE 267
+#define STRING_TYPE 268
+#define BOOLEAN_TYPE 269
+#define CONST 270
+#define VOID 271
+#define IF 272
+#define ELSE 273
 #define DO 274
-#define FOR 275
-#define SWITCH 276
-#define CASE 277
-#define BREAK 278
+#define WHILE 275
+#define FOR 276
+#define SWITCH 277
+#define CASE 278
 #define DEFAULT 279
-#define RETURN 280
-#define VOID 281
+#define BREAK 280
+#define RETURN 281
 #define FUNCTION 282
 #define VOIDFUNCTION 283
 #define FUNCVARLIST 284
 #define CALLVARLIST 285
 #define CALL 286
-#define IFX 287
-#define ELSE 288
+#define SYMBOLTABLE 287
+#define IFX 288
 #define ASSIGNMENT 289
 #define OR 290
 #define AND 291
@@ -149,22 +145,21 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+
 union YYSTYPE
 {
-#line 21 "parser.y"
+#line 31 "parser.y" /* yacc.c:1909  */
 
     int iValue;                 /* integer value */
-    float fValue;
-    char cValue;
-    char* sValue;
-    int bValue;
-
-    char sIndex;                /* symbol table index */
+    float fValue;               // float value
+    char cValue;                // character value
+    char* sValue;               // string
+    char* sIndex;                /* symbol table index */
     nodeType *nPtr;             /* node pointer */
 
-#line 166 "y.tab.h"
-
+#line 161 "y.tab.h" /* yacc.c:1909  */
 };
+
 typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

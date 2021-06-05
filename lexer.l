@@ -10,6 +10,7 @@
 void yyerror(char *);
 %}
 
+%option nounput yylineno
 /* rules */
 
 %%
@@ -67,26 +68,27 @@ void yyerror(char *);
  /* booleans */
 
 "true"                          {
-                                    yylval.bValue = 1;
-                                    return BOOLEAN;
+                                    yylval.iValue = 1;
+                                    return BOOLEAN_TRUE;
                             }
 
 "false"                         {
-                                    yylval.bValue = 0;
-                                    return BOOLEAN;
+                                    yylval.iValue = 0;
+                                    return BOOLEAN_FALSE;
                             }
 
 
  /* identifiers */
 
-[a-zA-Z]([a-zA-Z]|[0-9]|_)*     { 
-
+[a-zA-Z]([a-zA-Z]|[0-9]|_)*     {  
+                                    yylval.sIndex = malloc(strlen(yytext));
+                                    strcpy(yylval.sIndex, yytext); 
                                     return VARIABLE;
                             }
 
 
  /* strings */
-\"[a-zA-Z0-9 ]*\"               {
+\"[a-zA-Z0-9 ]*\"               {                  
                                     yylval.sValue = *(yytext+1);
                                     return STRING;
                             } 

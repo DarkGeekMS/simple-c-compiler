@@ -20,5 +20,5 @@ __NOTE :__ A sample code is included in `code.c` file that covers the syntax.
     bison --yacc parser.y -d # compile parser using bison
     flex lexer.l # compile lexer using flex
     gcc -o cpp.out lex.yy.c y.tab.c compiling.c # compile c files and get final object file
-    ./cpp.out # run object file ("syntax error" is printed in case of incorrect code)
+    ./cpp.out code.c # run object file ("syntax error" is printed in case of incorrect code)
     ```

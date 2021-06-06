@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include "parser.h"
+#define YYERROR_VERBOSE
 
 /* prototypes */
 
@@ -310,6 +311,7 @@ void freeNode(nodeType *p) {
 
 void yyerror(char *s) {
     fprintf(stdout, "line [%d]: %s\n", yylineno, s);
+    // fprintf (stderr, "%s\n", s);
 }
 
 /* 

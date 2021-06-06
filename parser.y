@@ -73,8 +73,8 @@
 %%
 
 program:
-        stmt                
-        | program stmt                                                                          {execute($2); freeNode($2);}    
+                        
+         program stmt                                                                          {execute($2); freeNode($2);}    
         | /* NULL */
         ;
 
@@ -165,7 +165,7 @@ func_stmt_list:
         ;
 
 func_var_list:
-          type VARIABLE                                                                         { $$ = opr('d', 2, $1, id($2)); }
+          type VARIABLE                                                                         { $$ = opr('r', 2, $1, id($2)); }
         | type VARIABLE ',' func_var_list                                                       { $$ = opr('f', 3, $1, id($2), $4); }
         ;
 

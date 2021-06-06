@@ -36,7 +36,7 @@ void addMOV( char* var, struct conNodeType value,  FILE* outFile) {
             break;
         }
         case typeString: {
-            fprintf(outFile, "MOV\t%s\t\"%s\"\t", var, value.sValue );
+            fprintf(outFile, "MOV\t%s\t\"%s\"\n", var, value.sValue );
             break;
         }
         default:
@@ -70,24 +70,28 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     printf(" INTEGER \n");
                     pt->iValue = p->con.iValue;
                     pt->type = p->con.type;
+                    fprintf(outFile, "PUSH\t%d\n", p->con.iValue );
                     break;
                 }
                 case typeFloat: {
                     printf(" FLOAT \n");
                     pt->fValue = p->con.fValue;
                     pt->type = p->con.type;
+                    fprintf(outFile, "PUSH\t%f\n", p->con.fValue );
                     break;
                 }
                 case typeBool: {
                     printf(" BOOL \n");
                     pt->iValue = p->con.iValue;
                     pt->type = p->con.type;
+                    fprintf(outFile, "PUSH\t%d\n", p->con.iValue );
                     break;
                 }
                 case typeChar: {
                     printf(" CHAR \n");
                     pt->cValue = p->con.cValue;
                     pt->type = p->con.type;
+                    fprintf(outFile, "PUSH\t\'%c\'\n", p->con.cValue );
                     break;
                 }
                 case typeString: {
@@ -96,6 +100,7 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     printf("\n");
                     pt->sValue = p->con.sValue;
                     pt->type = p->con.type;
+                    fprintf(outFile, "PUSH\t\"%s\"\n", p->con.sValue );
                     break;
                 }
                 default:
@@ -109,9 +114,11 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
             printf("inside id\n");
             pt2 = getsymbol(p->id.id, &error);
             if (pt2 && error == "") {
-                fprintf(outFile, "MOV\t%s\t\"%s\"\t", var, p->id.id );
+                fprintf(outFile, "\tpush\t%s\n", p->id.id + 'a'); 
                 return pt2;
             }
+            printf(error);
+            printf("\n");
             error = "";
             break;
         }
@@ -138,6 +145,7 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     switch (p->opr.nops) {
                         // var Assignment value
                         case 2: {
+                            printf("inside 2\n");
                             // get the vriable name
                             var =  p->opr.op[0]->id.id;
                             //printf(var);
@@ -151,7 +159,11 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                                 pt2 = insert(var, typeND, *pt, 0, 1, &error);
                                 // if update done successfully add the quadruples to the file
                                 if (pt2 && error == ""){
-                                    addMOV(var, *pt2, outFile );
+                                    // Assign variable with value of another variable
+                                    if (p->opr.op[1]->type == typeId) {
+                                        fprintf(outFile, "\tpop\t%s\n", var + 'a');
+                                        return pt2;
+                                    }
                                     return pt2;
                                 }
                                 printf(error);
@@ -179,8 +191,13 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                                 // try to insert the variable in the symbol table 
                                 pt2 = insert(var, type, *pt, 0, 1, &error);
                                 if (pt2 && error == "") {
+                                    // Assign variable with value of another variable
+                                    if (p->opr.op[2]->type == typeId) {
+                                        fprintf(outFile, "\tpop\t%s\n", var + 'a');
+                                        //fprintf(outFile, "MOV\t%s\t%s\n", var, p->opr.op[2]->id.id);
+                                        return pt2;
+                                    }
                                     //printf("insertion done ! \n");
-                                    addMOV(var, *pt2, outFile );
                                     return pt2;
                                 } 
                                 printf(error);
@@ -208,8 +225,8 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                                 // try to insert the variable in the symbol table 
                                 pt2 = insert(var, type, *pt, 1, 1, &error);
                                 if (pt2 && error == "") {
+                                    fprintf(outFile, "\tpop\t%s\n", var + 'a');
                                     //printf("insertion done ! \n");
-                                    addMOV(var, *pt2, outFile );
                                     return pt2;
                                 } 
                                 printf(error);

@@ -136,7 +136,8 @@ void yyerror(char *);
  /* line breaks */
 
 [\n]+                           { 
-                                    yylineno++;
+                                    if (yytext == '\n')
+                                        yylineno++;
                             }
 
 

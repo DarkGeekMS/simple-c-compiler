@@ -240,7 +240,7 @@ return 0;
 // parser connected by this function
 void execute(nodeType *p){
     FILE* outFile;
-    outFile = fopen("assembly.txt", "a");
+    outFile = fopen("output/assembly.txt", "a");
     // first execute the program
     ex(p, 0, outFile);
     // print the symbol table after program execution

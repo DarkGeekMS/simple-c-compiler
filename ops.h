@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -29,7 +28,7 @@ struct conNodeType* plus(struct conNodeType* operand1, struct conNodeType* opera
         return result;
     }
     // ERROR
-    printf("ERROR: Type mismatch!");
+    printf("ERROR: Type mismatch!\n");
     return NULL;
 }
 
@@ -56,7 +55,7 @@ struct conNodeType* minus(struct conNodeType* operand1, struct conNodeType* oper
         return result;
     }
     // ERROR
-    printf("ERROR: Type mismatch!");
+    printf("ERROR: Type mismatch!\n");
     return NULL;
 }
 
@@ -83,7 +82,7 @@ struct conNodeType* mul(struct conNodeType* operand1, struct conNodeType* operan
         return result;
     }
     // ERROR
-    printf("ERROR: Type mismatch!");
+    printf("ERROR: Type mismatch!\n");
     return NULL;
 }
 
@@ -128,7 +127,7 @@ struct conNodeType* divide(struct conNodeType* operand1, struct conNodeType* ope
         return result;
     }
     // ERROR
-    printf("ERROR: Type mismatch!");
+    printf("ERROR: Type mismatch!\n");
     return NULL;
 }
 
@@ -145,6 +144,181 @@ struct conNodeType* mod(struct conNodeType* operand1, struct conNodeType* operan
         return result;
     }
     // ERROR
-    printf("ERROR: Type mismatch!");
+    printf("ERROR: Type mismatch!\n");
+    return NULL;
+}
+
+struct conNodeType* greater(struct conNodeType* operand1, struct conNodeType* operand2) {
+    if ((operand1->type == typeInt || operand1->type == typeFloat) && (operand2->type == typeInt || operand2->type == typeFloat)) {
+        struct conNodeType* result = malloc(sizeof(struct conNodeType*));
+        result->type = typeBool;
+        if(operand1->type == typeInt) {
+            if(operand2->type == typeInt) {
+                result->iValue = operand1->iValue > operand2->iValue;
+            } else {
+                result->iValue = operand1->iValue > operand2->fValue;
+            }
+        }
+        if(operand1->type == typeFloat) {
+            if(operand2->type == typeInt) {
+                result->iValue = operand1->fValue > operand2->iValue;
+            } else {
+                result->iValue = operand1->fValue > operand2->fValue;
+            }
+        }
+        return result;
+    }
+    // ERROR
+    printf("ERROR: Type mismatch!\n");
+    return NULL;
+}
+
+struct conNodeType* less(struct conNodeType* operand1, struct conNodeType* operand2) {
+    if ((operand1->type == typeInt || operand1->type == typeFloat) && (operand2->type == typeInt || operand2->type == typeFloat)) {
+        struct conNodeType* result = malloc(sizeof(struct conNodeType*));
+        result->type = typeBool;
+        if(operand1->type == typeInt) {
+            if(operand2->type == typeInt) {
+                result->iValue = operand1->iValue < operand2->iValue;
+            } else {
+                result->iValue = operand1->iValue < operand2->fValue;
+            }
+        }
+        if(operand1->type == typeFloat) {
+            if(operand2->type == typeInt) {
+                result->iValue = operand1->fValue < operand2->iValue;
+            } else {
+                result->iValue = operand1->fValue < operand2->fValue;
+            }
+        }
+        return result;
+    }
+    // ERROR
+    printf("ERROR: Type mismatch!\n");
+    return NULL;
+}
+
+struct conNodeType* greaterEqual(struct conNodeType* operand1, struct conNodeType* operand2) {
+    if ((operand1->type == typeInt || operand1->type == typeFloat) && (operand2->type == typeInt || operand2->type == typeFloat)) {
+        struct conNodeType* result = malloc(sizeof(struct conNodeType*));
+        result->type = typeBool;
+        if(operand1->type == typeInt) {
+            if(operand2->type == typeInt) {
+                result->iValue = operand1->iValue >= operand2->iValue;
+            } else {
+                result->iValue = operand1->iValue >= operand2->fValue;
+            }
+        }
+        if(operand1->type == typeFloat) {
+            if(operand2->type == typeInt) {
+                result->iValue = operand1->fValue >= operand2->iValue;
+            } else {
+                result->iValue = operand1->fValue >= operand2->fValue;
+            }
+        }
+        return result;
+    }
+    // ERROR
+    printf("ERROR: Type mismatch!\n");
+    return NULL;
+}
+
+struct conNodeType* lessEqual(struct conNodeType* operand1, struct conNodeType* operand2) {
+    if ((operand1->type == typeInt || operand1->type == typeFloat) && (operand2->type == typeInt || operand2->type == typeFloat)) {
+        struct conNodeType* result = malloc(sizeof(struct conNodeType*));
+        result->type = typeBool;
+        if(operand1->type == typeInt) {
+            if(operand2->type == typeInt) {
+                result->iValue = operand1->iValue <= operand2->iValue;
+            } else {
+                result->iValue = operand1->iValue <= operand2->fValue;
+            }
+        }
+        if(operand1->type == typeFloat) {
+            if(operand2->type == typeInt) {
+                result->iValue = operand1->fValue <= operand2->iValue;
+            } else {
+                result->iValue = operand1->fValue <= operand2->fValue;
+            }
+        }
+        return result;
+    }
+    // ERROR
+    printf("ERROR: Type mismatch!\n");
+    return NULL;
+}
+
+struct conNodeType* eqEq(struct conNodeType* operand1, struct conNodeType* operand2) {
+    if ((operand1->type == typeInt || operand1->type == typeFloat) && (operand2->type == typeInt || operand2->type == typeFloat)) {
+        struct conNodeType* result = malloc(sizeof(struct conNodeType*));
+        result->type = typeBool;
+        if(operand1->type == typeInt) {
+            if(operand2->type == typeInt) {
+                result->iValue = operand1->iValue == operand2->iValue;
+            } else {
+                result->iValue = operand1->iValue == operand2->fValue;
+            }
+        }
+        if(operand1->type == typeFloat) {
+            if(operand2->type == typeInt) {
+                result->iValue = operand1->fValue == operand2->iValue;
+            } else {
+                result->iValue = operand1->fValue == operand2->fValue;
+            }
+        }
+        return result;
+    }
+    // ERROR
+    printf("ERROR: Type mismatch!\n");
+    return NULL;
+}
+
+struct conNodeType* notEq(struct conNodeType* operand1, struct conNodeType* operand2) {
+    if ((operand1->type == typeInt || operand1->type == typeFloat) && (operand2->type == typeInt || operand2->type == typeFloat)) {
+        struct conNodeType* result = malloc(sizeof(struct conNodeType*));
+        result->type = typeBool;
+        if(operand1->type == typeInt) {
+            if(operand2->type == typeInt) {
+                result->iValue = operand1->iValue != operand2->iValue;
+            } else {
+                result->iValue = operand1->iValue != operand2->fValue;
+            }
+        }
+        if(operand1->type == typeFloat) {
+            if(operand2->type == typeInt) {
+                result->iValue = operand1->fValue != operand2->iValue;
+            } else {
+                result->iValue = operand1->fValue != operand2->fValue;
+            }
+        }
+        return result;
+    }
+    // ERROR
+    printf("ERROR: Type mismatch!\n");
+    return NULL;
+}
+
+struct conNodeType* and(struct conNodeType* operand1, struct conNodeType* operand2) {
+    printf("types = %d, %d\n", operand1->type, operand2->type);
+    if ((operand1->type == typeBool) && (operand2->type == typeBool)) {
+        struct conNodeType* result = malloc(sizeof(struct conNodeType*));
+        result->type = typeBool;
+        result->iValue = operand1->iValue && operand2->iValue;
+        return result;
+    }
+    // ERROR
+    printf("ERROR: Type mismatch!\n");
+    return NULL;
+}
+
+struct conNodeType* or(struct conNodeType* operand1, struct conNodeType* operand2) {
+    if ((operand1->type == typeBool) && (operand2->type == typeBool)) {
+        struct conNodeType* result = malloc(sizeof(struct conNodeType*));
+        result->type = typeBool;
+        result->iValue = operand1->iValue || operand2->iValue;
+        return result;
+    }
+    // ERROR
+    printf("ERROR: Type mismatch!\n");
     return NULL;
 }

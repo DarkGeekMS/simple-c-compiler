@@ -277,52 +277,68 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                         return result;
                     }
                 case G :{
-                        biOP(p->opr.op[0], pt, outFile);
-                        biOP(p->opr.op[1], pt, outFile);
+                        struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
+                        struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
+                        struct conNodeType* result = greater(operand1, operand2);
                         printf("compGT\n");
-                        return NULL;
+                        printf("result = %d\n", result->iValue);
+                        return result;
                     }
                 case L :{
-                        biOP(p->opr.op[0], pt, outFile);
-                        biOP(p->opr.op[1], pt, outFile);
+                        struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
+                        struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
+                        struct conNodeType* result = less(operand1, operand2);
                         printf("compLT\n");
-                        return NULL;
+                        printf("result = %d\n", result->iValue);
+                        return result;
                     }
                 case GE :{
-                        biOP(p->opr.op[0], pt, outFile);
-                        biOP(p->opr.op[1], pt, outFile);
+                        struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
+                        struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
+                        struct conNodeType* result = greaterEqual(operand1, operand2);
                         printf("compGE\n");
-                        return NULL;
+                        printf("result = %d\n", result->iValue);
+                        return result;
                     }
                 case LE :{
-                        biOP(p->opr.op[0], pt, outFile);
-                        biOP(p->opr.op[1], pt, outFile);
+                        struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
+                        struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
+                        struct conNodeType* result = lessEqual(operand1, operand2);
                         printf("compLE\n");
-                        return NULL;
+                        printf("result = %d\n", result->iValue);
+                        return result;
                     }
                 case EQEQ :{
-                        biOP(p->opr.op[0], pt, outFile);
-                        biOP(p->opr.op[1], pt, outFile);
+                        struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
+                        struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
+                        struct conNodeType* result = eqEq(operand1, operand2);
                         printf("compEQ\n");
-                        return NULL;
+                        printf("result = %d\n", result->iValue);
+                        return result;
                     }
                 case NOTEQ :{
-                        biOP(p->opr.op[0], pt, outFile);
-                        biOP(p->opr.op[1], pt, outFile);
+                        struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
+                        struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
+                        struct conNodeType* result = notEq(operand1, operand2);
                         printf("compNOTEQ\n");
-                        return NULL;
+                        printf("result = %d\n", result->iValue);
+                        return result;
                     }
                 case AND :{
-                        biOP(p->opr.op[0], pt, outFile);
-                        biOP(p->opr.op[1], pt, outFile);
+                        struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
+                        struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
+                        struct conNodeType* result = and(operand1, operand2);
                         printf("and\n");
-                        return NULL;
+                        printf("result = %d\n", result->iValue);
+                        return result;
                     }
                 case OR :{
-                        biOP(p->opr.op[0], pt, outFile);
-                        biOP(p->opr.op[1], pt, outFile);
+                        struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
+                        struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
+                        struct conNodeType* result = or(operand1, operand2);
                         printf("or\n");
-                        return NULL;
+                        printf("result = %d\n", result->iValue);
+                        return result;
                     }
 
 

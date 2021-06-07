@@ -1,3 +1,3 @@
-int y = 0;
-int x = y + 6 + 7;
+int y = 12;
+int x = y * 2 % 21;
 

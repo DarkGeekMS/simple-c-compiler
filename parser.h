@@ -1,3 +1,4 @@
+#pragma once
 #include <stdbool.h>
 
 // we have 4 available nodes: constants , identifiers, operations, data types

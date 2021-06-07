@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include "symbolTable.h"
+#include "ops.h"
 #include "y.tab.h"
 
 static int line_num = 1;
@@ -17,6 +18,7 @@ void execute(nodeType *p);
 void yyerror(char *);
 struct conNodeType* biOP(nodeType *operand, struct conNodeType* pt, FILE* outFile);
 struct conNodeType* castCon (nodeType *p);
+struct conNodeType* plus(struct conNodeType* operand1, struct conNodeType* operand2);
 struct conNodeType* ex(nodeType *p, int oper, FILE* outFile);
 
 void addMOV( char* var, struct conNodeType value,  FILE* outFile) {
@@ -144,6 +146,8 @@ struct conNodeType* biOP(nodeType *operand, struct conNodeType* pt, FILE* outFil
 }
 
 
+
+
 // TODO: all operations logic converted into assemble
 struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
 
@@ -233,34 +237,44 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                 case PLUS :{
                         struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
                         struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
-                        //  struct conNodeType* result = plus(operand1, operand2)
+                        struct conNodeType* result = plus(operand1, operand2);
                         printf("plus\n");
-
-                        return NULL;
+                        printf("result = %d\n", result->iValue);
+                        
+                        return result;
                     }
                 case MINUS :{
-                        biOP(p->opr.op[0], pt, outFile);
-                        biOP(p->opr.op[1], pt, outFile);
+                        struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
+                        struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
+                        struct conNodeType* result = minus(operand1, operand2);
                         printf("minus\n");
-                        return NULL;
+                        printf("result = %d\n", result->iValue);
+                        
+                        return result;
                     }
                 case MUL :{
-                        biOP(p->opr.op[0], pt, outFile);
-                        biOP(p->opr.op[1], pt, outFile);
+                        struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
+                        struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
+                        struct conNodeType* result = mul(operand1, operand2);
                         printf("mul\n");
-                        return NULL;
+                        printf("result = %d\n", result->iValue);
+                        return result;
                     }
                 case DIV :{
-                        biOP(p->opr.op[0], pt, outFile);
-                        biOP(p->opr.op[1], pt, outFile);
+                        struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
+                        struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
+                        struct conNodeType* result = divide(operand1, operand2);
                         printf("div\n");
-                        return NULL;
+                        printf("result = %f\n", result->fValue);
+                        return result;
                     }
                 case MOD :{
-                        biOP(p->opr.op[0], pt, outFile);
-                        biOP(p->opr.op[1], pt, outFile);
+                        struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
+                        struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
+                        struct conNodeType* result = mod(operand1, operand2);
                         printf("mod\n");
-                        return NULL;
+                        printf("result = %d\n", result->iValue);
+                        return result;
                     }
                 case G :{
                         biOP(p->opr.op[0], pt, outFile);

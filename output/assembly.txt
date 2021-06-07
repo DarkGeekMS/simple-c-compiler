@@ -37,3 +37,41 @@ MOV	x	5
 	pop	y
 	PUSH	0
 	pop	y
+	PUSH	0
+	pop	y
+	PUSH	0
+	pop	y
+	PUSH	0
+	pop	y
+	PUSH	0
+	pop	y
+	PUSH	0
+	pop	y
+	pop	x
+	PUSH	12
+	pop	y
+	pop	x
+	PUSH	12
+	pop	y
+	pop	x
+	PUSH	12
+	pop	y
+	PUSH	12
+	pop	y
+	PUSH	12
+	pop	y
+	PUSH	12
+	pop	y
+	pop	x
+	PUSH	12
+	pop	y
+	pop	x
+	PUSH	12
+	pop	y
+	PUSH	12
+	pop	y
+	PUSH	12
+	pop	y
+	PUSH	12
+	pop	y
+	pop	x

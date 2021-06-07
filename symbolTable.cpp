@@ -40,55 +40,77 @@ void changeScope(int scope_dir) {
 }
 
 conNodeType* insert(char* var,conEnum var_type, struct conNodeType value, bool constant, bool with_value, char** error) { 
-
+    
     if (value.type == typeVoid) {
-        *error = (char*)malloc(55*sizeof(char)); 
+        *error = (char*)malloc(128*sizeof(char)); 
         strcpy(*error, "Error: Void Functions have no return value ");
-        cout << "Error : Void Functions have no return value \n";
+        //cout << "Error : Void Functions have no return value \n";
         return NULL;        
     }
+    // intialize next table pointer
+    symbol_table *next_table;
+    next_table = &cur_table;
     // search for the variable
-    if (cur_table.symtable.find(var)  != cur_table.symtable.end()) {
-        // ---------------------------------------------- the variable found
-        // in case of constant variable
-        if(cur_table.symtable[var].second.first) {
-            *error = (char*)malloc(55*sizeof(char)); 
-            strcpy(*error, "Error: Can't update constant variable ");
-            return NULL;
+    while (next_table != NULL) {
+        auto it = next_table->symtable.find(var);
+
+        if(it != next_table->symtable.end()) {
+            // ---------------------------------------------- the variable found
+            // in case of constant variable
+            if(next_table->symtable[var].second.first) {
+                *error = (char*)malloc(128*sizeof(char)); 
+                strcpy(*error, "Error: Can't update constant variable ");
+                return NULL;
+            }
+            
+            if (var_type != typeND) {
+                *error = (char*)malloc(128*sizeof(char)); 
+                strcpy(*error, "Error: Variable Re-declaration in the same scope is not allowed ");
+                return NULL;                        
+            }
+
+            if (next_table->symtable[var].first.type != value.type) {
+                *error = (char*)malloc(55*sizeof(char)); 
+                strcpy(*error, "Error: Type Missmatch ");
+                return NULL;          
+            }
+            
+            next_table->symtable.at(var) = {value, {false, true}};
+            return &next_table->symtable[var].first;
+            /*
+            symbol_table *next_table2;
+            next_table2 = &cur_table;
+            // search for the variable
+            while (next_table2 != NULL) {
+                auto it2 = next_table2->symtable.find(var);
+                if(it2 != next_table2->symtable.end()) {
+                    next_table2->symtable.at(var) = {value, {false, true}};
+                }
+                next_table2 = next_table2->parent;
+            }*/
+
         }
+        next_table = next_table->parent;
         
-        if (var_type != typeND) {
-            *error = (char*)malloc(55*sizeof(char)); 
-            strcpy(*error, "Error: Variable Re-declaration in the same scope is not allowed ");
-            return NULL;            
-        }
+    } 
+    // --------------------------------------------------- new identifier
+    if (var_type == typeND) {
+        *error = (char*)malloc(128*sizeof(char)); 
+        strcpy(*error, "Error: Variable Must be declared before initialization ");
+        return NULL;  
 
-        if (cur_table.symtable[var].first.type != value.type) {
-            *error = (char*)malloc(55*sizeof(char)); 
-            strcpy(*error, "Error: Type Missmatch ");
-            return NULL;     
-        }
-        cur_table.symtable.at(var) = {value, {false, true}};
-        return &cur_table.symtable[var].first;
-
-    } else {
-        // --------------------------------------------------- new identifier
-        if (var_type == typeND) {
-            *error = (char*)malloc(55*sizeof(char)); 
-            strcpy(*error, "Error: Variable Must be declared before initialization ");
-            return NULL;  
-        }
-        if (var_type != value.type && with_value == true) {
-            *error = (char*)malloc(55*sizeof(char)); 
-            strcpy(*error, "Error: Type Missmatch ");
-            return NULL;        
-        }
-        // insert the identifer
-        value.type =var_type;
-        cur_table.symtable.insert( {var, {value, {constant, with_value}} });
-        cout << cur_table.symtable.size() <<endl;
-        return &cur_table.symtable[var].first;
     }
+    if (var_type != value.type && with_value == true) {
+        *error = (char*)malloc(55*sizeof(char)); 
+        strcpy(*error, "Error: Type Missmatch ");
+        return NULL;        
+        
+    }
+    
+    // insert the identifer
+    value.type =var_type;
+    cur_table.symtable.insert( {var, {value, {constant, with_value}} });
+    return &cur_table.symtable[var].first;
 }
 
 conNodeType* getsymbol(char* var , char** error){
@@ -99,7 +121,7 @@ conNodeType* getsymbol(char* var , char** error){
     while (next_table != NULL) {
         auto it = next_table->symtable.find(var);
         if(it != next_table->symtable.end()) {
-            // the variable found and has value
+            //the variable found and has value
             if (next_table->symtable[var].second.second) {
                 return &next_table->symtable[var].first;
             }
@@ -118,7 +140,7 @@ conNodeType* getsymbol(char* var , char** error){
 
 void printSymbolTable(){ 
     cout << "==================== TABLE ============================" << endl;
-    cout << " table size = " << cur_table.symtable.size()<<endl;
+    //cout << " table size = " << cur_table.symtable.size()<<endl;
     for (auto& it: cur_table.symtable) {
         switch (it.second.first.type)
         {

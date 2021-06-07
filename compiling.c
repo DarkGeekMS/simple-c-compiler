@@ -83,7 +83,7 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
             }
             yyerror(error);
             error = "";
-            break;
+            return NULL;
         }
         // in case of operation
         case typeOpr: {
@@ -147,10 +147,8 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     return pt;
                 }
                 case 's' : {
-                    // printf ("inside new scope \n");
                     changeScope(1);
                     pt = ex(p->opr.op[0], 0, outFile);
-                    // printf("scope ended \n");
                     changeScope(0);
                     return NULL;
                 }
@@ -193,36 +191,28 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                         }
                         // type var Assignment value 
                         case 3: {
-                            // printf("inside type variable = value \n");
+                            //printf("inside type variable = value \n");
                             // first get the variable type , name
                             pt = ex(p->opr.op[0],0, outFile);
                             type =  pt->type;                 // variable type
                             var =  p->opr.op[1]->id.id;      // variable name
-                            //printf(var);
-                            //printf("\n");
                             // get the assigned value node (type and value)
                             pt = ex(p->opr.op[2], ASSIGNMENT, outFile);
                             //fprintf(outFile, "\n");
                             // for any error in the value
                             if(!pt) return NULL;
-
-                            if(pt){
-                                // try to insert the variable in the symbol table 
-                                pt2 = insert(var, type, *pt, 0, 1, &error);
-                                if (pt2 && error == "") {
-                                    // Assign variable with value of another variable
-                                    //if (p->opr.op[2]->type == typeId) {
-                                    fprintf(outFile, "\tpop\t%s\n", var );
-                                        //fprintf(outFile, "MOV\t%s\t%s\n", var, p->opr.op[2]->id.id);
-                                    //    return pt2;
-                                    //}
-                                    //printf("insertion done ! \n");
-                                    return pt2;
-                                } 
-                                yyerror(error);
-                                // printf(error);
-                                // printf("\n");
+                            // try to insert the variable in the symbol table 
+                            pt2 = insert(var, type, *pt, 0, 1, &error);
+                            //printf("here we set variable %s \n" , var);
+                            if (pt2 && error == "") {
+                                // Assign variable with value of another variable
+                                //if (p->opr.op[2]->type == typeId) {
+                                fprintf(outFile, "\tpop\t%s\n", var );
+                                //    return pt2;
+                                //}
+                                return pt2;
                             } 
+                            yyerror(error);
                             error = "";
                             return NULL;                          
                         }
@@ -234,8 +224,6 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                             pt = ex(p->opr.op[1],0, outFile);
                             type =  pt->type;                 // variable type
                             var =  p->opr.op[2]->id.id;      // variable name
-                            //printf(var);
-                            //printf("\n");
                             // get the assigned value node (type and value)
                             pt = ex(p->opr.op[3], ASSIGNMENT, outFile);
                             // for any error in the value
@@ -249,8 +237,6 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                                     //printf("insertion done ! \n");
                                     return pt2;
                                 } 
-                                // printf(error);
-                                // printf("\n");
                             } 
                             error = "";
                             return NULL;
@@ -271,7 +257,7 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
         }
 
     }
-return 0;
+return NULL;
 }
  
 // parser connected by this function

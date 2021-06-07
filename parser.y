@@ -176,7 +176,7 @@ func_list:
 ;
 
 call_var_list:
-          expr                                                                                  { $$ = opr('q', 1, $1 ) }
+          expr                                                                                  { $$ = opr('q', 1, $1 ); }
         | call_var_list ',' expr                                                                { $$ = opr('c', 2, $1, $3); }
         ;
 

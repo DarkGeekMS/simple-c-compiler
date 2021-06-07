@@ -120,12 +120,14 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     // find the function from its name to execute it
                     struct func * f = head;
                     while (f) {
-                        if (f->func_name == var)
+                        printf(f->func_name);
+                        if (strcmp(f->func_name, var) == 0) {
                             break;
+                        }
                         else
-                            f = head->next_function;
+                            f = f->next_function;
                     }
-                    if (!f) {
+                    if (f == NULL) {
                         error = "No function exists with that name ";
                         yyerror(error);
                         error = "";

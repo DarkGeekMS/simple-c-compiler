@@ -1,2 +1,4 @@
-	Push	5
+	Push	9
+	pop	x
+	Push	7
 	pop	x

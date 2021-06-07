@@ -121,7 +121,7 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     pt2 = insert(var, type, *pt, 0,0, &error);
                     // crete scope to add functions parameters in
                     changeScope(1);
-                    printf ("new scope for function \n");
+                    //printf ("new scope for function \n");
                     pt = ex(p->opr.op[1], 0, outFile);
                     changeScope(0);
                     return NULL; 
@@ -219,6 +219,7 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                                     //printf("insertion done ! \n");
                                     return pt2;
                                 } 
+                                yyerror(error);
                                 // printf(error);
                                 // printf("\n");
                             } 

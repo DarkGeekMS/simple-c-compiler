@@ -1,4 +1,4 @@
-int x = 5;
-int z;
-
-z = v;
+int x = 9;
+{
+    int x = 7;
+}

@@ -59,7 +59,7 @@ conNodeType* insert(char* var,conEnum var_type, struct conNodeType value, bool c
         
         if (var_type != typeND) {
             *error = (char*)malloc(55*sizeof(char)); 
-            strcpy(*error, "Error: Variable Redeclaration is not allowed ");
+            strcpy(*error, "Error: Variable Re-declaration in the same scope is not allowed ");
             return NULL;            
         }
 
@@ -73,7 +73,12 @@ conNodeType* insert(char* var,conEnum var_type, struct conNodeType value, bool c
 
     } else {
         // --------------------------------------------------- new identifier
-        if (var_type != value.type && var_type != typeVoid) {
+        if (var_type == typeND) {
+            *error = (char*)malloc(55*sizeof(char)); 
+            strcpy(*error, "Error: Variable Must be declared before initialization ");
+            return NULL;  
+        }
+        if (var_type != value.type && with_value == true) {
             *error = (char*)malloc(55*sizeof(char)); 
             strcpy(*error, "Error: Type Missmatch ");
             return NULL;        

@@ -100,6 +100,17 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
             switch (p->opr.oper)
             {
                 // in case of new scope 
+                case ';' : {
+                    switch (p->opr.nops) 
+                    {
+                    case 2:
+                        ex(p->opr.op[0],0, outFile); 
+                        return ex(p->opr.op[1],0, outFile);                    
+                    default:
+                        break;
+                    }
+                    return pt;
+                }
                 case 's' : {
                     printf ("inside new scope \n");
                     changeScope(1);

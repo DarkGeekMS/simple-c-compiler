@@ -23,6 +23,7 @@ symbol_table cur_table;
 */
 
 void changeScope(int scope_dir) {
+    // print symbol table upon scope switching
     printSymbolTable();
     // check for scopes update (0=>UP, 1=>DOWN)
     if (scope_dir == 1) {

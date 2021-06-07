@@ -333,6 +333,8 @@ int main(int argc, char* argv[]) {
         exit(0);
     }
     yyin = inputFile;
+    FILE* outFile;
+    outFile = fopen("output/assembly.txt", "w");
     yyparse();
     fclose(yyin);
     return 0;

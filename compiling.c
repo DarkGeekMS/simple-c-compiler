@@ -74,7 +74,7 @@ struct conNodeType* biOP(nodeType *operand, struct conNodeType* pt, FILE* outFil
                 return pt2;
             }
             // ERROR
-            printf("ERROR: Variable %s not defined.\n", operand->id.id);
+            yyerror(error);
             return NULL;
         }
 
@@ -142,7 +142,7 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     // printf(" INTEGER \n");
                     pt->iValue = p->con.iValue;
                     pt->type = p->con.type;
-                    fprintf(outFile, "\tPush\t%d\n", p->con.iValue );
+                    fprintf(outFile, "Push\t%d\n", p->con.iValue );
                     break;
                 }
                 case typeFloat: {
@@ -184,7 +184,6 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
             pt2 = getsymbol(p->id.id, &error);
             if (pt2 && error == "") {
                 fprintf(outFile, "push\t%s\n", p->id.id ); 
-                printf("push\t%s\n", p->id.id );
                 return pt2;
             }
             yyerror(error);
@@ -349,7 +348,9 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
 
                     pt2 = getsymbol(p->opr.op[0]->id.id, &error);
                     if (pt2 && error == "") {
-                        fprintf(outFile,"L%03d: mov\tR%03d, %s\n", lbl1 = lbl++, regist = reg++, p->opr.op[0]->id.id); 
+                        // fprintf(outFile,"L%03d: mov\tR%03d, %s\n", lbl1 = lbl++, regist = reg++, p->opr.op[0]->id.id); 
+                        fprintf(outFile, "L%03d: \tpush %s\n",lbl1 = lbl++, p->opr.op[0]->id.id);
+                        fprintf(outFile, "pop R%03d\n", regist = reg++);
                         ex(p->opr.op[1], 0, outFile);
                         ex(p->opr.op[2], 0, outFile);
                         fprintf(outFile, "S%03d:\n", lbl3 = switch_lbl++);
@@ -376,6 +377,12 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                 }
 
                 case DEFAULT:{
+                    ex(p->opr.op[0], 0, outFile);
+                    break;
+                }
+
+                case BREAK:{
+                    
                     break;
                 }
 
@@ -422,7 +429,6 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     pt = ex(p->opr.op[1], 0, outFile);
                     changeScope(0);
                     return NULL; 
-
                 }
                 // in case of new scope 
                 case ';' : {
@@ -504,7 +510,7 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                             if (pt2 && error == "") {
                                 // Assign variable with value of another variable
                                 //if (p->opr.op[2]->type == typeId) {
-                                fprintf(outFile, "\tpop\t%s\n", var );
+                                fprintf(outFile, "pop\t%s\n", var );
                                 //    return pt2;
                                 //}
                                 return pt2;

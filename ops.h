@@ -28,7 +28,7 @@ struct conNodeType* plus(struct conNodeType* operand1, struct conNodeType* opera
         return result;
     }
     // ERROR
-    printf("ERROR: Type mismatch!\n");
+    yyerror("ERROR: Type Operation Mismatch!\n");
     return NULL;
 }
 
@@ -55,7 +55,7 @@ struct conNodeType* minus(struct conNodeType* operand1, struct conNodeType* oper
         return result;
     }
     // ERROR
-    printf("ERROR: Type mismatch!\n");
+    yyerror("ERROR: Type Operation Mismatch!\n");
     return NULL;
 }
 
@@ -82,7 +82,7 @@ struct conNodeType* mul(struct conNodeType* operand1, struct conNodeType* operan
         return result;
     }
     // ERROR
-    printf("ERROR: Type mismatch!\n");
+    yyerror("ERROR: Type Operation Mismatch!\n");
     return NULL;
 }
 
@@ -92,16 +92,18 @@ struct conNodeType* divide(struct conNodeType* operand1, struct conNodeType* ope
         result->type = typeFloat;
         if(operand1->type == typeInt) {
             if(operand2->type == typeInt) {
+
                 if(operand2->iValue == 0){
                     //ERROR
-                    printf("ERROR: Division by zero!");
+                    yyerror("ERROR: Division by zero!");
                     return NULL;
                 }
-                result->fValue = operand1->iValue / operand2->iValue;
+                result->type = typeInt;
+                result->iValue = operand1->iValue / operand2->iValue;
             } else {
                 if(operand2->fValue == 0){
                     //ERROR
-                    printf("ERROR: Division by zero!");
+                    yyerror("ERROR: Division by zero!");
                     return NULL;
                 }
                 result->fValue = operand1->iValue / operand2->fValue;
@@ -111,14 +113,14 @@ struct conNodeType* divide(struct conNodeType* operand1, struct conNodeType* ope
             if(operand2->type == typeInt) {
                 if(operand2->iValue == 0){
                     //ERROR
-                    printf("ERROR: Division by zero!");
+                    yyerror("ERROR: Division by zero!");
                     return NULL;
                 }
                 result->fValue = operand1->fValue / operand2->iValue;
             } else {
                 if(operand2->fValue == 0){
                     //ERROR
-                    printf("ERROR: Division by zero!");
+                    yyerror("ERROR: Division by zero!");
                     return NULL;
                 }
                 result->fValue = operand1->fValue / operand2->fValue;
@@ -127,7 +129,7 @@ struct conNodeType* divide(struct conNodeType* operand1, struct conNodeType* ope
         return result;
     }
     // ERROR
-    printf("ERROR: Type mismatch!\n");
+    yyerror("ERROR: Type Operation Mismatch!\n");
     return NULL;
 }
 
@@ -144,7 +146,7 @@ struct conNodeType* mod(struct conNodeType* operand1, struct conNodeType* operan
         return result;
     }
     // ERROR
-    printf("ERROR: Type mismatch!\n");
+    yyerror("ERROR: Type Operation Mismatch!\n");
     return NULL;
 }
 
@@ -169,7 +171,7 @@ struct conNodeType* greater(struct conNodeType* operand1, struct conNodeType* op
         return result;
     }
     // ERROR
-    printf("ERROR: Type mismatch!\n");
+    yyerror("ERROR: Type Operation Mismatch!\n");
     return NULL;
 }
 
@@ -194,7 +196,7 @@ struct conNodeType* less(struct conNodeType* operand1, struct conNodeType* opera
         return result;
     }
     // ERROR
-    printf("ERROR: Type mismatch!\n");
+    yyerror("ERROR: Type Operation Mismatch!\n");
     return NULL;
 }
 
@@ -219,7 +221,7 @@ struct conNodeType* greaterEqual(struct conNodeType* operand1, struct conNodeTyp
         return result;
     }
     // ERROR
-    printf("ERROR: Type mismatch!\n");
+    yyerror("ERROR: Type Operation Mismatch!\n");
     return NULL;
 }
 
@@ -244,7 +246,7 @@ struct conNodeType* lessEqual(struct conNodeType* operand1, struct conNodeType* 
         return result;
     }
     // ERROR
-    printf("ERROR: Type mismatch!\n");
+    yyerror("ERROR: Type Operation Mismatch!\n");
     return NULL;
 }
 
@@ -269,7 +271,7 @@ struct conNodeType* eqEq(struct conNodeType* operand1, struct conNodeType* opera
         return result;
     }
     // ERROR
-    printf("ERROR: Type mismatch!\n");
+    yyerror("ERROR: Type Operation Mismatch!\n");
     return NULL;
 }
 
@@ -294,12 +296,11 @@ struct conNodeType* notEq(struct conNodeType* operand1, struct conNodeType* oper
         return result;
     }
     // ERROR
-    printf("ERROR: Type mismatch!\n");
+    yyerror("ERROR: Type Operation Mismatch!\n");
     return NULL;
 }
 
 struct conNodeType* and(struct conNodeType* operand1, struct conNodeType* operand2) {
-    printf("types = %d, %d\n", operand1->type, operand2->type);
     if ((operand1->type == typeBool) && (operand2->type == typeBool)) {
         struct conNodeType* result = malloc(sizeof(struct conNodeType*));
         result->type = typeBool;
@@ -307,7 +308,7 @@ struct conNodeType* and(struct conNodeType* operand1, struct conNodeType* operan
         return result;
     }
     // ERROR
-    printf("ERROR: Type mismatch!\n");
+    yyerror("ERROR: Type Operation Mismatch!\n");
     return NULL;
 }
 
@@ -319,7 +320,7 @@ struct conNodeType* or(struct conNodeType* operand1, struct conNodeType* operand
         return result;
     }
     // ERROR
-    printf("ERROR: Type mismatch!\n");
+    yyerror("ERROR: Type Operation Mismatch!\n");
     return NULL;
 }
 
@@ -336,26 +337,34 @@ struct conNodeType* uminus(struct conNodeType* operand) {
         return result;
     }
     // ERROR
-    printf("ERROR: Type mismatch!\n");
+    yyerror("ERROR: Type Operation Mismatch!\n");
     return NULL;
 }
 
 
 void caseHandler(nodeType* p, FILE* outFile, int reg){
     if (p->opr.op[1]->con.type == typeInt){
-        fprintf(outFile, "compare R%03d, %d\n", reg - 1, p->opr.op[1]->con.iValue);
+        fprintf(outFile, "push R%03d\n", reg - 1);
+        fprintf(outFile, "push %d\n", p->opr.op[1]->con.iValue);
+        fprintf(outFile, "compEQ\n");        
     }
 
     if (p->opr.op[1]->con.type == typeChar){
-        fprintf(outFile, "compare R%03d, %c\n", reg - 1, p->opr.op[1]->con.cValue);
+        fprintf(outFile, "push R%03d\n", reg - 1);
+        fprintf(outFile, "push %d\n", p->opr.op[1]->con.cValue);
+        fprintf(outFile, "compEQ\n");
     }
 
     if (p->opr.op[1]->con.type == typeBool){
-        fprintf(outFile, "compare R%03d, %d\n", reg - 1, p->opr.op[1]->con.iValue);
+        fprintf(outFile, "push R%03d\n", reg - 1);
+        fprintf(outFile, "push %d\n", p->opr.op[1]->con.iValue);
+        fprintf(outFile, "compEQ\n");    
     }
 
     if (p->opr.op[1]->con.type == typeString){
-        fprintf(outFile, "compare R%03d, %s\n", reg - 1, p->opr.op[1]->con.sValue);
+        fprintf(outFile, "push R%03d\n", reg - 1);
+        fprintf(outFile, "push %d\n", p->opr.op[1]->con.sValue);
+        fprintf(outFile, "compEQ\n");
     }
 
     

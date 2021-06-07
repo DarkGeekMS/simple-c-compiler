@@ -26,27 +26,19 @@ void changeScope(int scope_dir) {
     // check for scopes update (0=>UP, 1=>DOWN)
     if (scope_dir == 1) {
         // create a new child to the current table
-        if (cur_table.parent == NULL) {
-            cout << " node 0 will have new node \n";
-        }
-        symbol_table new_table;
+        symbol_table *prev_table = new symbol_table{cur_table};
 
-        new_table.parent = &cur_table;
+        symbol_table *new_table = new symbol_table;
 
-        cur_table.children.push_back(&new_table);
+        new_table->parent = prev_table;
 
-        cur_table = new_table;
+        prev_table->children.push_back(new_table);
 
-        if(cur_table.parent->parent == NULL) {
-            cout << " this must be printted as well \n";
-        }
+        cur_table = *new_table;
     }
     else if (scope_dir == 0) {
         // move to the parent of the current table
         cur_table = *cur_table.parent;
-        if (cur_table.parent == NULL ) {
-            cout << " this must be printed \n";
-        }
     }
 }
 
@@ -126,6 +118,7 @@ conNodeType* getsymbol(char* var , char** error){
 
 
 void printSymbolTable(){ 
+    cout << "==================== TABLE ============================" << endl;
     for (auto& it: cur_table.symtable) {
         switch (it.second.first.type)
         {
@@ -150,4 +143,5 @@ void printSymbolTable(){
                 break;
         }
     }
+    cout << "========================================================" << endl;
 }

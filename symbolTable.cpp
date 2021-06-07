@@ -39,10 +39,12 @@ void changeScope(int scope_dir) {
     }
 }
 
-conNodeType* insert(char* var, conEnum var_type, struct conNodeType value, bool constant, bool with_value, char** error) { 
+conNodeType* insert(char* var,conEnum var_type, struct conNodeType value, bool constant, bool with_value, char** error) { 
+
     if (value.type == typeVoid) {
         *error = (char*)malloc(55*sizeof(char)); 
         strcpy(*error, "Error: Void Functions have no return value ");
+        cout << "Error : Void Functions have no return value \n";
         return NULL;        
     }
     // search for the variable
@@ -71,13 +73,15 @@ conNodeType* insert(char* var, conEnum var_type, struct conNodeType value, bool 
 
     } else {
         // --------------------------------------------------- new identifier
-        if (var_type != value.type) {
+        if (var_type != value.type && var_type != typeVoid) {
             *error = (char*)malloc(55*sizeof(char)); 
             strcpy(*error, "Error: Type Missmatch ");
             return NULL;        
         }
         // insert the identifer
+        value.type =var_type;
         cur_table.symtable.insert( {var, {value, {constant, with_value}} });
+        cout << cur_table.symtable.size() <<endl;
         return &cur_table.symtable[var].first;
     }
 }
@@ -109,6 +113,7 @@ conNodeType* getsymbol(char* var , char** error){
 
 void printSymbolTable(){ 
     cout << "==================== TABLE ============================" << endl;
+    cout << " table size = " << cur_table.symtable.size()<<endl;
     for (auto& it: cur_table.symtable) {
         switch (it.second.first.type)
         {
@@ -128,7 +133,10 @@ void printSymbolTable(){
 
             case typeString:
                 cout << "variable Name: " << it.first << "      type: String      value : " << it.second.first.sValue <<  " constant : " << it.second.second.first <<"\n";
-                break;        
+                break; 
+            case typeVoid:
+                cout << "Function Name: " << it.first << "      type: Void   "  << " constant : " << it.second.second.first <<"\n";
+                break;
             default:
                 break;
         }

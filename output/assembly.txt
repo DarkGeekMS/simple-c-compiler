@@ -1,2 +1,2 @@
-	PUSH	5
+	Push	5
 	pop	x

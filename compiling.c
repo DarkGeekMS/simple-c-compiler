@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,7 +5,9 @@
 #include "symbolTable.h"
 #include "y.tab.h"
 
+
 static int line_num = 1;
+
 
 // initializations
 char* var;                                                      // identifier name
@@ -36,7 +37,7 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     // printf(" INTEGER \n");
                     pt->iValue = p->con.iValue;
                     pt->type = p->con.type;
-                    fprintf(outFile, "\tPUSH\t%d\n", p->con.iValue );
+                    fprintf(outFile, "\tPush\t%d\n", p->con.iValue );
                     break;
                 }
                 case typeFloat: {
@@ -88,20 +89,43 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
         case typeOpr: {
             switch (p->opr.oper)
             {
+                case 'r' : {
+                    pt = ex(p->opr.op[0], 0 , outFile);
+                    type =  pt->type;                               // get the function parameter type
+                    var =  p->opr.op[1]->id.id;                     // get the function parmeter name name
+                    pt2 = insert(var, type, *pt, 0, 0, &error);
+                    error = "";
+                    return NULL;
+                } 
                 // in case of value returned function declaration
                 case FUNCTION : {
                     // get the function type and name
                     pt = ex(p->opr.op[0], 0 , outFile);
                     type =  pt->type;                 // tunction return type
                     var =  p->opr.op[1]->id.id;      // function name
-                    return pt; 
+                    // add the function to the symbol table
+                    pt2 = insert(var, type, *pt, 0,0, &error);
+                    // crete scope to add functions parameters in
+                    changeScope(1);
+                    //printf ("new scope for function \n");
+                    pt = ex(p->opr.op[2], 0, outFile);
+                    //pt2 = insert(var, type, *pt, 0,0, &error);
+                    changeScope(0);
+                    return NULL; 
                 }
                 case VOIDFUNCTION : {
-                    // function type void
-                    type = typeVoid;
-                    // get function name
-                    pt = ex(p->opr.op[0], 0 , outFile);
-                    var = p->opr.op[1]->id.id;      // function name
+                    //printf("void function \n");
+                    type = typeVoid;                // function type void
+                    var = p->opr.op[0]->id.id;      // function name
+                    // add the variable to the symbol table
+                    pt2 = insert(var, type, *pt, 0,0, &error);
+                    // crete scope to add functions parameters in
+                    changeScope(1);
+                    printf ("new scope for function \n");
+                    pt = ex(p->opr.op[1], 0, outFile);
+                    changeScope(0);
+                    return NULL; 
+
                 }
                 // in case of new scope 
                 case ';' : {
@@ -109,7 +133,14 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     {
                     case 2:
                         ex(p->opr.op[0],0, outFile); 
-                        return ex(p->opr.op[1],0, outFile);                    
+                        return ex(p->opr.op[1],0, outFile);
+                    case 3:
+                        pt = ex(p->opr.op[0], 0 , outFile);
+                        type =  pt->type;                               // get the function parameter type
+                        var =  p->opr.op[1]->id.id;                     // get the function parmeter name name
+                        pt2 = insert(var, type, *pt, 0, 0, &error);
+                        error = "";
+                        return ex(p->opr.op[2],0, outFile);          
                     default:
                         break;
                     }

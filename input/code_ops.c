@@ -1,9 +1,18 @@
 int y = 12;
-int x = y * 2 % 21;
-bool z = 4 >= 3;
-bool w = x < y;
-bool t = 3 <= 1;
-bool g = y == 12;
-bool f = y != 12;
-bool a = w && z;
-bool o = w || false;
+while (y > 10){
+    y = y - 1;
+}
+
+
+if (y == 12){
+    int c = 0;
+}
+else{
+    int c = 1;
+}
+
+
+if (c == 1){
+    int r = 2;
+}
+

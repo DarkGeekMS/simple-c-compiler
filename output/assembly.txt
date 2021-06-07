@@ -1,155 +1,31 @@
-	PUSH	1
-	pop	x
-	push	1.100000
-	pop	y
-	push	'z'
-	pop	z
-	push	"monda"
-	pop	m
-	push	1
-	pop	q
-	PUSH	22
-	pop	con
-	push	x
-	pop	a
-	PUSH	5
-	pop	a
-	push	y
-	pop	b
-	push	0
-	pop	q
-	push	m
-	pop	s
-	push	z
-	pop	c
-MOV	x	1
-MOV	y	1.100000
-MOV	z	'z'
-MOV	m	"monda"	MOV	q	1
-MOV	con	22
-MOV	a	"x"	MOV	a	1
-MOV	a	5
-MOV	b	"y"	MOV	b	1.100000
-MOV	q	0
-MOV	s	"m"	MOV	s	"monda"	MOV	c	"z"	MOV	c	'z'
-MOV	x	5
-	PUSH	0
-	pop	y
-	PUSH	0
-	pop	y
-	PUSH	0
-	pop	y
-	PUSH	0
-	pop	y
-	PUSH	0
-	pop	y
-	PUSH	0
-	pop	y
-	PUSH	0
-	pop	y
-	pop	x
-	PUSH	12
-	pop	y
-	pop	x
-	PUSH	12
-	pop	y
-	pop	x
-	PUSH	12
-	pop	y
-	PUSH	12
-	pop	y
-	PUSH	12
-	pop	y
-	PUSH	12
-	pop	y
-	pop	x
-	PUSH	12
-	pop	y
-	pop	x
-	PUSH	12
-	pop	y
-	PUSH	12
-	pop	y
-	PUSH	12
-	pop	y
-	PUSH	12
-	pop	y
-	pop	x
-	PUSH	12
-	pop	y
-	pop	x
-	pop	z
-	PUSH	12
-	pop	y
-	pop	x
-	pop	z
-	PUSH	12
-	pop	y
-	pop	x
-	pop	z
-	pop	w
-	pop	t
-	pop	g
-	pop	f
-	PUSH	12
-	pop	y
-	pop	x
-	pop	z
-	pop	w
-	pop	t
-	pop	g
-	pop	f
-	PUSH	12
-	pop	y
-	pop	x
-	pop	z
-	pop	w
-	pop	t
-	pop	g
-	pop	f
-	PUSH	12
-	pop	y
-	pop	x
-	pop	z
-	pop	w
-	pop	t
-	pop	g
-	pop	f
-	PUSH	12
-	pop	y
-	pop	x
-	pop	z
-	pop	w
-	pop	t
-	pop	g
-	pop	f
-	PUSH	12
-	pop	y
-	pop	x
-	pop	z
-	pop	w
-	pop	t
-	pop	g
-	pop	f
-	pop	a
-	pop	o
-	PUSH	12
-	pop	y
-	pop	x
-	pop	z
-	pop	w
-	pop	t
-	pop	g
-	pop	f
-	pop	a
-	pop	o
-	PUSH	12
-	pop	y
-	pop	x
-	pop	z
-	pop	w
-	pop	t
-	pop	g
-	pop	f
-	pop	a
-	pop	o
+PUSH	12
+pop	y
+L000:
+push y 
+push 10 
+compGT
+jz	L001
+push y 
+push 1 
+minus
+pop	y
+jmp	L000
+L001:
+push y 
+push 12 
+compEQ
+jz	L002
+PUSH	0
+pop	c
+jmp	L003
+L002:
+PUSH	1
+pop	c
+L003:
+push c 
+push 1 
+compEQ
+jz	L004
+PUSH	2
+pop	r
+L004:

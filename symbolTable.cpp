@@ -22,20 +22,22 @@ symbol_table cur_table;
     4) if not exists put it in the symbol table                             -- DONE
 */
 
-conNodeType* insert(char* var,conEnum var_type, struct conNodeType value, bool constant, bool with_value, bool new_scope, bool un_scope, char** error) { 
-    // check for new scopes
-    if (new_scope) {
+void changeScope(int scope_dir) {
+    // check for scopes update (0=>UP, 1=>DOWN)
+    if (scope_dir == 1) {
         // create a new child to the current table
         symbol_table new_table;
         new_table.parent = &cur_table;
         cur_table.children.push_back(&new_table);
         cur_table = new_table;
     }
-    // check for scope destruction
-    if (un_scope) {
+    else if (scope_dir == 0) {
         // move to the parent of the current table
         cur_table = *cur_table.parent;
     }
+}
+
+conNodeType* insert(char* var,conEnum var_type, struct conNodeType value, bool constant, bool with_value, char** error) { 
     // search for the variable
     if (cur_table.symtable.find(var)  != cur_table.symtable.end()) {
          // ---------------------------------------------- the variable found

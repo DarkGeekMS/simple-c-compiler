@@ -25,16 +25,10 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
     conEnum type;
     //if no program exists return
     if (!p) return NULL;
-
     // loop over the possible expressions in the program
     switch(p->type) {
-        
         // in case of constants , assigning any identifier a value
         case typeCon: {
-            // printf("inside con\n");
-            // printf(var);
-            // printf("\n");
-            //pt2 = getsymbol(var, &error);
             if(oper != ASSIGNMENT) return NULL;
             // for any type assignment it follows : MOV var_name Value
             switch (p->con.type){
@@ -68,8 +62,6 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                 }
                 case typeString: {
                     // printf(" STRING \n");
-                    // printf(p->con.sValue );                // problem in sValue 
-                    // printf("\n");
                     pt->sValue = p->con.sValue;
                     pt->type = p->con.type;
                     fprintf(outFile, "\tpush\t\"%s\"\n", p->con.sValue );
@@ -83,20 +75,17 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
         }
         // in case of identifiers
         case typeId:{
-            // printf("inside id\n");
             pt2 = getsymbol(p->id.id, &error);
             if (pt2 && error == "") {
                 fprintf(outFile, "\tpush\t%s\n", p->id.id ); 
                 return pt2;
             }
-            // printf(error);
-            // printf("\n");
+            yyerror(error);
             error = "";
             break;
         }
         // in case of operation
         case typeOpr: {
-            // printf("inside operation \n");
             switch (p->opr.oper)
             {
                 // in case of value returned function declaration
@@ -105,7 +94,6 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     pt = ex(p->opr.op[0], 0 , outFile);
                     type =  pt->type;                 // tunction return type
                     var =  p->opr.op[1]->id.id;      // function name
-
                     return pt; 
                 }
                 case VOIDFUNCTION : {
@@ -114,7 +102,6 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     // get function name
                     pt = ex(p->opr.op[0], 0 , outFile);
                     var = p->opr.op[1]->id.id;      // function name
-
                 }
                 // in case of new scope 
                 case ';' : {
@@ -145,8 +132,7 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     if(pt2 && error == "") {
                         return pt2;
                     }
-                    // printf(error);
-                    // printf("\n");
+                    yyerror(error);
                     error = "";
                     return NULL;
                 }
@@ -154,11 +140,8 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     switch (p->opr.nops) {
                         // var Assignment value
                         case 2: {
-                            // printf("inside 2\n");
-                            // get the vriable name
+                            // get the variable name
                             var =  p->opr.op[0]->id.id;
-                            //printf(var);
-                            //printf("\n");
                             // get the assigned value object
                             pt = ex(p->opr.op[1], ASSIGNMENT, outFile);
                             //fprintf(outFile, "\n");
@@ -172,8 +155,7 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                                     fprintf(outFile, "\tpop\t%s\n", var);
                                     return pt2;
                                 }
-                                // printf(error);
-                                // printf("\n");
+                                yyerror(error);
                             }
                             error = "";
                             return NULL;

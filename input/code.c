@@ -1,7 +1,4 @@
-int x = 1;
-float y = 1.1;
+int x = 5;
+int z;
 
-x = 5;
-char x = 'q';
-
-string s = "monda";
+z = v;

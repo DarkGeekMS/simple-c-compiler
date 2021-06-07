@@ -13,14 +13,8 @@ struct symbol_table {
     list <symbol_table*> children;
 };
 
+// current symbol table
 symbol_table cur_table;
-
-/* for insertion we need the following:
-    1) check if the variable exists or not                                  -- Done
-    2) if exists and constant raise error                                   -- Done
-    3) if exists and the value for update is not its type raise error       -- DONE
-    4) if not exists put it in the symbol table                             -- DONE
-*/
 
 void changeScope(int scope_dir) {
     // print symbol table upon scope switching
@@ -45,40 +39,33 @@ void changeScope(int scope_dir) {
     }
 }
 
-conNodeType* insert(char* var,conEnum var_type, struct conNodeType value, bool constant, bool with_value, char** error) { 
+conNodeType* insert(char* var, conEnum var_type, struct conNodeType value, bool constant, bool with_value, char** error) { 
     if (value.type == typeVoid) {
         *error = (char*)malloc(55*sizeof(char)); 
         strcpy(*error, "Error: Void Functions have no return value ");
-        //cout << "Error : Void Functions have no return value \n";
         return NULL;        
     }
     // search for the variable
     if (cur_table.symtable.find(var)  != cur_table.symtable.end()) {
-         // ---------------------------------------------- the variable found
+        // ---------------------------------------------- the variable found
         // in case of constant variable
         if(cur_table.symtable[var].second.first) {
             *error = (char*)malloc(55*sizeof(char)); 
             strcpy(*error, "Error: Can't update constant variable ");
-            //cout << "Error : Can't update constant variable \n";
             return NULL;
         }
         
         if (var_type != typeND) {
             *error = (char*)malloc(55*sizeof(char)); 
             strcpy(*error, "Error: Variable Redeclaration is not allowed ");
-            cout << "Error : Variable Redeclaration is not allowed \n";
             return NULL;            
         }
 
         if (cur_table.symtable[var].first.type != value.type) {
             *error = (char*)malloc(55*sizeof(char)); 
             strcpy(*error, "Error: Type Missmatch ");
-            cout << "Error : Type Missmatch \n";
             return NULL;     
         }
-
-        //cout << "normal update \n";
-        // normal update
         cur_table.symtable.at(var) = {value, {false, true}};
         return &cur_table.symtable[var].first;
 
@@ -87,14 +74,12 @@ conNodeType* insert(char* var,conEnum var_type, struct conNodeType value, bool c
         if (var_type != value.type) {
             *error = (char*)malloc(55*sizeof(char)); 
             strcpy(*error, "Error: Type Missmatch ");
-            //cout << "Error : Type Missmatch \n";
             return NULL;        
         }
         // insert the identifer
         cur_table.symtable.insert( {var, {value, {constant, with_value}} });
         return &cur_table.symtable[var].first;
     }
-
 }
 
 conNodeType* getsymbol(char* var , char** error){
@@ -148,5 +133,5 @@ void printSymbolTable(){
                 break;
         }
     }
-    cout << "========================================================" << endl;
+    cout << "=======================================================" << endl;
 }

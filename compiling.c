@@ -5,7 +5,17 @@
 #include "symbolTable.h"
 #include "y.tab.h"
 
+// functions will be represented as linked list
+struct func
+{
+    char* func_name;
+    nodeType* line;
+    nodeType* parms;
+    struct func * next_function;               
+};
 
+struct func *head = NULL;
+struct func *current = NULL;
 static int line_num = 1;
 
 
@@ -89,10 +99,54 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
         case typeOpr: {
             switch (p->opr.oper)
             {
+                // function body
+                case 'e' : {
+                    break;
+                }
+                case RETURN : {
+                    break;
+                }
+                // in case of calling 
+                case 'q' : {
+                    break;
+                }
+                case 'c' : {
+                    break;
+                }
+                // in case of function call 
+                case 't' : {
+                    changeScope(1);
+                    var = p->opr.op[0]->id.id;                      // get the function name 
+                    // find the function from its name to execute it
+                    struct func * f = head;
+                    while (f) {
+                        if (f->func_name == var)
+                            break;
+                        else
+                            f = head->next_function;
+                    }
+                    if (!f) {
+                        error = "No function exists with that name ";
+                        yyerror(error);
+                        error = "";
+                        return NULL;
+                    }
+                    current = f;
+                    pt = ex(f->parms, 0, outFile);                  // declare the function variables in the new scope
+                    if (!pt) return NULL;
+                    pt = ex(p->opr.op[1], 0, outFile);              // assign the values from call to the function parameters
+                    if(!pt) return NULL;
+                    pt = ex(f->line, 0, outFile); 
+                    changeScope(0);
+                    // execute the function body
+                    return pt;
+                }
+                // incase of parameters for functions
                 case 'r' : {
                     pt = ex(p->opr.op[0], 0 , outFile);
                     type =  pt->type;                               // get the function parameter type
                     var =  p->opr.op[1]->id.id;                     // get the function parmeter name name
+                    //strcat(var , "_}" );
                     pt2 = insert(var, type, *pt, 0, 0, &error);
                     error = "";
                     return NULL;
@@ -106,13 +160,21 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     // add the function to the symbol table
                     pt2 = insert(var, type, *pt, 0,0, &error);
                     // crete scope to add functions parameters in
-                    changeScope(1);
+                    //changeScope(1);
                     //printf ("new scope for function \n");
-                    pt = ex(p->opr.op[2], 0, outFile);
+                    //pt = ex(p->opr.op[2], 0, outFile);
                     //pt2 = insert(var, type, *pt, 0,0, &error);
-                    changeScope(0);
+                    //changeScope(0);
+                    // create the first function node
+                    struct func * f = malloc(sizeof(struct func));
+                    f->func_name = var;
+                    f->line = p->opr.op[3];
+                    f->parms = p->opr.op[2];
+                    f->next_function = head;
+                    head = f;
                     return NULL; 
                 }
+                // in case of void functions
                 case VOIDFUNCTION : {
                     //printf("void function \n");
                     type = typeVoid;                // function type void
@@ -120,10 +182,16 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     // add the variable to the symbol table
                     pt2 = insert(var, type, *pt, 0,0, &error);
                     // crete scope to add functions parameters in
-                    changeScope(1);
+                    //changeScope(1);
                     //printf ("new scope for function \n");
-                    pt = ex(p->opr.op[1], 0, outFile);
-                    changeScope(0);
+                    //pt = ex(p->opr.op[1], 0, outFile);
+                    //changeScope(0);
+                    struct func * f = malloc(sizeof(struct func));
+                    f->func_name = var;
+                    f->parms = p->opr.op[1];
+                    f->line = p->opr.op[2];
+                    f->next_function = head;
+                    head = f;
                     return NULL; 
 
                 }
@@ -137,7 +205,8 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     case 3:
                         pt = ex(p->opr.op[0], 0 , outFile);
                         type =  pt->type;                               // get the function parameter type
-                        var =  p->opr.op[1]->id.id;                     // get the function parmeter name name
+                        var =  p->opr.op[1]->id.id ;              // get the function parmeter name name
+                        //strcat(var , "_}" );
                         pt2 = insert(var, type, *pt, 0, 0, &error);
                         error = "";
                         return ex(p->opr.op[2],0, outFile);          

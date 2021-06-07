@@ -2,11 +2,18 @@
 #include <string.h>
 #include "symbolTable.h"
 #include <unordered_map>
+#include <list>
 
 using namespace std;
 
 // variable name , variable(type/value) , constant or not , initialized or not.
-unordered_map <string, pair<conNodeType, pair<bool,bool> >> symbol_table;
+struct symbol_table {
+    unordered_map <string, pair<conNodeType, pair<bool, bool>>> symtable;
+    symbol_table* parent = NULL;
+    list <symbol_table*> children;
+};
+
+symbol_table cur_table;
 
 /* for insertion we need the following:
     1) check if the variable exists or not                                  -- Done
@@ -17,10 +24,10 @@ unordered_map <string, pair<conNodeType, pair<bool,bool> >> symbol_table;
 
 conNodeType* insert(char* var,conEnum var_type, struct conNodeType value, bool constant, bool with_value, char** error) { 
     // search for the variable
-    if (symbol_table.find(var)  != symbol_table.end()) {
+    if (cur_table.symtable.find(var)  != cur_table.symtable.end()) {
          // ---------------------------------------------- the variable found
         // in case of constant variable
-        if(symbol_table[var].second.first) {
+        if(cur_table.symtable[var].second.first) {
             *error = (char*)malloc(55*sizeof(char)); 
             strcpy(*error, "Error: Can't update constant variable ");
             //cout << "Error : Can't update constant variable \n";
@@ -34,7 +41,7 @@ conNodeType* insert(char* var,conEnum var_type, struct conNodeType value, bool c
             return NULL;        
         }
 
-        if (symbol_table[var].first.type != value.type) {
+        if (cur_table.symtable[var].first.type != value.type) {
             *error = (char*)malloc(55*sizeof(char)); 
             strcpy(*error, "Error: Type Missmatch ");
             cout << "Error : Type Missmatch \n";
@@ -43,8 +50,8 @@ conNodeType* insert(char* var,conEnum var_type, struct conNodeType value, bool c
 
         //cout << "normal update \n";
         // normal update
-        symbol_table.at(var) = {value, {false, true}};
-        return &symbol_table[var].first;
+        cur_table.symtable.at(var) = {value, {false, true}};
+        return &cur_table.symtable[var].first;
 
     } else {
         // --------------------------------------------------- new identifier
@@ -55,17 +62,17 @@ conNodeType* insert(char* var,conEnum var_type, struct conNodeType value, bool c
             return NULL;        
         }
         // insert the identifer
-        symbol_table.insert( {var, {value, {constant, with_value}} });
-        return &symbol_table[var].first;
+        cur_table.symtable.insert( {var, {value, {constant, with_value}} });
+        return &cur_table.symtable[var].first;
     }
 
 }
 
 conNodeType* getsymbol(char* var , char** error){
     // search for the variable
-    auto it = symbol_table.find(var);
+    auto it = cur_table.symtable.find(var);
     // if the variable not found add it 
-    if(it == symbol_table.end()) {
+    if(it == cur_table.symtable.end()) {
         *error = (char*)malloc(55*sizeof(char)); 
         strcpy(*error, "Error: undeclared variable ");
         //cout << "Error : undeclared variable \n";
@@ -73,8 +80,8 @@ conNodeType* getsymbol(char* var , char** error){
 
     } else {
         // the variable found and has value
-        if (symbol_table[var].second.second) {
-            return &symbol_table[var].first;
+        if (cur_table.symtable[var].second.second) {
+            return &cur_table.symtable[var].first;
         }
         // variable found but has no value
         *error = (char*)malloc(55*sizeof(char)); 
@@ -85,7 +92,7 @@ conNodeType* getsymbol(char* var , char** error){
 
 
 void printSymbolTable(){ 
-    for (auto& it: symbol_table) {
+    for (auto& it: cur_table.symtable) {
         switch (it.second.first.type)
         {
             case typeInt:

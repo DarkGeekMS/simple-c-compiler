@@ -2,15 +2,38 @@
 	pop	x
 	push	1.100000
 	pop	y
-	push	'z'
-	pop	z
-	PUSH	3
-	pop	mo
-	push	mo
-	pop	a
-	push	1.200000
-	pop	a
+	push	's'
+	push	"monda"
+	pop	s
+	PUSH	1
+	pop	x
+	push	1.100000
+	pop	y
 	PUSH	5
-	pop	aa
+	push	"monda"
+	pop	s
+	PUSH	1
+	pop	x
+	push	1.100000
+	pop	y
+	PUSH	5
+	pop	x
+	push	"monda"
+	pop	s
+	PUSH	1
+	pop	x
+	push	1.100000
+	pop	y
+	PUSH	5
+	pop	x
+	push	"monda"
+	pop	s
+	PUSH	1
+	pop	x
+	push	1.100000
+	pop	y
+	PUSH	5
+	pop	x
+	push	'q'
 	push	"monda"
 	pop	s

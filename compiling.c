@@ -99,6 +99,23 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
             // printf("inside operation \n");
             switch (p->opr.oper)
             {
+                // in case of value returned function declaration
+                case FUNCTION : {
+                    // get the function type and name
+                    pt = ex(p->opr.op[0], 0 , outFile);
+                    type =  pt->type;                 // tunction return type
+                    var =  p->opr.op[1]->id.id;      // function name
+
+                    return pt; 
+                }
+                case VOIDFUNCTION : {
+                    // function type void
+                    type = typeVoid;
+                    // get function name
+                    pt = ex(p->opr.op[0], 0 , outFile);
+                    var = p->opr.op[1]->id.id;      // function name
+
+                }
                 // in case of new scope 
                 case ';' : {
                     switch (p->opr.nops) 

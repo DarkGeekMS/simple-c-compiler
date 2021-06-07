@@ -339,3 +339,24 @@ struct conNodeType* uminus(struct conNodeType* operand) {
     printf("ERROR: Type mismatch!\n");
     return NULL;
 }
+
+
+void caseHandler(nodeType* p, FILE* outFile, int reg){
+    if (p->opr.op[1]->con.type == typeInt){
+        fprintf(outFile, "compare R%03d, %d\n", reg - 1, p->opr.op[1]->con.iValue);
+    }
+
+    if (p->opr.op[1]->con.type == typeChar){
+        fprintf(outFile, "compare R%03d, %c\n", reg - 1, p->opr.op[1]->con.cValue);
+    }
+
+    if (p->opr.op[1]->con.type == typeBool){
+        fprintf(outFile, "compare R%03d, %d\n", reg - 1, p->opr.op[1]->con.iValue);
+    }
+
+    if (p->opr.op[1]->con.type == typeString){
+        fprintf(outFile, "compare R%03d, %s\n", reg - 1, p->opr.op[1]->con.sValue);
+    }
+
+    
+}

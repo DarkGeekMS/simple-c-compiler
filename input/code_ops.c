@@ -1,4 +1,10 @@
-int x;
-for (x = 0; x < 5; x = x + 1){
-    int y = 2 * x;
-}
+int x = 9;
+int z = 0;
+switch (x) {
+    case 4:
+        int r = 0;
+    case 1:
+        int w = 0;
+    default:
+        int y;
+} 

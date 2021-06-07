@@ -124,7 +124,8 @@ case_list:
         case_list CASE INTEGER ':' stmt_list                                                    { $$ = opr(CASE,3,$1,conInt($3),$5); }
     |   case_list CASE CHAR ':' stmt_list                                                       { $$ = opr(CASE,3,$1,conChar($3),$5); }
     |   case_list CASE STRING ':' stmt_list                                                     { $$ = opr(CASE,3,$1,conString($3),$5); }  
-    |   case_list CASE BOOLEAN_FALSE ':' stmt_list                                              { $$ = opr(CASE,3,$1,conBool($3),$5);  }
+    |   case_list CASE BOOLEAN_FALSE ':' stmt_list                                              { $$
+     = opr(CASE,3,$1,conBool($3),$5);  }
     |   case_list CASE BOOLEAN_TRUE ':' stmt_list                                               { $$ = opr(CASE,3,$1,conBool($3),$5); }
     |  /* NULL */                                                                               { $$ = NULL; }
     ;

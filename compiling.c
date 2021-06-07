@@ -9,6 +9,9 @@
 
 static int line_num = 1;
 static int lbl;
+static int switch_lbl;
+static int case_lbl;
+static int reg;
 
 // initializations
 char* var;                                                      // identifier name
@@ -151,7 +154,7 @@ struct conNodeType* biOP(nodeType *operand, struct conNodeType* pt, FILE* outFil
 
 // TODO: all operations logic converted into assemble
 struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
-    int lbl1, lbl2;
+    int lbl1, lbl2, lbl3, regist;
     struct conNodeType* pt = malloc(sizeof(struct conNodeType*));   // to loop over the program expressions
     pt->type = typeND;
     struct conNodeType* pt2;
@@ -220,6 +223,7 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
             pt2 = getsymbol(p->id.id, &error);
             if (pt2 && error == "") {
                 fprintf(outFile, "push\t%s\n", p->id.id ); 
+                printf("push\t%s\n", p->id.id );
                 return pt2;
             }
             printf(error);
@@ -377,6 +381,44 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     break;
                 }
 
+                case SWITCH:{
+                    // struct conNodeType* operand = ex(p->opr.op[0], 0, outFile);
+                    // printf("jojo");
+                    // fprintf(outFile,"L%03d: mov\tR%03d, %s\n", lbl1 = lbl++, regist = reg++, p->id.id);
+
+                    // break;
+
+                    pt2 = getsymbol(p->opr.op[0]->id.id, &error);
+                    if (pt2 && error == "") {
+                        fprintf(outFile,"L%03d: mov\tR%03d, %s\n", lbl1 = lbl++, regist = reg++, p->opr.op[0]->id.id); 
+                        ex(p->opr.op[1], 0, outFile);
+                        ex(p->opr.op[2], 0, outFile);
+                        fprintf(outFile, "S%03d:\n", lbl3 = switch_lbl++);
+                        // add beyond++
+                        return pt2;
+                    }
+                    printf(error);
+                    printf("\n");
+                    error = "";
+                    break;
+                }
+
+                case CASE:{
+                    ex(p->opr.op[0], 0, outFile);
+                    caseHandler(p, outFile, reg);  
+                    fprintf(outFile,"jz\tC%03d\n", lbl3 = case_lbl++);
+                    // body
+                    ex(p->opr.op[2], 0, outFile);
+                    // jmp out
+                    fprintf(outFile,"jmp\tS%03d\n", switch_lbl);
+                    fprintf(outFile, "C%03d:\n", lbl3);
+
+                    break;
+                }
+
+                case DEFAULT:{
+                    break;
+                }
 
                 case UMINUS:{   
                     struct conNodeType* operand = ex(p->opr.op[0], 0, outFile);

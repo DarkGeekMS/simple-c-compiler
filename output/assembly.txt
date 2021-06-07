@@ -1,17 +1,18 @@
+PUSH	9
+pop	x
 PUSH	0
-pop	x
-L000:
-push x 
-push 5 
-compLT
-jz	L001
-push 2 
-push x 
-mul
-pop	y
-push x 
-push 1 
-plus
-pop	x
-jmp	L000
-L001:
+pop	z
+L000: mov	R000, x
+compare R000, 4
+jz	C000
+PUSH	0
+pop	r
+jmp	S000
+C000:
+compare R000, 1
+jz	C001
+PUSH	0
+pop	w
+jmp	S000
+C001:
+S000:

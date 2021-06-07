@@ -24,6 +24,7 @@ symbol_table cur_table;
 
 void changeScope(int scope_dir) {
     // print symbol table upon scope switching
+    cout << "<---- UPON SWITCH ---->\n";
     printSymbolTable();
     // check for scopes update (0=>UP, 1=>DOWN)
     if (scope_dir == 1) {
@@ -97,26 +98,28 @@ conNodeType* insert(char* var,conEnum var_type, struct conNodeType value, bool c
 }
 
 conNodeType* getsymbol(char* var , char** error){
+    // intialize next table pointer
+    symbol_table *next_table;
+    next_table = &cur_table;
     // search for the variable
-    auto it = cur_table.symtable.find(var);
-    // if the variable not found add it 
-    if(it == cur_table.symtable.end()) {
-        *error = (char*)malloc(55*sizeof(char)); 
-        strcpy(*error, "Error: undeclared variable ");
-        //cout << "Error : undeclared variable \n";
-        return NULL;
-
-    } else {
-        // the variable found and has value
-        if (cur_table.symtable[var].second.second) {
-            return &cur_table.symtable[var].first;
+    while (next_table != NULL) {
+        auto it = next_table->symtable.find(var);
+        if(it != next_table->symtable.end()) {
+            // the variable found and has value
+            if (next_table->symtable[var].second.second) {
+                return &next_table->symtable[var].first;
+            }
+            // variable found but has no value
+            *error = (char*)malloc(55*sizeof(char)); 
+            strcpy(*error, "Error: Non-initialized variable ");
+            return NULL;
         }
-        // variable found but has no value
-        *error = (char*)malloc(55*sizeof(char)); 
-        strcpy(*error, "Error: Non-initialized variable ");
-        return NULL;
+        next_table = next_table->parent;
     }
-  }
+    *error = (char*)malloc(55*sizeof(char)); 
+    strcpy(*error, "Error: undeclared variable ");
+    return NULL;
+}
 
 
 void printSymbolTable(){ 

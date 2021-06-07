@@ -250,6 +250,6 @@ void execute(nodeType *p){
     // first execute the program
     ex(p, 0, outFile);
     // print the symbol table after program execution
-    // printSymbolTable();
+    printSymbolTable();
     fclose(outFile);
 }

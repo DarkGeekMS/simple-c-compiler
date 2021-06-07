@@ -1,31 +1,17 @@
-PUSH	12
-pop	y
+PUSH	0
+pop	x
 L000:
-push y 
-push 10 
-compGT
+push x 
+push 5 
+compLT
 jz	L001
-push y 
-push 1 
-minus
+push 2 
+push x 
+mul
 pop	y
+push x 
+push 1 
+plus
+pop	x
 jmp	L000
 L001:
-push y 
-push 12 
-compEQ
-jz	L002
-PUSH	0
-pop	c
-jmp	L003
-L002:
-PUSH	1
-pop	c
-L003:
-push c 
-push 1 
-compEQ
-jz	L004
-PUSH	2
-pop	r
-L004:

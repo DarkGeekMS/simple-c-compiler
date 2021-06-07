@@ -322,3 +322,20 @@ struct conNodeType* or(struct conNodeType* operand1, struct conNodeType* operand
     printf("ERROR: Type mismatch!\n");
     return NULL;
 }
+
+struct conNodeType* uminus(struct conNodeType* operand) {
+    if ((operand->type == typeFloat) || (operand->type == typeInt)) {
+        struct conNodeType* result = malloc(sizeof(struct conNodeType*));
+        result->type = operand->type;
+        if (operand->type == typeInt){
+            result->iValue = -1 * operand->iValue;
+        }
+        else{
+            result->fValue = -1 * operand->fValue;
+        }
+        return result;
+    }
+    // ERROR
+    printf("ERROR: Type mismatch!\n");
+    return NULL;
+}

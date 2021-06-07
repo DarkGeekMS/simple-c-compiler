@@ -16,34 +16,6 @@ int prev_line, current_line;
 void execute(nodeType *p);
 void yyerror(char *);
 
-void addMOV( char* var, struct conNodeType value,  FILE* outFile) {
-    switch (value.type){
-        case typeInt: {
-                fprintf(outFile, "MOV\t%s\t%d\n", var, value.iValue );
-                break;
-            }
-        case typeFloat: {
-
-            fprintf(outFile, "MOV\t%s\t%f\n", var, value.fValue );
-            break;
-        }
-        case typeBool: {
-            fprintf(outFile, "MOV\t%s\t%d\n", var, value.iValue );
-            break;
-        }
-        case typeChar: {
-            fprintf(outFile, "MOV\t%s\t\'%c\'\n", var, value.cValue );
-            break;
-        }
-        case typeString: {
-            fprintf(outFile, "MOV\t%s\t\"%s\"\n", var, value.sValue );
-            break;
-        }
-        default:
-            break;
-    }
-}
-
 // TODO: all operations logic converted into assemble
 struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
 
@@ -127,6 +99,15 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
             printf("inside operation \n");
             switch (p->opr.oper)
             {
+                // in case of new scope 
+                case 's' : {
+                    printf ("inside new scope \n");
+                    changeScope(1);
+                    pt = ex(p->opr.op[0], 0, outFile);
+                    printf("scope ended \n");
+                    changeScope(0);
+                    return NULL;
+                }
                 // for variable declaration without initialization
                 case 'd' :{
                     pt = ex(p->opr.op[0], 0 , outFile);
@@ -145,7 +126,7 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     switch (p->opr.nops) {
                         // var Assignment value
                         case 2: {
-                            //printf("inside 2\n");
+                            printf("inside 2\n");
                             // get the vriable name
                             var =  p->opr.op[0]->id.id;
                             //printf(var);
@@ -171,7 +152,7 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                         }
                         // type var Assignment value 
                         case 3: {
-                            //printf("inside type variable = value \n");
+                            printf("inside type variable = value \n");
                             // first get the variable type , name
                             pt = ex(p->opr.op[0],0, outFile);
                             type =  pt->type;                 // variable type
@@ -206,7 +187,7 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                             
                         // type const Assignment value
                         case 4: {
-                            //printf("inside const type variable = value \n");
+                            printf("inside const type variable = value \n");
                             // first get the variable type , name
                             pt = ex(p->opr.op[1],0, outFile);
                             type =  pt->type;                 // variable type

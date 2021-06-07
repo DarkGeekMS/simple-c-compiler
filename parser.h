@@ -3,7 +3,7 @@
 // we have 4 available nodes: constants , identifiers, operations, data types
 typedef enum { typeCon, typeId, typeOpr, typeDef } nodeEnum;
 // any variable cn have (or function can return) : constant/- int, float, string, char, boolen or something other ( not defined for any missed case)
-typedef enum { typeInt, typeFloat, typeString, typeChar, typeBool, typeConst, typeND } conEnum; 
+typedef enum { typeInt, typeFloat, typeString, typeChar, typeBool, typeConst, typeND, typeVoid } conEnum; 
 
 /* constants */
 

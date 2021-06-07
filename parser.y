@@ -85,6 +85,7 @@ type:
     |   CHAR_TYPE                                                                               { $$ =  typ(typeChar); }
     |   BOOLEAN_TYPE                                                                            { $$ =  typ(typeBool); }
     |   STRING_TYPE                                                                             { $$ =  typ(typeString); }
+    |   VOID                                                                                    { $$ =  typ(typeVoid); }
     ;
 
 stmt:
@@ -108,11 +109,10 @@ stmt:
         | type VARIABLE func_list '{' func_stmt_list '}'                                        { $$ = opr(FUNCTION, 4, $1, id($2), $3, $5);}
         | VOID VARIABLE func_list '{' stmt_list '}'                                             { $$ = opr(VOIDFUNCTION, 3, id($2), $3, $5);}
         | VOID VARIABLE func_list '{' '}'                                                       { $$ = opr(VOIDFUNCTION, 3, id($2), $3, NULL);}
-        | '{' stmt_list '}'                                                                     { $$ = $2; }
+        | '{' stmt_list '}'                                                                     { $$ = opr('s', 1, $2); }
         | '{' '}'                                                                               { $$ = NULL; }
         |   error ';'                                                                           { $$ = NULL; }
         |   error '}'                                                                           { $$ = NULL; }
-        |   SYMBOLTABLE ';'                                                                     { $$ = opr(SYMBOLTABLE,1,NULL,NULL);}
         ;
 
 stmt_list:

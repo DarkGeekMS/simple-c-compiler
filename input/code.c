@@ -1,7 +1,10 @@
-int x = 1;
-float y = 1.1;
+void emad(int a, int b) {
+    int q = 6;
+}
 
-x = 5;
-char x = 'q';
+int ss(int z) {
+    return 5;
+}
 
-string s = "monda";
+
+string mo = "mois";

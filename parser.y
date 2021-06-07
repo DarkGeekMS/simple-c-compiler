@@ -167,7 +167,7 @@ func_stmt_list:
 
 func_var_list:
           type VARIABLE                                                                         { $$ = opr('r', 2, $1, id($2)); }
-        | type VARIABLE ',' func_var_list                                                       { $$ = opr('f', 3, $1, id($2), $4); }
+        | type VARIABLE ',' func_var_list                                                       { $$ = opr(';', 3, $1, id($2), $4); }
         ;
 
 func_list:

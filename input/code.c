@@ -1,4 +1,18 @@
-const int x = 6;
-float y = 12.6;
+int x = 9;
 
-y = 3.1;
+float q = 5.5;
+int a ;
+int z = a;
+
+int z = 10;
+{
+    z = 5;
+    char xx = 'x';
+    {
+        a = 10;
+        string mo = "monda";
+    }
+    
+}
+
+int y = a;

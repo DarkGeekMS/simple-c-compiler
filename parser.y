@@ -85,6 +85,7 @@ type:
     |   CHAR_TYPE                                                                               { $$ =  typ(typeChar); }
     |   BOOLEAN_TYPE                                                                            { $$ =  typ(typeBool); }
     |   STRING_TYPE                                                                             { $$ =  typ(typeString); }
+    |   VOID                                                                                    { $$ =  typ(typeVoid); }
     ;
 
 stmt:
@@ -108,11 +109,10 @@ stmt:
         | type VARIABLE func_list '{' func_stmt_list '}'                                        { $$ = opr(FUNCTION, 4, $1, id($2), $3, $5);}
         | VOID VARIABLE func_list '{' stmt_list '}'                                             { $$ = opr(VOIDFUNCTION, 3, id($2), $3, $5);}
         | VOID VARIABLE func_list '{' '}'                                                       { $$ = opr(VOIDFUNCTION, 3, id($2), $3, NULL);}
-        | '{' stmt_list '}'                                                                     { $$ = $2; }
+        | '{' stmt_list '}'                                                                     { $$ = opr('s', 1, $2); }
         | '{' '}'                                                                               { $$ = NULL; }
         |   error ';'                                                                           { $$ = NULL; }
         |   error '}'                                                                           { $$ = NULL; }
-        |   SYMBOLTABLE ';'                                                                     { $$ = opr(SYMBOLTABLE,1,NULL,NULL);}
         ;
 
 stmt_list:
@@ -167,7 +167,7 @@ func_stmt_list:
 
 func_var_list:
           type VARIABLE                                                                         { $$ = opr('r', 2, $1, id($2)); }
-        | type VARIABLE ',' func_var_list                                                       { $$ = opr('f', 3, $1, id($2), $4); }
+        | type VARIABLE ',' func_var_list                                                       { $$ = opr(';', 3, $1, id($2), $4); }
         ;
 
 func_list:
@@ -333,6 +333,8 @@ int main(int argc, char* argv[]) {
         exit(0);
     }
     yyin = inputFile;
+    FILE* outFile;
+    outFile = fopen("output/assembly.txt", "w");
     yyparse();
     fclose(yyin);
     return 0;

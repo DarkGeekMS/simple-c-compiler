@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,8 +6,10 @@
 #include "ops.h"
 #include "y.tab.h"
 
+
 static int line_num = 1;
 static int lbl;
+
 
 // initializations
 char* var;                                                      // identifier name
@@ -21,34 +22,6 @@ struct conNodeType* biOP(nodeType *operand, struct conNodeType* pt, FILE* outFil
 struct conNodeType* castCon (nodeType *p);
 struct conNodeType* plus(struct conNodeType* operand1, struct conNodeType* operand2);
 struct conNodeType* ex(nodeType *p, int oper, FILE* outFile);
-
-void addMOV( char* var, struct conNodeType value,  FILE* outFile) {
-    switch (value.type){
-        case typeInt: {
-                fprintf(outFile, "MOV\t%s\t%d\n", var, value.iValue );
-                break;
-            }
-        case typeFloat: {
-
-            fprintf(outFile, "MOV\t%s\t%f\n", var, value.fValue );
-            break;
-        }
-        case typeBool: {
-            fprintf(outFile, "MOV\t%s\t%d\n", var, value.iValue );
-            break;
-        }
-        case typeChar: {
-            fprintf(outFile, "MOV\t%s\t\'%c\'\n", var, value.cValue );
-            break;
-        }
-        case typeString: {
-            fprintf(outFile, "MOV\t%s\t\"%s\"\n", var, value.sValue );
-            break;
-        }
-        default:
-            break;
-    }
-}
 
 struct conNodeType* castCon (nodeType *p){
     struct conNodeType* pt = malloc(sizeof(struct conNodeType*));
@@ -146,9 +119,6 @@ struct conNodeType* biOP(nodeType *operand, struct conNodeType* pt, FILE* outFil
     }
 }
 
-
-
-
 // TODO: all operations logic converted into assemble
 struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
     int lbl1, lbl2;
@@ -158,51 +128,43 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
     conEnum type;
     //if no program exists return
     if (!p) return NULL;
-
     // loop over the possible expressions in the program
     switch(p->type) {
-        
         // in case of constants , assigning any identifier a value
         case typeCon: {
-            printf("inside con\n");
-            printf(var);
-            printf("\n");
-            //pt2 = getsymbol(var, &error);
             if(oper != ASSIGNMENT) return NULL;
             // for any type assignment it follows : MOV var_name Value
             switch (p->con.type){
                 case typeInt: {
-                    printf(" INTEGER \n");
+                    // printf(" INTEGER \n");
                     pt->iValue = p->con.iValue;
                     pt->type = p->con.type;
-                    fprintf(outFile, "PUSH\t%d\n", p->con.iValue );
+                    fprintf(outFile, "\tPush\t%d\n", p->con.iValue );
                     break;
                 }
                 case typeFloat: {
-                    printf(" FLOAT \n");
+                    // printf(" FLOAT \n");
                     pt->fValue = p->con.fValue;
                     pt->type = p->con.type;
                     fprintf(outFile, "push\t%f\n", p->con.fValue );
                     break;
                 }
                 case typeBool: {
-                    printf(" BOOL \n");
+                    // printf(" BOOL \n");
                     pt->iValue = p->con.iValue;
                     pt->type = p->con.type;
                     fprintf(outFile, "push\t%d\n", p->con.iValue );
                     break;
                 }
                 case typeChar: {
-                    printf(" CHAR \n");
+                    // printf(" CHAR \n");
                     pt->cValue = p->con.cValue;
                     pt->type = p->con.type;
                     fprintf(outFile, "push\t\'%c\'\n", p->con.cValue );
                     break;
                 }
                 case typeString: {
-                    printf(" STRING \n");
-                    printf(p->con.sValue );                // problem in sValue 
-                    printf("\n");
+                    // printf(" STRING \n");
                     pt->sValue = p->con.sValue;
                     pt->type = p->con.type;
                     fprintf(outFile, "push\t\"%s\"\n", p->con.sValue );
@@ -216,20 +178,17 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
         }
         // in case of identifiers
         case typeId:{
-            printf("inside id\n");
             pt2 = getsymbol(p->id.id, &error);
             if (pt2 && error == "") {
                 fprintf(outFile, "push\t%s\n", p->id.id ); 
                 return pt2;
             }
-            printf(error);
-            printf("\n");
+            yyerror(error);
             error = "";
-            break;
+            return NULL;
         }
         // in case of operation
         case typeOpr: {
-            printf("inside operation \n");
             switch (p->opr.oper)
             {
                 // bi-ops
@@ -353,6 +312,70 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     }
                     break;
                 }
+                
+                case 'r' : {
+                    pt = ex(p->opr.op[0], 0 , outFile);
+                    type =  pt->type;                               // get the function parameter type
+                    var =  p->opr.op[1]->id.id;                     // get the function parmeter name name
+                    pt2 = insert(var, type, *pt, 0, 0, &error);
+                    error = "";
+                    return NULL;
+                } 
+                // in case of value returned function declaration
+                case FUNCTION : {
+                    // get the function type and name
+                    pt = ex(p->opr.op[0], 0 , outFile);
+                    type =  pt->type;                 // tunction return type
+                    var =  p->opr.op[1]->id.id;      // function name
+                    // add the function to the symbol table
+                    pt2 = insert(var, type, *pt, 0,0, &error);
+                    // crete scope to add functions parameters in
+                    changeScope(1);
+                    //printf ("new scope for function \n");
+                    pt = ex(p->opr.op[2], 0, outFile);
+                    //pt2 = insert(var, type, *pt, 0,0, &error);
+                    changeScope(0);
+                    return NULL; 
+                }
+                case VOIDFUNCTION : {
+                    //printf("void function \n");
+                    type = typeVoid;                // function type void
+                    var = p->opr.op[0]->id.id;      // function name
+                    // add the variable to the symbol table
+                    pt2 = insert(var, type, *pt, 0,0, &error);
+                    // crete scope to add functions parameters in
+                    changeScope(1);
+                    //printf ("new scope for function \n");
+                    pt = ex(p->opr.op[1], 0, outFile);
+                    changeScope(0);
+                    return NULL; 
+
+                }
+                // in case of new scope 
+                case ';' : {
+                    switch (p->opr.nops) 
+                    {
+                    case 2:
+                        ex(p->opr.op[0],0, outFile); 
+                        return ex(p->opr.op[1],0, outFile);
+                    case 3:
+                        pt = ex(p->opr.op[0], 0 , outFile);
+                        type =  pt->type;                               // get the function parameter type
+                        var =  p->opr.op[1]->id.id;                     // get the function parmeter name name
+                        pt2 = insert(var, type, *pt, 0, 0, &error);
+                        error = "";
+                        return ex(p->opr.op[2],0, outFile);          
+                    default:
+                        break;
+                    }
+                    return pt;
+                }
+                case 's' : {
+                    changeScope(1);
+                    pt = ex(p->opr.op[0], 0, outFile);
+                    changeScope(0);
+                    return NULL;
+                }
                 // for variable declaration without initialization
                 case 'd' :{
                     pt = ex(p->opr.op[0], 0 , outFile);
@@ -362,8 +385,7 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     if(pt2 && error == "") {
                         return pt2;
                     }
-                    printf(error);
-                    printf("\n");
+                    yyerror(error);
                     error = "";
                     return NULL;
                 }
@@ -371,11 +393,8 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     switch (p->opr.nops) {
                         // var Assignment value
                         case 2: {
-                            //printf("inside 2\n");
-                            // get the vriable name
+                            // get the variable name
                             var =  p->opr.op[0]->id.id;
-                            //printf(var);
-                            //printf("\n");
                             // get the assigned value object
                             pt = ex(p->opr.op[1], ASSIGNMENT, outFile);
                             //fprintf(outFile, "\n");
@@ -389,8 +408,7 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                                     fprintf(outFile, "pop\t%s\n", var);
                                     return pt2;
                                 }
-                                printf(error);
-                                printf("\n");
+                                yyerror(error);
                             }
                             error = "";
                             return NULL;
@@ -402,43 +420,34 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                             pt = ex(p->opr.op[0],0, outFile);
                             type =  pt->type;                 // variable type
                             var =  p->opr.op[1]->id.id;      // variable name
-                            //printf(var);
-                            //printf("\n");
                             // get the assigned value node (type and value)
                             pt = ex(p->opr.op[2], ASSIGNMENT, outFile);
                             //fprintf(outFile, "\n");
                             // for any error in the value
                             if(!pt) return NULL;
-
-                            if(pt){
-                                // try to insert the variable in the symbol table 
-                                pt2 = insert(var, type, *pt, 0, 1, &error);
-                                if (pt2 && error == "") {
-                                    // Assign variable with value of another variable
-                                    //if (p->opr.op[2]->type == typeId) {
-                                    fprintf(outFile, "pop\t%s\n", var );
-                                        //fprintf(outFile, "MOV\t%s\t%s\n", var, p->opr.op[2]->id.id);
-                                    //    return pt2;
-                                    //}
-                                    //printf("insertion done ! \n");
-                                    return pt2;
-                                } 
-                                printf(error);
-                                printf("\n");
+                            // try to insert the variable in the symbol table 
+                            pt2 = insert(var, type, *pt, 0, 1, &error);
+                            //printf("here we set variable %s \n" , var);
+                            if (pt2 && error == "") {
+                                // Assign variable with value of another variable
+                                //if (p->opr.op[2]->type == typeId) {
+                                fprintf(outFile, "\tpop\t%s\n", var );
+                                //    return pt2;
+                                //}
+                                return pt2;
                             } 
+                            yyerror(error);
                             error = "";
                             return NULL;                          
                         }
                             
                         // type const Assignment value
                         case 4: {
-                            //printf("inside const type variable = value \n");
+                            // printf("inside const type variable = value \n");
                             // first get the variable type , name
                             pt = ex(p->opr.op[1],0, outFile);
                             type =  pt->type;                 // variable type
                             var =  p->opr.op[2]->id.id;      // variable name
-                            //printf(var);
-                            //printf("\n");
                             // get the assigned value node (type and value)
                             pt = ex(p->opr.op[3], ASSIGNMENT, outFile);
                             // for any error in the value
@@ -452,8 +461,6 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                                     //printf("insertion done ! \n");
                                     return pt2;
                                 } 
-                                printf(error);
-                                printf("\n");
                             } 
                             error = "";
                             return NULL;
@@ -468,13 +475,13 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
         }
         // in case of data type defining
         case typeDef: {
-            printf("inside type defining \n");
+            // printf("inside type defining \n");
             pt->type = p->typ.type; 
             return pt;
         }
 
     }
-return 0;
+return NULL;
 }
  
 // parser connected by this function

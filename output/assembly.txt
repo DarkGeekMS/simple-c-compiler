@@ -1,31 +1,16 @@
-PUSH	12
-pop	y
-L000:
-push y 
-push 10 
-compGT
-jz	L001
-push y 
-push 1 
-minus
-pop	y
-jmp	L000
-L001:
-push y 
-push 12 
-compEQ
-jz	L002
-PUSH	0
-pop	c
-jmp	L003
-L002:
-PUSH	1
-pop	c
-L003:
-push c 
-push 1 
-compEQ
-jz	L004
-PUSH	2
-pop	r
-L004:
+	Push	9
+	pop	x
+push	5.500000
+	pop	q
+	Push	10
+	pop	z
+	Push	5
+pop	z
+push	'x'
+	pop	xx
+	Push	10
+pop	a
+push	"monda"
+	pop	mo
+push	a
+	pop	y

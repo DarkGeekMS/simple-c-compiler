@@ -15,6 +15,9 @@ int prev_line, current_line;
 
 void execute(nodeType *p);
 void yyerror(char *);
+struct conNodeType* biOP(nodeType *operand, struct conNodeType* pt, FILE* outFile);
+struct conNodeType* castCon (nodeType *p);
+struct conNodeType* ex(nodeType *p, int oper, FILE* outFile);
 
 void addMOV( char* var, struct conNodeType value,  FILE* outFile) {
     switch (value.type){
@@ -43,6 +46,103 @@ void addMOV( char* var, struct conNodeType value,  FILE* outFile) {
             break;
     }
 }
+
+struct conNodeType* castCon (nodeType *p){
+    struct conNodeType* pt = malloc(sizeof(struct conNodeType*));
+    pt->type = typeND;
+
+    switch (p->con.type){
+        case typeInt: {
+            pt->iValue = p->con.iValue;
+            pt->type = p->con.type;
+            break;
+        }
+        case typeFloat: {
+            pt->fValue = p->con.fValue;
+            pt->type = p->con.type;
+            break;
+        }
+        case typeBool: {
+            pt->iValue = p->con.iValue;
+            pt->type = p->con.type;
+            break;
+        }
+        case typeChar: {
+            pt->cValue = p->con.cValue;
+            pt->type = p->con.type;
+            break;
+        }
+        case typeString: {
+            pt->sValue = p->con.sValue;
+            pt->type = p->con.type;
+            break;
+        }
+        default:
+            break;
+    }
+    return pt;
+}
+
+struct conNodeType* biOP(nodeType *operand, struct conNodeType* pt, FILE* outFile){
+    switch(operand->type) { 
+
+        case typeId:{
+            // TODO: check if exists in symbol table 
+            struct conNodeType* pt2;
+            pt2 = getsymbol(operand->id.id, &error);
+            if (pt2 && error == "") {
+                printf("push %s \n", operand->id.id); 
+                return pt2;
+            }
+            // ERROR
+            printf("ERROR: Variable %s not defined.\n", operand->id.id);
+            return NULL;
+        }
+
+
+        case typeOpr: {
+            pt = ex(operand, 0, outFile);
+            return pt;
+        }
+
+        case typeCon: {
+            switch(operand->con.type){
+                // (2 * 4) + (5)
+                case typeInt: {
+                    // TODO: print push opr.op[0]->con.iValue
+                    printf("push %d \n", operand->con.iValue);
+                    break;
+                }
+                case typeFloat: {
+                    // TODO: print push opr.op[0]->con.fValue
+                    printf("push %f\n", operand->con.fValue);
+                    break;
+                }
+                case typeBool: {
+                    // TODO: print push opr.op[0]->con.iValue
+                    printf("push %d\n", operand->con.iValue);
+                    break;
+                }
+                case typeChar: {
+                    // TODO: print push opr.op[0]->con.cValue
+                    printf("push %c\n", operand->con.cValue);
+                    break;
+                }
+                case typeString: {
+                    // TODO: print push opr.op[0]->con.sValue
+                    printf("push %s\n", operand->con.sValue);
+                    break;
+                }
+                default:{
+                    break;
+                }
+
+            }
+            return castCon(operand);
+        }
+    }
+}
+
 
 // TODO: all operations logic converted into assemble
 struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
@@ -127,6 +227,92 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
             printf("inside operation \n");
             switch (p->opr.oper)
             {
+
+
+                // bi-ops
+                case PLUS :{
+                        struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
+                        struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
+                        //  struct conNodeType* result = plus(operand1, operand2)
+                        printf("plus\n");
+
+                        return NULL;
+                    }
+                case MINUS :{
+                        biOP(p->opr.op[0], pt, outFile);
+                        biOP(p->opr.op[1], pt, outFile);
+                        printf("minus\n");
+                        return NULL;
+                    }
+                case MUL :{
+                        biOP(p->opr.op[0], pt, outFile);
+                        biOP(p->opr.op[1], pt, outFile);
+                        printf("mul\n");
+                        return NULL;
+                    }
+                case DIV :{
+                        biOP(p->opr.op[0], pt, outFile);
+                        biOP(p->opr.op[1], pt, outFile);
+                        printf("div\n");
+                        return NULL;
+                    }
+                case MOD :{
+                        biOP(p->opr.op[0], pt, outFile);
+                        biOP(p->opr.op[1], pt, outFile);
+                        printf("mod\n");
+                        return NULL;
+                    }
+                case G :{
+                        biOP(p->opr.op[0], pt, outFile);
+                        biOP(p->opr.op[1], pt, outFile);
+                        printf("compGT\n");
+                        return NULL;
+                    }
+                case L :{
+                        biOP(p->opr.op[0], pt, outFile);
+                        biOP(p->opr.op[1], pt, outFile);
+                        printf("compLT\n");
+                        return NULL;
+                    }
+                case GE :{
+                        biOP(p->opr.op[0], pt, outFile);
+                        biOP(p->opr.op[1], pt, outFile);
+                        printf("compGE\n");
+                        return NULL;
+                    }
+                case LE :{
+                        biOP(p->opr.op[0], pt, outFile);
+                        biOP(p->opr.op[1], pt, outFile);
+                        printf("compLE\n");
+                        return NULL;
+                    }
+                case EQEQ :{
+                        biOP(p->opr.op[0], pt, outFile);
+                        biOP(p->opr.op[1], pt, outFile);
+                        printf("compEQ\n");
+                        return NULL;
+                    }
+                case NOTEQ :{
+                        biOP(p->opr.op[0], pt, outFile);
+                        biOP(p->opr.op[1], pt, outFile);
+                        printf("compNOTEQ\n");
+                        return NULL;
+                    }
+                case AND :{
+                        biOP(p->opr.op[0], pt, outFile);
+                        biOP(p->opr.op[1], pt, outFile);
+                        printf("and\n");
+                        return NULL;
+                    }
+                case OR :{
+                        biOP(p->opr.op[0], pt, outFile);
+                        biOP(p->opr.op[1], pt, outFile);
+                        printf("or\n");
+                        return NULL;
+                    }
+
+
+
                 // for variable declaration without initialization
                 case 'd' :{
                     pt = ex(p->opr.op[0], 0 , outFile);

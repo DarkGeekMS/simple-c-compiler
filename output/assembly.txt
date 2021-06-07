@@ -22,3 +22,18 @@
 	pop	s
 	push	z
 	pop	c
+MOV	x	1
+MOV	y	1.100000
+MOV	z	'z'
+MOV	m	"monda"	MOV	q	1
+MOV	con	22
+MOV	a	"x"	MOV	a	1
+MOV	a	5
+MOV	b	"y"	MOV	b	1.100000
+MOV	q	0
+MOV	s	"m"	MOV	s	"monda"	MOV	c	"z"	MOV	c	'z'
+MOV	x	5
+	PUSH	0
+	pop	y
+	PUSH	0
+	pop	y

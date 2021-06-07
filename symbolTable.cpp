@@ -61,12 +61,12 @@ conNodeType* insert(char* var,conEnum var_type, struct conNodeType value, bool c
             //cout << "Error : Can't update constant variable \n";
             return NULL;
         }
-
-        if(var_type != typeND && var_type != value.type) {
+        
+        if (var_type != typeND) {
             *error = (char*)malloc(55*sizeof(char)); 
-            strcpy(*error, "Error: Type Missmatch ");
-            //cout << "Error : Type Missmatch \n";
-            return NULL;        
+            strcpy(*error, "Error: Variable Redeclaration is not allowed ");
+            cout << "Error : Variable Redeclaration is not allowed \n";
+            return NULL;            
         }
 
         if (cur_table.symtable[var].first.type != value.type) {

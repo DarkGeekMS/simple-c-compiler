@@ -132,7 +132,7 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
     switch(p->type) {
         // in case of constants , assigning any identifier a value
         case typeCon: {
-            if(oper != ASSIGNMENT) return NULL;
+            // if(oper != ASSIGNMENT) return NULL;
             // for any type assignment it follows : MOV var_name Value
             switch (p->con.type){
                 case typeInt: {
@@ -294,6 +294,29 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     break;
                 }
 
+                case DO:{
+                    fprintf(outFile,"L%03d:\n", lbl1 = lbl++);
+                    ex(p->opr.op[0], 0, outFile);
+                    ex(p->opr.op[1], 0, outFile);
+                    fprintf(outFile,"jz\tL%03d\n", lbl2 = lbl++);
+                    fprintf(outFile,"jmp\tL%03d\n", lbl1);
+                    fprintf(outFile,"L%03d:\n", lbl2);
+                    break;
+                }
+
+                case FOR:{
+                    ex(p->opr.op[0], 0, outFile);
+                    fprintf(outFile,"L%03d:\n", lbl1 = lbl++);
+                    ex(p->opr.op[1], 0, outFile);
+                    fprintf(outFile,"jz\tL%03d\n", lbl2 = lbl++);
+                    ex(p->opr.op[3], 0, outFile);
+                    ex(p->opr.op[2], 0, outFile);
+                    fprintf(outFile,"jmp\tL%03d\n", lbl1);
+                    fprintf(outFile,"L%03d:\n", lbl2);
+                    break;
+                }
+
+
                 case IF:{
                     ex(p->opr.op[0], 0, outFile);
                     if (p->opr.nops > 2) {
@@ -311,6 +334,13 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                         fprintf(outFile,"L%03d:\n", lbl1);
                     }
                     break;
+                }
+
+                case UMINUS:{   
+                    struct conNodeType* operand = ex(p->opr.op[0], 0, outFile);
+                    struct conNodeType* result = uminus(operand);
+                    fprintf(outFile,"neg\n");
+                    return result;
                 }
                 
                 case 'r' : {

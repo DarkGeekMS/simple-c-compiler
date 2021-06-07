@@ -99,8 +99,8 @@ stmt:
 
         | WHILE '(' expr ')' stmt                                                               { $$ = opr(WHILE, 2, $3, $5); }
         | DO stmt WHILE '(' expr ')' ';'                                                        { $$ = opr(DO, 2, $2, $5); }
-        | FOR '(' VARIABLE ASSIGNMENT expr ';' expr ';' VARIABLE ASSIGNMENT expr ')' stmt       { $$ = opr(FOR,6,id($3),$5,$7,id($9),$11,$13); }
-
+        | FOR '(' VARIABLE ASSIGNMENT expr ';' expr ';' VARIABLE ASSIGNMENT expr ')' stmt       { $$ = opr(FOR,4,     opr(ASSIGNMENT, 2, id($3), $5)   ,$7,    opr(ASSIGNMENT, 2, id($9), $11)    ,$13); }
+                                                                                                    
         | IF '(' expr ')' stmt %prec IFX                                                        { $$ = opr(IF, 2, $3, $5); }
         | IF '(' expr ')' stmt ELSE stmt                                                        { $$ = opr(IF, 3, $3, $5, $7); }
 
@@ -218,8 +218,7 @@ nodeType *con(){
 }
 
 nodeType *conInt(int value) {
-   nodeType *p = con();
-    
+    nodeType *p = con();
     p->con.type = typeInt;
     p->con.iValue = value;
     

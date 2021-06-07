@@ -23,7 +23,6 @@ symbol_table cur_table;
 */
 
 void changeScope(int scope_dir) {
-
     // check for scopes update (0=>UP, 1=>DOWN)
     if (scope_dir == 1) {
         // create a new child to the current table
@@ -52,15 +51,11 @@ void changeScope(int scope_dir) {
 }
 
 conNodeType* insert(char* var,conEnum var_type, struct conNodeType value, bool constant, bool with_value, char** error) { 
-
     if (value.type == typeVoid) {
-            *error = (char*)malloc(55*sizeof(char)); 
-            strcpy(*error, "Error: Void Functions has no return value");
-            //cout << "Error: Void Functions has no return value \n";
-            return NULL;        
-    }
-    if (cur_table.parent == NULL) {
-        cout << " first node  \n";
+        *error = (char*)malloc(55*sizeof(char)); 
+        strcpy(*error, "Error: Void Functions have no return value ");
+        //cout << "Error : Void Functions have no return value \n";
+        return NULL;        
     }
     // search for the variable
     if (cur_table.symtable.find(var)  != cur_table.symtable.end()) {

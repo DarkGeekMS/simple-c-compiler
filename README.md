@@ -22,5 +22,10 @@ __NOTE :__ A sample code is included in `code.c` file that covers the syntax.
     g++ -c symbolTable.cpp # compile symbol table file and object file
     gcc -c lex.yy.c y.tab.c compiling.c # compile c files and get object files
     g++ -o cpp.out symbolTable.o compiling.o lex.yy.o y.tab.o # link output object files
-    ./cpp.out input/code.c # run output file providing required code file
+    ./cpp.out /path/to/input/file /path/to/output/directory # run output file providing required code file
+    ```
+
+-   Alternatively, use `run.bash` to compile and run the compiler :
+    ```bash
+    ./run.bash /path/to/input/file /path/to/output/directory
     ```

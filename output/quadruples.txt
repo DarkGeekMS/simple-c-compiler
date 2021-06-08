@@ -1,0 +1,19 @@
+main:	Push	0
+	pop	x
+	Push	10
+	pop	y
+	push	x 
+	push	y 
+	div
+	push	x 
+	minus
+	pop	z
+	push	1
+	pop	a
+	push	0
+	pop	b
+	push	a 
+	push	b 
+	and
+	pop	c
+main:main:

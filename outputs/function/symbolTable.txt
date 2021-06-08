@@ -1,0 +1,4 @@
+============================ TABLE ============================
+variable Name: sum      type: Integer     constant : 0 initialized 1
+variable Name: a      type: Integer     constant : 0 initialized 1
+===============================================================

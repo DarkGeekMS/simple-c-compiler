@@ -344,27 +344,27 @@ struct conNodeType* uminus(struct conNodeType* operand) {
 
 void caseHandler(nodeType* p, FILE* outFile, int reg){
     if (p->opr.op[1]->con.type == typeInt){
-        fprintf(outFile, "push R%03d\n", reg - 1);
-        fprintf(outFile, "push %d\n", p->opr.op[1]->con.iValue);
-        fprintf(outFile, "compEQ\n");        
+        fprintf(outFile, "\tpush R%03d\n", reg - 1);
+        fprintf(outFile, "\tpush %d\n", p->opr.op[1]->con.iValue);
+        fprintf(outFile, "\tcompEQ\n");        
     }
 
     if (p->opr.op[1]->con.type == typeChar){
-        fprintf(outFile, "push R%03d\n", reg - 1);
-        fprintf(outFile, "push %d\n", p->opr.op[1]->con.cValue);
-        fprintf(outFile, "compEQ\n");
+        fprintf(outFile, "\tpush R%03d\n", reg - 1);
+        fprintf(outFile, "\tpush %c\n", p->opr.op[1]->con.cValue);
+        fprintf(outFile, "\tcompEQ\n");
     }
 
     if (p->opr.op[1]->con.type == typeBool){
-        fprintf(outFile, "push R%03d\n", reg - 1);
-        fprintf(outFile, "push %d\n", p->opr.op[1]->con.iValue);
-        fprintf(outFile, "compEQ\n");    
+        fprintf(outFile, "\tpush R%03d\n", reg - 1);
+        fprintf(outFile, "\tpush %d\n", p->opr.op[1]->con.iValue);
+        fprintf(outFile, "\tcompEQ\n");    
     }
 
     if (p->opr.op[1]->con.type == typeString){
-        fprintf(outFile, "push R%03d\n", reg - 1);
-        fprintf(outFile, "push %d\n", p->opr.op[1]->con.sValue);
-        fprintf(outFile, "compEQ\n");
+        fprintf(outFile, "\tpush R%03d\n", reg - 1);
+        fprintf(outFile, "\tpush %s\n", p->opr.op[1]->con.sValue);
+        fprintf(outFile, "\tcompEQ\n");
     }
 
     

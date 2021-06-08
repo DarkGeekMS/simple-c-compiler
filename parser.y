@@ -1,9 +1,12 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include <dirent.h>
 #include <string.h>
 #include <stdarg.h>
 #include "parser.h"
+#include "symbolTable.h"
+
 #define YYERROR_VERBOSE
 
 /* prototypes */
@@ -21,10 +24,10 @@
     void yyerror(char *);
     int yylex(void);
 
-    int execute(nodeType *p);                   // to execute the program code
-
+    int execute(nodeType *p, FILE * outFile);                   // to execute the program code
+    FILE* assembly;                                // the write the assembly in
     extern FILE* yyin;                          // the input file
-
+    extern FILE* yyout;                         // output file to save the errors 
     int yylineno;
 %}
 
@@ -75,7 +78,7 @@
 
 program:
                         
-         program stmt                                                                          {execute($2); freeNode($2);}    
+         program stmt                                                                          {execute($2, assembly); freeNode($2);}    
         | /* NULL */
         ;
 
@@ -310,32 +313,64 @@ void freeNode(nodeType *p) {
 }
 
 void yyerror(char *s) {
-    fprintf(stdout, "line [%d]: %s\n", yylineno, s);
+    fprintf(yyout, "line [%d]: %s\n", yylineno, s);
     // fprintf (stderr, "%s\n", s);
 }
 
 /* 
-    main functions take 1 input:
-     path to the input program to be compiled
+    main functions take 2 input:
+        1) path to the input program to be compiled
+        2) path to a file to save the errors in 
 */
 
 int main(int argc, char* argv[]) {
 
-    if(argc != 2){
+    if(argc != 3){
         printf("wrong Number of arguments \n");
         exit(0);
     }
 
     FILE* inputFile;
-
     if((inputFile = fopen(argv[1], "r")) == NULL){
         printf("Please Enter a valid input file \n");
         exit(0);
     }
+
     yyin = inputFile;
-    FILE* outFile;
-    outFile = fopen("output/assembly.txt", "w");
+
+    DIR* d;
+    if((d = opendir(argv[2])) == NULL){
+        printf("Please Enter a valid output Folder \n");
+        exit(0);
+    }
+
+    char* errorsOut;
+    char* tableOut;
+    char* assemblyOut;
+
+    errorsOut = malloc(strlen(argv[2])*50);
+    sprintf(errorsOut ,  "%s/errors.txt", argv[2]);
+    //strcpy(errorsOut, argv[2]); 
+   // errorsOut[strlen(errorsOut) - 1] = '\0';
+    //strcat(errorsOut, "/errors.txt");
+
+    assemblyOut = malloc(strlen(argv[2])*50);
+    sprintf(assemblyOut ,  "%s/quadruples.txt", argv[2]);
+    //strcpy(assemblyOut, argv[2]); 
+    //assemblyOut[strlen(assemblyOut) - 1] = '\0';
+    //strcat(assemblyOut, "/quadruples.txt");
+
+    FILE* assemblyFile;
+    assemblyFile = fopen(assemblyOut, "a");
+
+    assembly = assemblyFile;
+    FILE* errorFile;
+    errorFile = fopen(errorsOut, "w");
+    yyout = errorFile;
     yyparse();
     fclose(yyin);
+    fclose(yyout);
+
+    printSymbolTable(argv[2]);
     return 0;
 }

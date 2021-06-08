@@ -1,0 +1,4 @@
+============================ TABLE ============================
+variable Name: a      type: String      constant : 0 initialized 0
+variable Name: x      type: Integer     constant : 0 initialized 0
+===============================================================

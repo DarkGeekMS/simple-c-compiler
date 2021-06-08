@@ -16,7 +16,7 @@ struct conNodeType* insert(char* var,conEnum var_type, struct conNodeType value,
 // get symbol value
 struct conNodeType* getsymbol(char* var , char** error);
 // print the whole symbol table
-void printSymbolTable();
+void printSymbolTable(char* table_path);
 
 #ifdef __cplusplus
 } //end extern "C"

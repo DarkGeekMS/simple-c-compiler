@@ -29,7 +29,7 @@ int prev_line, current_line;
 
 
 
-void execute(nodeType *p);
+void execute(nodeType *p, FILE * outFile);
 void yyerror(char *);
 struct conNodeType* biOP(nodeType *operand, struct conNodeType* pt, FILE* outFile);
 struct conNodeType* castCon (nodeType *p);
@@ -80,7 +80,7 @@ struct conNodeType* biOP(nodeType *operand, struct conNodeType* pt, FILE* outFil
             struct conNodeType* pt2;
             pt2 = getsymbol(operand->id.id, &error);
             if (pt2 && error == "") {
-                fprintf(outFile,"push %s \n", operand->id.id); 
+                fprintf(outFile,"\tpush\t%s \n", operand->id.id); 
                 return pt2;
             }
             // ERROR
@@ -99,27 +99,27 @@ struct conNodeType* biOP(nodeType *operand, struct conNodeType* pt, FILE* outFil
                 // (2 * 4) + (5)
                 case typeInt: {
                     // TODO: print push opr.op[0]->con.iValue
-                    fprintf(outFile,"push %d \n", operand->con.iValue);
+                    fprintf(outFile,"\tpush\t%d \n", operand->con.iValue);
                     break;
                 }
                 case typeFloat: {
                     // TODO: print push opr.op[0]->con.fValue
-                    fprintf(outFile,"push %f\n", operand->con.fValue);
+                    fprintf(outFile,"\tpush\t%f\n", operand->con.fValue);
                     break;
                 }
                 case typeBool: {
                     // TODO: print push opr.op[0]->con.iValue
-                    fprintf(outFile,"push %d\n", operand->con.iValue);
+                    fprintf(outFile,"\tpush\t%d\n", operand->con.iValue);
                     break;
                 }
                 case typeChar: {
                     // TODO: print push opr.op[0]->con.cValue
-                    fprintf(outFile,"push %c\n", operand->con.cValue);
+                    fprintf(outFile,"\tpush\t%c\n", operand->con.cValue);
                     break;
                 }
                 case typeString: {
                     // TODO: print push opr.op[0]->con.sValue
-                    fprintf(outFile,"push %s\n", operand->con.sValue);
+                    fprintf(outFile,"\tpush\t%s\n", operand->con.sValue);
                     break;
                 }
                 default:{
@@ -150,38 +150,33 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
             // for any type assignment it follows : MOV var_name Value
             switch (p->con.type){
                 case typeInt: {
-                    // printf(" INTEGER \n");
                     pt->iValue = p->con.iValue;
                     pt->type = p->con.type;
-                    fprintf(outFile, "Push\t%d\n", p->con.iValue );
+                    fprintf(outFile, "\tPush\t%d\n", p->con.iValue );
                     break;
                 }
                 case typeFloat: {
-                    // printf(" FLOAT \n");
                     pt->fValue = p->con.fValue;
                     pt->type = p->con.type;
-                    fprintf(outFile, "push\t%f\n", p->con.fValue );
+                    fprintf(outFile, "\tpush\t%f\n", p->con.fValue );
                     break;
                 }
                 case typeBool: {
-                    // printf(" BOOL \n");
                     pt->iValue = p->con.iValue;
                     pt->type = p->con.type;
-                    fprintf(outFile, "push\t%d\n", p->con.iValue );
+                    fprintf(outFile, "\tpush\t%d\n", p->con.iValue );
                     break;
                 }
                 case typeChar: {
-                    // printf(" CHAR \n");
                     pt->cValue = p->con.cValue;
                     pt->type = p->con.type;
-                    fprintf(outFile, "push\t\'%c\'\n", p->con.cValue );
+                    fprintf(outFile, "\tpush\t\'%c\'\n", p->con.cValue );
                     break;
                 }
                 case typeString: {
-                    // printf(" STRING \n");
                     pt->sValue = p->con.sValue;
                     pt->type = p->con.type;
-                    fprintf(outFile, "push\t\"%s\"\n", p->con.sValue );
+                    fprintf(outFile, "\tpush\t\"%s\"\n", p->con.sValue );
                     break;
                 }
                 default:
@@ -210,100 +205,100 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                         struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
                         struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
                         struct conNodeType* result = plus(operand1, operand2);
-                        fprintf(outFile,"plus\n");                        
+                        fprintf(outFile,"\tplus\n");                        
                         return result;
                     }
                 case MINUS :{
                         struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
                         struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
                         struct conNodeType* result = minus(operand1, operand2);
-                        fprintf(outFile,"minus\n");                        
+                        fprintf(outFile,"\tminus\n");                        
                         return result;
                     }
                 case MUL :{
                         struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
                         struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
                         struct conNodeType* result = mul(operand1, operand2);
-                        fprintf(outFile,"mul\n");
+                        fprintf(outFile,"\tmul\n");
                         return result;
                     }
                 case DIV :{
                         struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
                         struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
                         struct conNodeType* result = divide(operand1, operand2);
-                        fprintf(outFile,"div\n");
+                        fprintf(outFile,"\tdiv\n");
                         return result;
                     }
                 case MOD :{
                         struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
                         struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
                         struct conNodeType* result = mod(operand1, operand2);
-                        fprintf(outFile,"mod\n");
+                        fprintf(outFile,"\tmod\n");
                         return result;
                     }
                 case G :{
                         struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
                         struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
                         struct conNodeType* result = greater(operand1, operand2);
-                        fprintf(outFile,"compGT\n");
+                        fprintf(outFile,"\tcompGT\n");
                         return result;
                     }
                 case L :{
                         struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
                         struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
                         struct conNodeType* result = less(operand1, operand2);
-                        fprintf(outFile,"compLT\n");
+                        fprintf(outFile,"\tcompLT\n");
                         return result;
                     }
                 case GE :{
                         struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
                         struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
                         struct conNodeType* result = greaterEqual(operand1, operand2);
-                        fprintf(outFile,"compGE\n");
+                        fprintf(outFile,"\tcompGE\n");
                         return result;
                     }
                 case LE :{
                         struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
                         struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
                         struct conNodeType* result = lessEqual(operand1, operand2);
-                        fprintf(outFile,"compLE\n");
+                        fprintf(outFile,"\tcompLE\n");
                         return result;
                     }
                 case EQEQ :{
                         struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
                         struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
                         struct conNodeType* result = eqEq(operand1, operand2);
-                        fprintf(outFile,"compEQ\n");
+                        fprintf(outFile,"\tcompEQ\n");
                         return result;
                     }
                 case NOTEQ :{
                         struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
                         struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
                         struct conNodeType* result = notEq(operand1, operand2);
-                        fprintf(outFile,"compNOTEQ\n");
+                        fprintf(outFile,"\tcompNOTEQ\n");
                         return result;
                     }
                 case AND :{
                         struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
                         struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
                         struct conNodeType* result = and(operand1, operand2);
-                        fprintf(outFile,"and\n");
+                        fprintf(outFile,"\tand\n");
                         return result;
                     }
                 case OR :{
                         struct conNodeType* operand1 = biOP(p->opr.op[0], pt, outFile);
                         struct conNodeType* operand2 = biOP(p->opr.op[1], pt, outFile);
                         struct conNodeType* result = or(operand1, operand2);
-                        fprintf(outFile,"or\n");
+                        fprintf(outFile,"\tor\n");
                         return result;
                     }
                 
                 case WHILE:{
                     fprintf(outFile,"L%03d:\n", lbl1 = lbl++);
                     ex(p->opr.op[0], 0, outFile);
-                    fprintf(outFile,"jz\tL%03d\n", lbl2 = lbl++);
+                    fprintf(outFile,"\tjz\tL%03d\n", lbl2 = lbl++);
                     ex(p->opr.op[1], 0, outFile);
-                    fprintf(outFile,"jmp\tL%03d\n", lbl1);
+                    fprintf(outFile,"\tjmp\tL%03d\n", lbl1);
                     fprintf(outFile,"L%03d:\n", lbl2);
                     break;
                 }
@@ -312,8 +307,8 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     fprintf(outFile,"L%03d:\n", lbl1 = lbl++);
                     ex(p->opr.op[0], 0, outFile);
                     ex(p->opr.op[1], 0, outFile);
-                    fprintf(outFile,"jz\tL%03d\n", lbl2 = lbl++);
-                    fprintf(outFile,"jmp\tL%03d\n", lbl1);
+                    fprintf(outFile,"\tjz\tL%03d\n", lbl2 = lbl++);
+                    fprintf(outFile,"\tjmp\tL%03d\n", lbl1);
                     fprintf(outFile,"L%03d:\n", lbl2);
                     break;
                 }
@@ -322,10 +317,10 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     ex(p->opr.op[0], 0, outFile);
                     fprintf(outFile,"L%03d:\n", lbl1 = lbl++);
                     ex(p->opr.op[1], 0, outFile);
-                    fprintf(outFile,"jz\tL%03d\n", lbl2 = lbl++);
+                    fprintf(outFile,"\tjz\tL%03d\n", lbl2 = lbl++);
                     ex(p->opr.op[3], 0, outFile);
                     ex(p->opr.op[2], 0, outFile);
-                    fprintf(outFile,"jmp\tL%03d\n", lbl1);
+                    fprintf(outFile,"\tjmp\tL%03d\n", lbl1);
                     fprintf(outFile,"L%03d:\n", lbl2);
                     break;
                 }
@@ -335,15 +330,15 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     ex(p->opr.op[0], 0, outFile);
                     if (p->opr.nops > 2) {
                         /* if else */
-                        fprintf(outFile,"jz\tL%03d\n", lbl1 = lbl++);
+                        fprintf(outFile,"\tjz\tL%03d\n", lbl1 = lbl++);
                         ex(p->opr.op[1], 0, outFile);
-                        fprintf(outFile,"jmp\tL%03d\n", lbl2 = lbl++);
+                        fprintf(outFile,"\tjmp\tL%03d\n", lbl2 = lbl++);
                         fprintf(outFile,"L%03d:\n", lbl1);
                         ex(p->opr.op[2], 0, outFile);
                         fprintf(outFile,"L%03d:\n", lbl2);
                     } else {
                         /* if */
-                        fprintf(outFile,"jz\tL%03d\n", lbl1 = lbl++);
+                        fprintf(outFile,"\tjz\tL%03d\n", lbl1 = lbl++);
                         ex(p->opr.op[1], 0, outFile);
                         fprintf(outFile,"L%03d:\n", lbl1);
                     }
@@ -351,17 +346,11 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                 }
 
                 case SWITCH:{
-                    // struct conNodeType* operand = ex(p->opr.op[0], 0, outFile);
-                    // printf("jojo");
-                    // fprintf(outFile,"L%03d: mov\tR%03d, %s\n", lbl1 = lbl++, regist = reg++, p->id.id);
-
-                    // break;
-
                     pt2 = getsymbol(p->opr.op[0]->id.id, &error);
                     if (pt2 && error == "") {
                         // fprintf(outFile,"L%03d: mov\tR%03d, %s\n", lbl1 = lbl++, regist = reg++, p->opr.op[0]->id.id); 
-                        fprintf(outFile, "L%03d: \tpush %s\n",lbl1 = lbl++, p->opr.op[0]->id.id);
-                        fprintf(outFile, "pop R%03d\n", regist = reg++);
+                        fprintf(outFile, "L%03d: \tpush\t%s\n",lbl1 = lbl++, p->opr.op[0]->id.id);
+                        fprintf(outFile, "\tpop\tR%03d\n", regist = reg++);
                         ex(p->opr.op[1], 0, outFile);
                         ex(p->opr.op[2], 0, outFile);
                         fprintf(outFile, "S%03d:\n", lbl3 = switch_lbl++);
@@ -377,11 +366,11 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                 case CASE:{
                     ex(p->opr.op[0], 0, outFile);
                     caseHandler(p, outFile, reg);  
-                    fprintf(outFile,"jz\tC%03d\n", lbl3 = case_lbl++);
+                    fprintf(outFile,"\tjz\tC%03d\n", lbl3 = case_lbl++);
                     // body
                     ex(p->opr.op[2], 0, outFile);
                     // jmp out
-                    fprintf(outFile,"jmp\tS%03d\n", switch_lbl);
+                    fprintf(outFile,"\tjmp\tS%03d\n", switch_lbl);
                     fprintf(outFile, "C%03d:\n", lbl3);
 
                     break;
@@ -396,11 +385,10 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     
                     break;
                 }
-
                 case UMINUS:{   
                     struct conNodeType* operand = ex(p->opr.op[0], 0, outFile);
                     struct conNodeType* result = uminus(operand);
-                    fprintf(outFile,"neg\n");
+                    fprintf(outFile,"\tneg\n");
                     return result;
                 }
                 
@@ -487,6 +475,7 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     // save the function needed data
                     struct func * f = malloc(sizeof(struct func));
                     f->func_name = var;
+                    if (strcmp(var, "main") != 0)  {
                     changeScope(1);
                     strcat(var, ":");
                     // declare the function parameters
@@ -497,6 +486,15 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     head = f;
                     changeScope(0);
                     return NULL; 
+                    }
+                    strcat(var, ":");
+                    // declare the function parameters
+                    fprintf(outFile, var);
+                    ex(p->opr.op[1], 0, outFile);
+                    ex(p->opr.op[2], 0, outFile);
+                    f->next_function = head;
+                    head = f;
+                    return NULL;                    
                 }
                 // in case of new scope 
                 case ';' : {
@@ -623,12 +621,11 @@ return NULL;
 }
  
 // parser connected by this function
-void execute(nodeType *p){
-    FILE* outFile;
-    outFile = fopen("output/assembly.txt", "a");
+void execute(nodeType *p, FILE* outFile){
+    
+    //outFile = assembly;
+    //outFile = fopen("output/assembly.txt", "a");
     // first execute the program
     ex(p, 0, outFile);
-    // print the symbol table after program execution
-    printSymbolTable();
     fclose(outFile);
 }

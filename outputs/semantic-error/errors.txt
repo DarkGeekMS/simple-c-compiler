@@ -1,0 +1,2 @@
+line [6]: Error: Non-initialized variable 
+line [6]: Error: Type Missmatch 

@@ -1,0 +1,7 @@
+sum:	pop	x
+	pop	y
+	push	x
+	Push	20
+	Push	10
+	JMP	sum
+	pop	a

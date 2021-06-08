@@ -107,7 +107,7 @@ stmt:
         | SWITCH '(' VARIABLE ')' '{' case_list case_default '}'                                { $$ = opr(SWITCH,3,id($3),$6,$7); }
         | BREAK ';'                                                                             { $$ = opr(BREAK,0); }
         | type VARIABLE func_list '{' func_stmt_list '}'                                        { $$ = opr(FUNCTION, 4, $1, id($2), $3, $5);}
-        | VOID VARIABLE func_list '{' func_stmt_list '}'                                        { $$ = opr(VOIDFUNCTION, 3, id($2), $3, $5);}
+        | VOID VARIABLE func_list '{' stmt_list '}'                                             { $$ = opr(VOIDFUNCTION, 3, id($2), $3, $5);}
         | VOID VARIABLE func_list '{' '}'                                                       { $$ = opr(VOIDFUNCTION, 3, id($2), $3, NULL);}
         | '{' stmt_list '}'                                                                     { $$ = opr('s', 1, $2); }
         | '{' '}'                                                                               { $$ = NULL; }
@@ -162,7 +162,7 @@ expr:
 
 func_stmt_list:
           RETURN expr ';'                                                                       { $$ = opr(RETURN, 1, $2); }
-        | stmt func_stmt_list                                                                   { $$ = opr('e', 2, $1, $2); }
+        | stmt func_stmt_list                                                                   { $$ = opr(';', 2, $1, $2); }
         ;
 
 func_var_list:
@@ -177,7 +177,7 @@ func_list:
 
 call_var_list:
           expr                                                                                  { $$ = opr('q', 1, $1 ); }
-        | call_var_list ',' expr                                                                { $$ = opr('c', 2, $1, $3); }
+        | call_var_list ',' expr                                                                { $$ = opr(':', 2, $1, $3); }
         ;
 
 call_list:

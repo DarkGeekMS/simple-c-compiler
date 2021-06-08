@@ -1,6 +1,7 @@
-int emad (int a , int b){
-    return 5;
+int sum(int x, int y)
+{
+  return x;
 }
 
-
-int x = emad(4,5);
+int a = sum(10, 20);
+a = sum(a, a);

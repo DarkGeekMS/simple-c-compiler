@@ -44,7 +44,6 @@ conNodeType* insert(char* var,conEnum var_type, struct conNodeType value, bool c
     if (value.type == typeVoid) {
         *error = (char*)malloc(128*sizeof(char)); 
         strcpy(*error, "Error: Void Functions have no return value ");
-        //cout << "Error : Void Functions have no return value \n";
         return NULL;        
     }
     // intialize next table pointer
@@ -77,17 +76,6 @@ conNodeType* insert(char* var,conEnum var_type, struct conNodeType value, bool c
             
             next_table->symtable.at(var) = {value, {false, true}};
             return &next_table->symtable[var].first;
-            /*
-            symbol_table *next_table2;
-            next_table2 = &cur_table;
-            // search for the variable
-            while (next_table2 != NULL) {
-                auto it2 = next_table2->symtable.find(var);
-                if(it2 != next_table2->symtable.end()) {
-                    next_table2->symtable.at(var) = {value, {false, true}};
-                }
-                next_table2 = next_table2->parent;
-            }*/
 
         }
         next_table = next_table->parent;
@@ -100,7 +88,7 @@ conNodeType* insert(char* var,conEnum var_type, struct conNodeType value, bool c
         return NULL;  
 
     }
-    if (var_type != value.type && with_value == true) {
+    if (var_type != value.type && with_value == true && var_type != typeVoid) {
         *error = (char*)malloc(55*sizeof(char)); 
         strcpy(*error, "Error: Type Missmatch ");
         return NULL;        
@@ -128,7 +116,7 @@ conNodeType* getsymbol(char* var , char** error){
             // variable found but has no value
             *error = (char*)malloc(55*sizeof(char)); 
             strcpy(*error, "Error: Non-initialized variable ");
-            return NULL;
+            return &next_table->symtable[var].first;
         }
         next_table = next_table->parent;
     }
@@ -145,21 +133,21 @@ void printSymbolTable(){
         switch (it.second.first.type)
         {
             case typeInt:
-                cout << "variable Name: " << it.first << "      type: Integer     value : " << it.second.first.iValue << " constant : " << it.second.second.first <<"\n";
+                cout << "variable Name: " << it.first << "      type: Integer     constant : " << it.second.second.first << " initialized " << it.second.second.second <<"\n";
                 break;
             case typeFloat:
-                cout << "variable Name: " << it.first << "      type: Float       value : " << it.second.first.fValue <<  " constant : " << it.second.second.first <<"\n";
+                cout << "variable Name: " << it.first << "      type: Float       constant : " << it.second.second.first << " initialized " << it.second.second.second <<"\n";
                 break;
             case typeBool:
-                cout << "variable Name: " << it.first << "      type: Boolean     value : " << it.second.first.iValue <<  " constant : " << it.second.second.first <<"\n";
+                cout << "variable Name: " << it.first << "      type: Boolean     constant : " << it.second.second.first << " initialized " << it.second.second.second <<"\n";
                 break;
 
             case typeChar:
-                cout << "variable Name: " << it.first << "      type: Char        value : " << it.second.first.cValue <<  " constant : " << it.second.second.first <<"\n";
+                cout << "variable Name: " << it.first << "      type: Char        constant : " << it.second.second.first << " initialized " << it.second.second.second <<"\n";
                 break;
 
             case typeString:
-                cout << "variable Name: " << it.first << "      type: String      value : " << it.second.first.sValue <<  " constant : " << it.second.second.first <<"\n";
+                cout << "variable Name: " << it.first << "      type: String      constant : " << it.second.second.first << " initialized " << it.second.second.second <<"\n";
                 break; 
             case typeVoid:
                 cout << "Function Name: " << it.first << "      type: Void   "  << " constant : " << it.second.second.first <<"\n";

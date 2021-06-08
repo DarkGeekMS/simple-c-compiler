@@ -94,7 +94,7 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
             }
             yyerror(error);
             error = "";
-            return NULL;
+            return pt2;
         }
         // in case of operation
         case typeOpr: {
@@ -102,21 +102,12 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
             {
                 case RETURN : {
                     pt = ex(p->opr.op[0], 0, outFile);
-                    /*var = current->func_name;
-                    var[strlen(var) - 1] = '\0';
-                    pt2 = getsymbol(var, error);
-                    if (pt->type != pt2->type) {
-                        error = "Type Missmatch in the return value";
-                        yyerror(error);
-                        error = "";
-                        return NULL;
-                    }*/
                     return pt;
                 }
                 // in case of calling 
                 case 'q' : {
                     pt = ex(p->opr.op[0], 0, outFile);
-                    break;
+                    return pt;
                 }
                 case ':' : {
                         ex(p->opr.op[1],0, outFile); 
@@ -153,7 +144,7 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     pt = ex(p->opr.op[0], 0 , outFile);
                     type =  pt->type;                               // get the function parameter type
                     var =  p->opr.op[1]->id.id;                     // get the function parmeter name 
-                    pt2 = insert(var, type, *pt, 0, 0, &error);
+                    pt2 = insert(var, type, *pt, 0, 1, &error);
                     fprintf(outFile, "\tpop\t%s\n", var);
                     //head->parms_types[head->index]->type = type;
                     error = "";
@@ -185,7 +176,6 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                 }
                 // in case of void functions
                 case VOIDFUNCTION : {
-                    //printf("void function \n");
                     type = typeVoid;                // function type void
                     var = p->opr.op[0]->id.id;      // function name
                     // add the variable to the symbol table
@@ -198,6 +188,7 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     // declare the function parameters
                     fprintf(outFile, var);
                     ex(p->opr.op[1], 0, outFile);
+                    ex(p->opr.op[2], 0, outFile);
                     f->next_function = head;
                     head = f;
                     changeScope(0);
@@ -216,9 +207,8 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                             pt = ex(p->opr.op[0], 0 , outFile);
                             type =  pt->type;                                 // get the function parameter type
                             var =  p->opr.op[1]->id.id ;                     // get the function parmeter name name
-                            pt2 = insert(var, type, *pt, 0, 0, &error);
+                            pt2 = insert(var, type, *pt, 0, 1, &error);
                             fprintf(outFile, "\tpop\t%s\n", var);
-                            //head->parms_types[head->index]->type = type;
                             error = "";
                             return ex(p->opr.op[2],0, outFile);    
                         }      

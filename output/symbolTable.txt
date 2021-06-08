@@ -1,8 +1,4 @@
 ============================ TABLE ============================
+variable Name: b      type: Integer     constant : 0 initialized 1
 variable Name: x      type: Integer     constant : 0 initialized 1
-variable Name: c      type: Boolean     constant : 0 initialized 1
-variable Name: a      type: Boolean     constant : 0 initialized 1
-variable Name: y      type: Integer     constant : 0 initialized 1
-variable Name: z      type: Integer     constant : 0 initialized 1
-variable Name: b      type: Boolean     constant : 0 initialized 1
 ===============================================================

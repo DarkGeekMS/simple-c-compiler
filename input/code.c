@@ -1,18 +1,10 @@
-int x = 9;
-
-float q = 5.5;
-int a ;
-int z = a;
-
-int z = 10;
+int sum(int x, int y)
 {
-    z = 5;
-    char xx = 'x';
-    {
-        a = 10;
-        string mo = "monda";
-    }
-    
+  return x + y;
 }
 
-int y = a;
+void main()
+{
+  int a = sum(10, 20);
+  a = sum(a, a);
+}

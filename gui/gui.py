@@ -21,7 +21,7 @@ class MyWindow(QWidget):
 
 
         # input file browse section
-        self.inBrowseButton = QPushButton('Browse .c file')
+        self.inBrowseButton = QPushButton('Browse .cpp file')
         self.inBrowseButton.setStyleSheet("""
             QPushButton{
                   background-color: #5dc97d; /* Green */
@@ -114,7 +114,7 @@ class MyWindow(QWidget):
     def browseFile(self):
         qfd = QFileDialog()
         path = "./"
-        filter = "c(*.c)"
+        filter = "cpp(*.cpp)"
         self.file = QFileDialog.getOpenFileName(qfd, "", path, filter)[0]
         self.inFileBox.setText(self.file)
 
@@ -130,7 +130,7 @@ class MyWindow(QWidget):
     def compile(self):
         self.symbolTable.setPlainText("")
         self.errorBox.setPlainText("")
-        output = subprocess.run(["./cpp.out", self.file], capture_output=True, universal_newlines=True)
+        output = subprocess.run(["./cpp.out", self.file, self.output_dir], capture_output=True, universal_newlines=True)
         output_lines = str(output.stdout).split('\n')
         errors = []
         symbols = []

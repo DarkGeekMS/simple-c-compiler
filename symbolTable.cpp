@@ -131,6 +131,7 @@ void printSymbolTable(char* table_path){
 
     string path = string(table_path) + "/symbolTable.txt";
     ofstream table(path);
+    cout << "============================ TABLE ============================" << endl;
     table << "============================ TABLE ============================" << endl;
     //cout << " table size = " << cur_table.symtable.size()<<endl;
     for (auto& it: cur_table.symtable) {
@@ -138,28 +139,40 @@ void printSymbolTable(char* table_path){
         {
             case typeInt:
                 table << "variable Name: " << it.first << "      type: Integer     constant : " << it.second.second.first << " initialized " << it.second.second.second <<"\n";
+                cout << "variable Name: " << it.first << "      type: Integer     constant : " << it.second.second.first << " initialized " << it.second.second.second <<"\n";
                 break;
+
             case typeFloat:
                 table << "variable Name: " << it.first << "      type: Float       constant : " << it.second.second.first << " initialized " << it.second.second.second <<"\n";
+                cout << "variable Name: " << it.first << "      type: Float       constant : " << it.second.second.first << " initialized " << it.second.second.second <<"\n";
                 break;
+
             case typeBool:
                 table << "variable Name: " << it.first << "      type: Boolean     constant : " << it.second.second.first << " initialized " << it.second.second.second <<"\n";
+                cout << "variable Name: " << it.first << "      type: Boolean     constant : " << it.second.second.first << " initialized " << it.second.second.second <<"\n";
                 break;
 
             case typeChar:
                 table << "variable Name: " << it.first << "      type: Char        constant : " << it.second.second.first << " initialized " << it.second.second.second <<"\n";
+                cout << "variable Name: " << it.first << "      type: Char        constant : " << it.second.second.first << " initialized " << it.second.second.second <<"\n";                
                 break;
 
             case typeString:
                 table << "variable Name: " << it.first << "      type: String      constant : " << it.second.second.first << " initialized " << it.second.second.second <<"\n";
+                cout << "variable Name: " << it.first << "      type: String      constant : " << it.second.second.first << " initialized " << it.second.second.second <<"\n";
                 break; 
+
             case typeVoid:
-                if (it.first != "main")
+                if (it.first != "main") {
                     table << "Function Name: " << it.first << "      type: Void   "  << " constant : " << it.second.second.first <<"\n";
+                    cout << "Function Name: " << it.first << "      type: Void   "  << " constant : " << it.second.second.first <<"\n";
+                }
                 break;
             default:
                 break;
         }
     }
     table << "===============================================================" << endl;
+    cout << "===============================================================" << endl;
+
 }

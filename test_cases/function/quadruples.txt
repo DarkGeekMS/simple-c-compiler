@@ -3,8 +3,11 @@ sum:	pop	x
 	push	x 
 	push	y 
 	plus
-sum:	pop	x
-	pop	y
-	push	x 
-	push	y 
-	plus
+main:	Push	20
+	Push	10
+	JMP	sum
+	pop	a
+	push	a
+	push	a
+	JMP	sum
+	pop	a

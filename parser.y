@@ -88,7 +88,6 @@ type:
     |   CHAR_TYPE                                                                               { $$ =  typ(typeChar); }
     |   BOOLEAN_TYPE                                                                            { $$ =  typ(typeBool); }
     |   STRING_TYPE                                                                             { $$ =  typ(typeString); }
-    |   VOID                                                                                    { $$ =  typ(typeVoid); }
     ;
 
 stmt:

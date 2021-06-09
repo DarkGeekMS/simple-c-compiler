@@ -476,24 +476,25 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     struct func * f = malloc(sizeof(struct func));
                     f->func_name = var;
                     if (strcmp(var, "main") != 0)  {
-                    changeScope(1);
-                    strcat(var, ":");
-                    // declare the function parameters
-                    fprintf(outFile, var);
-                    ex(p->opr.op[1], 0, outFile);
-                    ex(p->opr.op[2], 0, outFile);
-                    f->next_function = head;
-                    head = f;
-                    changeScope(0);
-                    return NULL; 
+                        changeScope(1);
+                        strcat(var, ":");
+                        // declare the function parameters
+                        fprintf(outFile, var);
+                        ex(p->opr.op[1], 0, outFile);
+                        ex(p->opr.op[2], 0, outFile);
+                        f->next_function = head;
+                        head = f;
+                        changeScope(0);
+                        return NULL; 
                     }
                     strcat(var, ":");
                     // declare the function parameters
                     fprintf(outFile, var);
-                    ex(p->opr.op[1], 0, outFile);
-                    ex(p->opr.op[2], 0, outFile);
                     f->next_function = head;
                     head = f;
+                    ex(p->opr.op[1], 0, outFile);
+                    ex(p->opr.op[2], 0, outFile);
+
                     return NULL;                    
                 }
                 // in case of new scope 
@@ -624,8 +625,7 @@ return NULL;
 void execute(nodeType *p, FILE* outFile){
     
     //outFile = assembly;
-    //outFile = fopen("output/assembly.txt", "a");
+    //FILE * f = fopen("test_cases/function/assembly.txt", "a");
     // first execute the program
     ex(p, 0, outFile);
-    fclose(outFile);
 }

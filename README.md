@@ -8,6 +8,7 @@ A simple C/C++ compiler implemented in _LEX_ __(Flex)__ and _YACC_ __(Bison)__.
 -   g++
 -   flex
 -   bison
+-   Python (`PyQT5`)
 
 ## Usage (Ubuntu)
 
@@ -29,3 +30,13 @@ __NOTE :__ A sample code is included in `code.c` file that covers the syntax.
     ```bash
     ./run.bash /path/to/input/file /path/to/output/directory
     ```
+
+-   Use GUI :
+    -   First, compile the code and get `cpp.out`.
+    -   Second, copy `cpp.out` to `gui` folder.
+    -   Third, run GUI :
+        ```bash
+        cd gui/
+        python gui.py
+        ```
+    -   Finally, choose the input file and the output directory, then press _compile button_.

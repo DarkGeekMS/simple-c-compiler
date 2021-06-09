@@ -362,7 +362,7 @@ int main(int argc, char* argv[]) {
     //strcat(assemblyOut, "/quadruples.txt");
 
     FILE* assemblyFile;
-    assemblyFile = fopen(assemblyOut, "a");
+    assemblyFile = fopen(assemblyOut, "w");
 
     assembly = assemblyFile;
     FILE* errorFile;

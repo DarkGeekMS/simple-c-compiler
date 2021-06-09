@@ -135,7 +135,7 @@ class MyWindow(QWidget):
         errors = []
         symbols = []
         for i in output_lines:
-            if ("line [" in i):
+            if ("line [" in i) or ("Please Enter a valid" in i):
                 errors.append(i)
             else:
                 symbols.append(i)

@@ -17,7 +17,7 @@ class MyWindow(QWidget):
 
     def initUI(self):
         self.setGeometry(700, 700, 800, 800)
-        self.setWindowTitle("C Compiler")
+        self.setWindowTitle("C/C++ Compiler")
         self.layout = QVBoxLayout()
 
 
@@ -135,7 +135,7 @@ class MyWindow(QWidget):
         errors = []
         symbols = []
         for i in output_lines:
-            if ("syntax error" in i) or ("Please Enter a valid" in i):
+            if ("line [" in i):
                 errors.append(i)
             else:
                 symbols.append(i)

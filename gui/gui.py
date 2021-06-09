@@ -12,16 +12,17 @@ class MyWindow(QWidget):
         super(MyWindow,self).__init__()
         self.file = ""
         self.output = ""
+        self.output_dir = ""
         self.initUI()
 
     def initUI(self):
-        self.setGeometry(500, 500, 600, 600)
-        self.setWindowTitle("C Compiler")
+        self.setGeometry(700, 700, 800, 800)
+        self.setWindowTitle("C/C++ Compiler")
         self.layout = QVBoxLayout()
 
 
         # input file browse section
-        self.inBrowseButton = QPushButton('Browse .c file')
+        self.inBrowseButton = QPushButton('Browse .cpp file')
         self.inBrowseButton.setStyleSheet("""
             QPushButton{
                   background-color: #5dc97d; /* Green */
@@ -114,7 +115,7 @@ class MyWindow(QWidget):
     def browseFile(self):
         qfd = QFileDialog()
         path = "./"
-        filter = "c(*.c)"
+        filter = "cpp(*.cpp)"
         self.file = QFileDialog.getOpenFileName(qfd, "", path, filter)[0]
         self.inFileBox.setText(self.file)
 
@@ -122,7 +123,6 @@ class MyWindow(QWidget):
         filter = "(*)"
         dialog = QtWidgets.QFileDialog(self, 'Folders', "./", filter)
         dialog.setFileMode(QtWidgets.QFileDialog.DirectoryOnly)
-        self.output_dir = ""
         if dialog.exec_() == QtWidgets.QDialog.Accepted:
             self.output_dir = dialog.selectedFiles()[0]
         self.outFileBox.setText(self.output_dir)
@@ -130,12 +130,12 @@ class MyWindow(QWidget):
     def compile(self):
         self.symbolTable.setPlainText("")
         self.errorBox.setPlainText("")
-        output = subprocess.run(["./cpp.out", self.file], capture_output=True, universal_newlines=True)
+        output = subprocess.run(["./cpp.out", self.file, self.output_dir], capture_output=True, universal_newlines=True)
         output_lines = str(output.stdout).split('\n')
         errors = []
         symbols = []
         for i in output_lines:
-            if ("syntax error" in i) or ("Please Enter a valid" in i):
+            if ("line [" in i):
                 errors.append(i)
             else:
                 symbols.append(i)

@@ -12,10 +12,11 @@ class MyWindow(QWidget):
         super(MyWindow,self).__init__()
         self.file = ""
         self.output = ""
+        self.output_dir = ""
         self.initUI()
 
     def initUI(self):
-        self.setGeometry(500, 500, 600, 600)
+        self.setGeometry(700, 700, 800, 800)
         self.setWindowTitle("C Compiler")
         self.layout = QVBoxLayout()
 
@@ -122,7 +123,6 @@ class MyWindow(QWidget):
         filter = "(*)"
         dialog = QtWidgets.QFileDialog(self, 'Folders', "./", filter)
         dialog.setFileMode(QtWidgets.QFileDialog.DirectoryOnly)
-        self.output_dir = ""
         if dialog.exec_() == QtWidgets.QDialog.Accepted:
             self.output_dir = dialog.selectedFiles()[0]
         self.outFileBox.setText(self.output_dir)

@@ -3,3 +3,8 @@ sum:	pop	x
 	push	x 
 	push	y 
 	plus
+sum:	pop	x
+	pop	y
+	push	x 
+	push	y 
+	plus

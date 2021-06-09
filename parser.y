@@ -314,6 +314,7 @@ void freeNode(nodeType *p) {
 
 void yyerror(char *s) {
     fprintf(yyout, "line [%d]: %s\n", yylineno, s);
+    fprintf(stdout, "line [%d]: %s\n", yylineno, s);
     // fprintf (stderr, "%s\n", s);
 }
 

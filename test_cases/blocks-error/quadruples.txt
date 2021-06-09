@@ -3,3 +3,8 @@ main:	Push	10
 	Push	20
 	pop	y
 	push	y
+main:	Push	10
+	pop	x
+	Push	20
+	pop	y
+	push	y

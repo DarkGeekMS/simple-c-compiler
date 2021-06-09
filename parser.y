@@ -101,7 +101,7 @@ stmt:
 
         | WHILE '(' expr ')' stmt                                                               { $$ = opr(WHILE, 2, $3, $5); }
         | DO stmt WHILE '(' expr ')' ';'                                                        { $$ = opr(DO, 2, $2, $5); }
-        | FOR '(' VARIABLE ASSIGNMENT expr ';' expr ';' VARIABLE ASSIGNMENT expr ')' stmt       { $$ = opr(FOR,4,     opr(ASSIGNMENT, 2, id($3), $5)   ,$7,    opr(ASSIGNMENT, 2, id($9), $11)    ,$13); }
+        | FOR '(' VARIABLE ASSIGNMENT expr ';' expr ';' VARIABLE ASSIGNMENT expr ')' stmt       { $$ = opr(FOR,4,opr(ASSIGNMENT, 2, id($3), $5),$7,opr(ASSIGNMENT, 2, id($9), $11)    ,$13); }
                                                                                                     
         | IF '(' expr ')' stmt %prec IFX                                                        { $$ = opr(IF, 2, $3, $5); }
         | IF '(' expr ')' stmt ELSE stmt                                                        { $$ = opr(IF, 3, $3, $5, $7); }
@@ -126,8 +126,7 @@ case_list:
         case_list CASE INTEGER ':' stmt_list                                                    { $$ = opr(CASE,3,$1,conInt($3),$5); }
     |   case_list CASE CHAR ':' stmt_list                                                       { $$ = opr(CASE,3,$1,conChar($3),$5); }
     |   case_list CASE STRING ':' stmt_list                                                     { $$ = opr(CASE,3,$1,conString($3),$5); }  
-    |   case_list CASE BOOLEAN_FALSE ':' stmt_list                                              { $$
-     = opr(CASE,3,$1,conBool($3),$5);  }
+    |   case_list CASE BOOLEAN_FALSE ':' stmt_list                                              { $$ = opr(CASE,3,$1,conBool($3),$5);  }
     |   case_list CASE BOOLEAN_TRUE ':' stmt_list                                               { $$ = opr(CASE,3,$1,conBool($3),$5); }
     |  /* NULL */                                                                               { $$ = NULL; }
     ;

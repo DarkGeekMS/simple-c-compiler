@@ -12,11 +12,9 @@ A simple C/C++ compiler implemented in _LEX_ __(Flex)__ and _YACC_ __(Bison)__.
 
 ## Usage (Ubuntu)
 
--   Add the required code to `code.c` file.
+-   Add the required code to `.c` or `.cpp` file.
 
-__NOTE :__ A sample code is included in `code.c` file that covers the syntax.
-
--   Compile and run the lexer and parser on the code in `code.c` file :
+-   Compile and run the lexer and parser on the code :
     ```bash
     bison --yacc parser.y -d # process parser using bison
     flex lexer.l # process lexer using flex

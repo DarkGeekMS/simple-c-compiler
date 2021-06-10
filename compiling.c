@@ -394,7 +394,6 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                 
                 case RETURN : {
                     pt = ex(p->opr.op[0], 0, outFile);
-                    //fprintf(outFile,"\tRET\n");
                     return pt;
                 }
                 // in case of calling 
@@ -425,11 +424,11 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                         error = "";
                         return NULL;
                     }
-                    // execute the function body
+                    // execute the function parameter list
                     pt = ex(p->opr.op[1], 0, outFile);
                     char * label = var;
                     label[strlen(label) -1 ] = '\0';
-                    fprintf(outFile, "\tJMP\t%s\n", label);
+                    fprintf(outFile, "\tCALL\t%s\n", label);
                     return pt;
                 }
                 // incase of parameters for functions
@@ -633,8 +632,6 @@ return NULL;
 // parser connected by this function
 void execute(nodeType *p, FILE* outFile){
     
-    //outFile = assembly;
-    //FILE * f = fopen("test_cases/function/assembly.txt", "a");
-    // first execute the program
+    // execute the program
     ex(p, 0, outFile);
 }

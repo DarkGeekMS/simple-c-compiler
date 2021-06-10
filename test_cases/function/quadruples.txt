@@ -6,10 +6,10 @@ sum:	pop	x
 	END	sum
 main:	Push	20
 	Push	10
-	JMP	sum
+	CALL	sum
 	pop	a
 	push	a
 	push	a
-	JMP	sum
+	CALL	sum
 	pop	a
 	HLT

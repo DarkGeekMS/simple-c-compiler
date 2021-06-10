@@ -1,7 +1,7 @@
 void main()
 {
   int i;
-  for ( i = 0; i < 10; i= i+1)
+  for ( i = 0; i < 10; i++)
   {
     int b = 10;
   }
@@ -10,14 +10,14 @@ void main()
 
   while (x < 20)
   {
-    x = x + 1;
+    x++;
   }
 
   x = 0;
 
   do
   {
-    x = x + 1
+    x++
   } while (x < 20);
 
   switch (x)

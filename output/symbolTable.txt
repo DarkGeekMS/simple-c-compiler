@@ -1,4 +1,4 @@
 ============================ TABLE ============================
-variable Name: b      type: Integer     constant : 0 initialized 1
 variable Name: x      type: Integer     constant : 0 initialized 1
+variable Name: i      type: Integer     constant : 0 initialized 0
 ===============================================================

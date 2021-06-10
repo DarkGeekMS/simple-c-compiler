@@ -394,7 +394,7 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                 
                 case RETURN : {
                     pt = ex(p->opr.op[0], 0, outFile);
-                    fprintf(outFile,"\tRET\n");
+                    //fprintf(outFile,"\tRET\n");
                     return pt;
                 }
                 // in case of calling 
@@ -449,6 +449,8 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     pt = ex(p->opr.op[0], 0 , outFile);
                     type =  pt->type;                 // tunction return type
                     var =  p->opr.op[1]->id.id;      // function name
+                    char * v2 = malloc(strlen(var)*10);
+                    strcpy(v2, var);
                     // add the function to the symbol table
                     pt2 = insert(var, type, *pt, 0, 1 , &error);
                     // create the first function node
@@ -465,12 +467,16 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     f->next_function = head;
                     head = f;
                     changeScope(0);
+                    var[strlen(var) -1] = '\0';
+                    fprintf(outFile, "\tEND\t%s\n", v2);
                     return NULL; 
                 }
                 // in case of void functions
                 case VOIDFUNCTION : {
                     type = typeVoid;                // function type void
                     var = p->opr.op[0]->id.id;      // function name
+                    char * v2 = malloc(strlen(var)*10);
+                    strcpy(v2, var);
                     // add the variable to the symbol table
                     pt2 = insert(var, type, *pt, 0, 1, &error);
                     // save the function needed data
@@ -486,6 +492,8 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                         f->next_function = head;
                         head = f;
                         changeScope(0);
+                        var[strlen(var) -1] = '\0';
+                        fprintf(outFile, "\tEND\t%s\n", v2);
                         return NULL; 
                     }
                     strcat(var, ":");
@@ -495,7 +503,7 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                     head = f;
                     ex(p->opr.op[1], 0, outFile);
                     ex(p->opr.op[2], 0, outFile);
-
+                    fprintf(outFile, "\tHLT\n");
                     return NULL;                    
                 }
                 // in case of new scope 

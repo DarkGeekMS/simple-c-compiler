@@ -50,3 +50,4 @@ L006: 	push	x
 	jmp	S000
 C000:
 S000:
+	HLT

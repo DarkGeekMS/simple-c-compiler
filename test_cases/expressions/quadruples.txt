@@ -16,3 +16,4 @@ main:	Push	0
 	push	b 
 	and
 	pop	c
+	HLT

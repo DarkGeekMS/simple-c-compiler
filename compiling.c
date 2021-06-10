@@ -394,6 +394,7 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                 
                 case RETURN : {
                     pt = ex(p->opr.op[0], 0, outFile);
+                    fprintf(outFile,"\tRET\n");
                     return pt;
                 }
                 // in case of calling 

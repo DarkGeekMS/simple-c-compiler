@@ -3,6 +3,7 @@ sum:	pop	x
 	push	x 
 	push	y 
 	plus
+	RET
 main:	Push	20
 	Push	10
 	JMP	sum

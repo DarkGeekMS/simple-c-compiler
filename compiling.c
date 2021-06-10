@@ -558,9 +558,10 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                             if(pt){
                                 // update the variable value
                                 pt2 = insert(var1, typeND, *pt, 0, 1, &error);
-                                fprintf(outFile, "\tpop\t%s\n", var1 );
+                                
                                 // if update done successfully add the quadruples to the file
                                 if (pt2 && error == ""){
+                                    fprintf(outFile, "\tpop\t%s\n", var1 );
                                     // Assign variable with value of another variable
                                     return pt2;
                                 }
@@ -581,8 +582,9 @@ struct conNodeType* ex(nodeType *p, int oper, FILE* outFile) {
                             if(!pt) return NULL;
                             // try to insert the variable in the symbol table 
                             pt2 = insert(var1, type, *pt, 0, 1, &error);
-                            fprintf(outFile, "\tpop\t%s\n", var1 );
+                            
                             if (pt2 && error == "") {
+                                fprintf(outFile, "\tpop\t%s\n", var1 );
                                 return pt2;
                             } 
                             yyerror(error);
